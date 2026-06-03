@@ -6,10 +6,10 @@ import aboutImg from "@/assets/about.jpg";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — Dressperience" },
-      { name: "description", content: "Learn about Dressperience and our passion for creating unforgettable funfitting moments for women and their friends." },
-      { property: "og:title", content: "About — Dressperience" },
-      { property: "og:description", content: "Learn about Dressperience and our passion for creating unforgettable funfitting moments." },
+      { title: "Over ons — Dressperience" },
+      { name: "description", content: "Leer Dressperience kennen en onze passie voor het creëren van onvergetelijke funfitting-momenten voor vrouwen en hun vriendinnen." },
+      { property: "og:title", content: "Over ons — Dressperience" },
+      { property: "og:description", content: "Leer Dressperience kennen en onze passie voor onvergetelijke funfitting-momenten." },
     ],
   }),
   component: AboutPage,
@@ -18,26 +18,25 @@ export const Route = createFileRoute("/about")({
 function AboutPage() {
   return (
     <div className="min-h-screen">
-      {/* Hero */}
       <section className="relative overflow-hidden bg-blush-100/40 py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
             <div>
               <span className="font-body text-xs font-semibold uppercase tracking-widest text-lavender-600">
-                Our Story
+                Ons verhaal
               </span>
               <h1 className="mt-4 font-display text-5xl font-light text-foreground md:text-6xl">
-                A Dream Born from
-                <span className="block font-semibold italic text-lavender-600">Friendship & Joy</span>
+                Een droom geboren uit
+                <span className="block font-semibold italic text-lavender-600">Vriendschap & Vreugde</span>
               </h1>
               <p className="mt-6 font-body text-lg leading-relaxed text-muted-foreground">
-                Dressperience was founded on a simple, beautiful idea: every woman deserves to feel like a bride, even if she is not getting married. Our funfitting sessions turn an ordinary day into an extraordinary celebration of friendship, beauty, and laughter.
+                Dressperience is ontstaan vanuit een simpel, prachtig idee: elke vrouw verdient het om zich een bruid te voelen, ook als ze niet gaat trouwen. Onze funfitting-sessies veranderen een gewone dag in een buitengewone viering van vriendschap, schoonheid en gelach.
               </p>
             </div>
             <div className="relative overflow-hidden rounded-2xl">
               <img
                 src={aboutImg}
-                alt="Elegant fitting room at Dressperience studio"
+                alt="Elegante paskamer in de Dressperience studio"
                 className="h-[450px] w-full object-cover"
               />
             </div>
@@ -45,36 +44,34 @@ function AboutPage() {
         </div>
       </section>
 
-      {/* Story Content */}
       <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="space-y-8">
           <p className="font-body text-lg leading-relaxed text-muted-foreground">
-            It all started when a group of friends decided to try on wedding dresses just for fun. The laughter, the twirls, the shared joy of seeing each other in something truly beautiful — it was magic. We knew we had to share this feeling with more women.
+            Het begon allemaal toen een groep vriendinnen besloot trouwjurken te passen, gewoon voor de lol. Het gelach, de draaien, de gedeelde vreugde om elkaar in iets werkelijk moois te zien — het was magisch. We wisten dat we dit gevoel met meer vrouwen wilden delen.
           </p>
           <p className="font-body text-lg leading-relaxed text-muted-foreground">
-            At Dressperience, we have created a warm, welcoming space where you can leave the everyday behind and step into something extraordinary. Our curated collection features dresses for every style and silhouette, from timeless classics to modern showstoppers.
+            Bij Dressperience creëerden we een warme, gastvrije ruimte waar je het alledaagse achter je laat en in iets bijzonders stapt. Onze zorgvuldig samengestelde collectie biedt jurken voor elke stijl en silhouet, van tijdloze klassiekers tot moderne blikvangers.
           </p>
           <p className="font-body text-lg leading-relaxed text-muted-foreground">
-            Every session is intimate and personalized. With complimentary drinks, professional photography, and a relaxed atmosphere, we make sure your experience is as memorable as the dresses themselves.
+            Elke sessie is intiem en persoonlijk. Met complimentaire drankjes, professionele fotografie en een ontspannen sfeer zorgen we ervoor dat je ervaring net zo onvergetelijk is als de jurken zelf.
           </p>
         </div>
 
         <blockquote className="mt-12 border-l-4 border-lavender-500 pl-6">
           <p className="font-display text-2xl font-light italic text-foreground md:text-3xl">
-            "Every woman deserves to feel beautiful, celebrated, and completely herself."
+            "Elke vrouw verdient het om zich mooi, gevierd en helemaal zichzelf te voelen."
           </p>
           <footer className="mt-3 font-body text-sm text-muted-foreground">
-            — The Dressperience Team
+            — Het Dressperience Team
           </footer>
         </blockquote>
       </section>
 
-      {/* Values */}
       <section className="bg-blush-100/30 py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="font-display text-4xl font-light text-foreground md:text-5xl">
-              What We <span className="font-semibold italic text-lavender-600">Believe</span>
+              Waar we in <span className="font-semibold italic text-lavender-600">geloven</span>
             </h2>
           </div>
 
@@ -102,22 +99,22 @@ function AboutPage() {
 const values = [
   {
     icon: Heart,
-    title: "Inclusivity",
-    description: "Every body is beautiful. Our dresses come in a wide range of sizes so every guest feels radiant.",
+    title: "Inclusiviteit",
+    description: "Elk lichaam is mooi. Onze jurken zijn beschikbaar in een breed scala aan maten, zodat iedere gast straalt.",
   },
   {
     icon: Sparkles,
-    title: "Quality",
-    description: "We curate only the finest dresses, ensuring every fitting feels like a luxury experience.",
+    title: "Kwaliteit",
+    description: "We selecteren alleen de mooiste jurken, zodat elke pasbeurt voelt als een luxe ervaring.",
   },
   {
     icon: Users,
-    title: "Connection",
-    description: "Our sessions are designed to bring friends closer and create lasting shared memories.",
+    title: "Verbondenheid",
+    description: "Onze sessies brengen vriendinnen dichter bij elkaar en creëren blijvende gedeelde herinneringen.",
   },
   {
     icon: Award,
-    title: "Excellence",
-    description: "From the moment you arrive to the final photo, every detail is crafted with care.",
+    title: "Excellentie",
+    description: "Vanaf het moment dat je aankomt tot de laatste foto wordt elk detail met zorg verzorgd.",
   },
 ];
