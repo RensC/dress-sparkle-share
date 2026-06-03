@@ -78,9 +78,7 @@ function GalleryPage() {
 
       <Dialog open={selectedIndex !== null} onOpenChange={() => setSelectedIndex(null)}>
         <DialogContent className="max-w-5xl border-0 bg-transparent p-0 shadow-none">
-          <VisuallyHidden.Root>
-            <DialogTitle>Gallery image preview</DialogTitle>
-          </VisuallyHidden.Root>
+          <DialogTitle className="sr-only">Gallery image preview</DialogTitle>
           {selectedIndex !== null && (
             <div className="relative">
               <img
