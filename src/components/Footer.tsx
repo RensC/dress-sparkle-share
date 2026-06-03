@@ -11,20 +11,20 @@ export function Footer() {
               Dressperience
             </h3>
             <p className="font-body text-sm leading-relaxed text-muted-foreground max-w-xs">
-              Unforgettable funfitting experiences for you and your friends. Try on beautiful wedding dresses, capture the moments, and create memories that last forever.
+              Onvergetelijke funfitting-ervaringen voor jou en je vriendinnen. Pas prachtige trouwjurken, leg de momenten vast en maak herinneringen voor altijd.
             </p>
           </div>
 
           <div className="space-y-4">
             <h4 className="font-body text-sm font-semibold uppercase tracking-widest text-foreground">
-              Explore
+              Ontdek
             </h4>
             <div className="flex flex-col gap-2">
               {[
                 { to: "/", label: "Home" },
-                { to: "/gallery", label: "Gallery" },
-                { to: "/about", label: "About" },
-                { to: "/reservations", label: "Reservations" },
+                { to: "/gallery", label: "Galerij" },
+                { to: "/about", label: "Over ons" },
+                { to: "/reservations", label: "Reserveren" },
                 { to: "/contact", label: "Contact" },
               ].map((link) => (
                 <Link
@@ -40,7 +40,7 @@ export function Footer() {
 
           <div className="space-y-4">
             <h4 className="font-body text-sm font-semibold uppercase tracking-widest text-foreground">
-              Get in Touch
+              Contact
             </h4>
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
@@ -71,7 +71,7 @@ export function Footer() {
 
         <div className="mt-12 border-t border-border/40 pt-8 text-center">
           <p className="font-body text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} Dressperience. All rights reserved.
+            &copy; {new Date().getFullYear()} Dressperience. Alle rechten voorbehouden.
           </p>
         </div>
       </div>
