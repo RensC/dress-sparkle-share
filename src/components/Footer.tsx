@@ -25,6 +25,7 @@ export function Footer() {
                 { to: "/gallery", label: "Galerij" },
                 { to: "/about", label: "Over ons" },
                 { to: "/reservations", label: "Reserveren" },
+                { to: "/faq", label: "FAQ" },
                 { to: "/contact", label: "Contact" },
               ].map((link) => (
                 <Link
