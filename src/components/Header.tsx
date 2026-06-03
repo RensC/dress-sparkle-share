@@ -4,9 +4,9 @@ import { Menu, X } from "lucide-react";
 
 const navLinks = [
   { to: "/", label: "Home" },
-  { to: "/gallery", label: "Gallery" },
-  { to: "/about", label: "About" },
-  { to: "/reservations", label: "Reservations" },
+  { to: "/gallery", label: "Galerij" },
+  { to: "/about", label: "Over ons" },
+  { to: "/reservations", label: "Reserveren" },
   { to: "/contact", label: "Contact" },
 ];
 
@@ -39,7 +39,7 @@ export function Header() {
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
           className="md:hidden p-2 text-foreground"
-          aria-label="Toggle menu"
+          aria-label="Menu openen"
         >
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
