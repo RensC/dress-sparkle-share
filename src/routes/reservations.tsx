@@ -317,9 +317,10 @@ function ReservationsPage() {
 
                 <Button
                   type="submit"
-                  className="w-full rounded-full bg-lavender-600 py-3.5 font-body text-sm font-semibold uppercase tracking-widest text-primary-foreground transition-all hover:bg-lavender-700"
+                  disabled={submitting}
+                  className="w-full rounded-full bg-lavender-600 py-3.5 font-body text-sm font-semibold uppercase tracking-widest text-primary-foreground transition-all hover:bg-lavender-700 disabled:opacity-60"
                 >
-                  Reservering bevestigen
+                  {submitting ? "Bezig met versturen..." : "Reservering bevestigen"}
                 </Button>
                 <p className="text-center font-body text-xs text-muted-foreground">
                   Sessies vereisen minimaal 7 dagen vooraf reserveren. We bevestigen je boeking per e-mail.
