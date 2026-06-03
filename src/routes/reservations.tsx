@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
 import { z } from "zod";
@@ -18,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { createReservation } from "@/lib/reservations.functions";
 
 export const Route = createFileRoute("/reservations")({
   head: () => ({
@@ -33,10 +35,10 @@ export const Route = createFileRoute("/reservations")({
 
 const timeSlots = ["10:00", "11:30", "13:00", "14:30", "16:00"];
 const groupSizes = ["1", "2", "3", "4", "5", "6"];
-const packageOptions = ["Sparkle", "Glamour", "Celebration"];
+const packageOptions = ["Sparkle", "Glamour", "Celebration"] as const;
 
 const bookingSchema = z.object({
-  packageName: z.string().min(1, "Kies een pakket"),
+  packageName: z.enum(packageOptions),
   date: z.date({ message: "Kies een datum" }),
   time: z.string().min(1, "Kies een tijd"),
   groupSize: z.string().min(1, "Kies een groepsgrootte"),
@@ -49,14 +51,16 @@ const bookingSchema = z.object({
 type Confirmation = z.infer<typeof bookingSchema>;
 
 function ReservationsPage() {
-  const [packageName, setPackageName] = useState<string>("Glamour");
+  const [packageName, setPackageName] = useState<(typeof packageOptions)[number]>("Glamour");
   const [date, setDate] = useState<Date | undefined>();
   const [time, setTime] = useState<string>("");
   const [groupSize, setGroupSize] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
   const [confirmation, setConfirmation] = useState<Confirmation | null>(null);
+  const submitReservation = useServerFn(createReservation);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     const fd = new FormData(e.currentTarget);
@@ -74,8 +78,28 @@ function ReservationsPage() {
       setError(result.error.issues[0]?.message ?? "Controleer het formulier");
       return;
     }
-    setConfirmation(result.data);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    setSubmitting(true);
+    try {
+      await submitReservation({
+        data: {
+          packageName: result.data.packageName,
+          date: format(result.data.date, "yyyy-MM-dd"),
+          time: result.data.time,
+          groupSize: parseInt(result.data.groupSize, 10),
+          name: result.data.name,
+          email: result.data.email,
+          phone: result.data.phone,
+          notes: result.data.notes,
+        },
+      });
+      setConfirmation(result.data);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Er ging iets mis bij het versturen.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   function resetForm() {
@@ -84,6 +108,8 @@ function ReservationsPage() {
     setTime("");
     setGroupSize("");
   }
+
+
 
   return (
     <div className="min-h-screen">
@@ -133,7 +159,7 @@ function ReservationsPage() {
               <button
                 type="button"
                 onClick={() => {
-                  setPackageName(pkg.name);
+                  setPackageName(pkg.name as (typeof packageOptions)[number]);
                   document.getElementById("booking-form")?.scrollIntoView({ behavior: "smooth" });
                 }}
                 className={`mt-8 inline-flex items-center justify-center rounded-full px-8 py-3.5 font-body text-sm font-semibold uppercase tracking-widest transition-all ${
@@ -192,7 +218,7 @@ function ReservationsPage() {
               <form className="mx-auto mt-10 max-w-2xl space-y-6" onSubmit={handleSubmit}>
                 <div className="space-y-2">
                   <Label className="font-body text-sm font-medium">Pakket</Label>
-                  <Select value={packageName} onValueChange={setPackageName}>
+                  <Select value={packageName} onValueChange={(v) => setPackageName(v as (typeof packageOptions)[number])}>
                     <SelectTrigger className="rounded-lg border-border bg-background font-body">
                       <SelectValue placeholder="Kies een pakket" />
                     </SelectTrigger>
@@ -291,9 +317,10 @@ function ReservationsPage() {
 
                 <Button
                   type="submit"
-                  className="w-full rounded-full bg-lavender-600 py-3.5 font-body text-sm font-semibold uppercase tracking-widest text-primary-foreground transition-all hover:bg-lavender-700"
+                  disabled={submitting}
+                  className="w-full rounded-full bg-lavender-600 py-3.5 font-body text-sm font-semibold uppercase tracking-widest text-primary-foreground transition-all hover:bg-lavender-700 disabled:opacity-60"
                 >
-                  Reservering bevestigen
+                  {submitting ? "Bezig met versturen..." : "Reservering bevestigen"}
                 </Button>
                 <p className="text-center font-body text-xs text-muted-foreground">
                   Sessies vereisen minimaal 7 dagen vooraf reserveren. We bevestigen je boeking per e-mail.
