@@ -218,7 +218,7 @@ function ReservationsPage() {
               <form className="mx-auto mt-10 max-w-2xl space-y-6" onSubmit={handleSubmit}>
                 <div className="space-y-2">
                   <Label className="font-body text-sm font-medium">Pakket</Label>
-                  <Select value={packageName} onValueChange={setPackageName}>
+                  <Select value={packageName} onValueChange={(v) => setPackageName(v as (typeof packageOptions)[number])}>
                     <SelectTrigger className="rounded-lg border-border bg-background font-body">
                       <SelectValue placeholder="Kies een pakket" />
                     </SelectTrigger>
