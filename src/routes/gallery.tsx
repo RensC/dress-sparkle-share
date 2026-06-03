@@ -13,22 +13,22 @@ import gallery6 from "@/assets/gallery-6.jpg";
 export const Route = createFileRoute("/gallery")({
   head: () => ({
     meta: [
-      { title: "Gallery — Dressperience" },
-      { name: "description", content: "Explore beautiful moments from our funfitting experiences. Real friends, real dresses, real joy." },
-      { property: "og:title", content: "Gallery — Dressperience" },
-      { property: "og:description", content: "Explore beautiful moments from our funfitting experiences." },
+      { title: "Galerij — Dressperience" },
+      { name: "description", content: "Ontdek prachtige momenten uit onze funfitting-ervaringen. Echte vriendinnen, echte jurken, echt plezier." },
+      { property: "og:title", content: "Galerij — Dressperience" },
+      { property: "og:description", content: "Ontdek prachtige momenten uit onze funfitting-ervaringen." },
     ],
   }),
   component: GalleryPage,
 });
 
 const images = [
-  { src: gallery1, alt: "Elegant ballgown in a sunlit fitting room", category: "Ballgowns" },
-  { src: gallery2, alt: "Friends celebrating with champagne in beautiful dresses", category: "Celebrations" },
-  { src: gallery3, alt: "Intricate lace wedding dress detail", category: "Details" },
-  { src: gallery4, alt: "Woman twirling in a mermaid-style dress", category: "Mermaid" },
-  { src: gallery5, alt: "Group of friends posing together in wedding dresses", category: "Group" },
-  { src: gallery6, alt: "Stunning dress portrait in soft studio lighting", category: "Portraits" },
+  { src: gallery1, alt: "Elegante baljurk in een zonnige paskamer", category: "Baljurken" },
+  { src: gallery2, alt: "Vriendinnen vieren met champagne in prachtige jurken", category: "Vieringen" },
+  { src: gallery3, alt: "Detail van een verfijnde kanten trouwjurk", category: "Details" },
+  { src: gallery4, alt: "Vrouw draait rond in een mermaid-jurk", category: "Mermaid" },
+  { src: gallery5, alt: "Groep vriendinnen poseert samen in trouwjurken", category: "Groep" },
+  { src: gallery6, alt: "Schitterend jurkportret in zacht studiolicht", category: "Portretten" },
 ];
 
 function GalleryPage() {
@@ -39,13 +39,13 @@ function GalleryPage() {
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="text-center">
           <span className="font-body text-xs font-semibold uppercase tracking-widest text-lavender-600">
-            Our Moments
+            Onze Momenten
           </span>
           <h1 className="mt-4 font-display text-5xl font-light text-foreground md:text-6xl">
-            <span className="font-semibold italic text-lavender-600">Gallery</span>
+            <span className="font-semibold italic text-lavender-600">Galerij</span>
           </h1>
           <p className="mx-auto mt-4 max-w-xl font-body text-lg text-muted-foreground">
-            A glimpse into the magic of our funfitting experiences. Real friends, real dresses, real joy.
+            Een glimp van de magie van onze funfitting-ervaringen. Echte vriendinnen, echte jurken, echt plezier.
           </p>
         </div>
 
@@ -78,7 +78,7 @@ function GalleryPage() {
 
       <Dialog open={selectedIndex !== null} onOpenChange={() => setSelectedIndex(null)}>
         <DialogContent className="max-w-5xl border-0 bg-transparent p-0 shadow-none">
-          <DialogTitle className="sr-only">Gallery image preview</DialogTitle>
+          <DialogTitle className="sr-only">Voorvertoning galerijfoto</DialogTitle>
           {selectedIndex !== null && (
             <div className="relative">
               <img
@@ -89,7 +89,7 @@ function GalleryPage() {
               <button
                 onClick={() => setSelectedIndex(null)}
                 className="absolute -top-10 right-0 rounded-full bg-white/90 p-2 text-lavender-700 transition-colors hover:bg-white"
-                aria-label="Close"
+                aria-label="Sluiten"
               >
                 <X size={20} />
               </button>
