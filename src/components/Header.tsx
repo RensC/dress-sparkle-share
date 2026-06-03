@@ -7,6 +7,7 @@ const navLinks = [
   { to: "/gallery", label: "Galerij" },
   { to: "/about", label: "Over ons" },
   { to: "/reservations", label: "Reserveren" },
+  { to: "/faq", label: "FAQ" },
   { to: "/contact", label: "Contact" },
 ];
 
