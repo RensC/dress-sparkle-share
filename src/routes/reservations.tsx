@@ -159,7 +159,7 @@ function ReservationsPage() {
               <button
                 type="button"
                 onClick={() => {
-                  setPackageName(pkg.name);
+                  setPackageName(pkg.name as (typeof packageOptions)[number]);
                   document.getElementById("booking-form")?.scrollIntoView({ behavior: "smooth" });
                 }}
                 className={`mt-8 inline-flex items-center justify-center rounded-full px-8 py-3.5 font-body text-sm font-semibold uppercase tracking-widest transition-all ${
