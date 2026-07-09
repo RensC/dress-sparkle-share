@@ -12,7 +12,7 @@ export const Route = createFileRoute("/faq")({
       { title: "Veelgestelde vragen — Dressperience" },
       { name: "description", content: "Antwoorden op de meest gestelde vragen over funfitting bij Dressperience: reserveren, pakketten, jurken, drankjes en foto's." },
       { property: "og:title", content: "Veelgestelde vragen — Dressperience" },
-      { property: "og:description", content: "Antwoorden op alle vragen over een funfitting-sessie bij Dressperience." },
+      { property: "og:description", content: "Antwoorden op de meest gestelde vragen." },
     ],
   }),
   component: FaqPage,
@@ -20,52 +20,52 @@ export const Route = createFileRoute("/faq")({
 
 const faqs = [
   {
-    q: "Wat is funfitting precies?",
-    a: "Funfitting is een unieke ervaring waarbij kleine groepjes vrouwen prachtige trouwjurken passen, puur voor de plezier. Geen bruiloft nodig — gewoon glamour, gelach en mooie herinneringen met je vriendinnen.",
+    q: "Is het terrein toegankelijk?",
+    a: "Ja, het gehele terrein is toegankelijk voor rolstoelgebruikers. Twijfel je? Neem gerust even contact op, dan kijken we samen naar de mogelijkheden.",
   },
   {
-    q: "Moet ik trouwen om te komen?",
-    a: "Absoluut niet! Funfitting is voor iedereen die zich een dag prinses wil voelen: vrijgezellenfeestjes, verjaardagen, moeder-dochter-uitjes of gewoon een leuke dag uit.",
+    q: "Mag ik mee ook al wil ik geen jurken passen?",
+    a: "Voor mensen die niet willen passen word €15,- in rekening gebracht.",
   },
   {
-    q: "Hoe groot mag mijn groep zijn?",
-    a: "Onze sessies zijn er voor 1 tot 6 gasten. Voor het Sparkle-pakket maximaal 2 personen, Glamour tot 4 en Celebration tot 6.",
+    q: "Zijn de jurken wel schoon?",
+    a: "Alle jurken worden nagekeken, gereinigd en/of gerepareerd na bezoek.",
   },
   {
-    q: "Hoe ver van tevoren moet ik boeken?",
-    a: "We vragen minimaal 7 dagen vooraf te reserveren. Weekendplekken zijn populair en raken snel volgeboekt, dus eerder boeken is slim.",
+    q: "Welke maten jurken hebbern jullie?",
+    a: "We hebben ongeveer 175 unieke jurken, in de maten 34 t/m 52. ",
   },
   {
-    q: "Welke maten jurken hebben jullie?",
-    a: "Onze collectie is bewust inclusief samengesteld, met jurken in maat 34 t/m 50. Bij twijfel kun je ons altijd vooraf even mailen.",
+    q: "Mag ik make-up dragen?",
+    a: "Het gebruik van bruiningscremes is niet toegestaan. tijdens het passen kan eventueel gebruik worden gemaakt van een pasmasker/pasnetje die de jurken en de make-up beschermt.",
   },
   {
-    q: "Krijg ik de foto's mee naar huis?",
-    a: "Ja! Bij elk pakket horen bewerkte digitale foto's die binnen 5 werkdagen via een privé online galerij worden geleverd.",
+    q: "Mag ik zelf eten en drinken meenemen?",
+    a: "Nee, dit is niet toegestaan.",
   },
   {
-    q: "Zijn drankjes echt inbegrepen?",
-    a: "Zeker. Bij elke sessie krijg je complimentaire prosecco, champagne of verfrissende mocktails. Bij Glamour en Celebration zijn ook hapjes inbegrepen.",
+    q: "Mag ik kinderen meenemen?",
+    a: "Wij richten ons enkel op (jong)volwassenen.",
   },
   {
-    q: "Mogen we onze eigen drank meenemen?",
-    a: "Dat is niet nodig — wij zorgen voor alles. Heb je een speciale wens? Laat het weten in je reservering, dan kijken we wat mogelijk is.",
+    q: "Zijn huisdieren toegestaan?",
+    a: "Nee, huisdieren zijn niet toegestaan. ADL-hulpdieren, signaal- of geleidehonden zijn wel toegestaan. ",
   },
   {
-    q: "Wat moet ik aantrekken?",
-    a: "Draag comfortabel ondergoed in een neutrale kleur. Strapless bh's werken het best bij veel jurken. Hakken zijn welkom maar niet verplicht.",
+    q: "Hoe zit het met reserveren?",
+    a: "Bezoek is alleen mogelijk is op afspraak. Reserveren kan via het reserveringsformulier. Om jullie reservering definitief te maken, werken wij met een aanbetaling van €50 per groep. Na ontvangst van de bevestiging staat jullie moment vast. Reservering kan tot 48 uur van te voren worden gewijzigd of geannuleerd. De aanbetaling wordt niet terugbetaald, maar kan worden gebruikt om een nieuwe datum te plannen. Bij annuleringen binnen 48 uur vervalt de aanbetaling. ",
   },
   {
-    q: "Kan ik mijn reservering annuleren of verzetten?",
-    a: "Tot 7 dagen voor je sessie kun je kosteloos verzetten of annuleren. Bij annulering binnen 7 dagen brengen we 50% van het bedrag in rekening.",
+    q: "Hoe kan ik betalen?",
+    a: "Aanbetaling van €50,- dient vooraf te worden overgemaakt. Resterend bedrag en eventueel optionele pakketten kunnen ter plekke per QR-code of contant vorden voldaan. ",
   },
   {
     q: "Is er parkeergelegenheid?",
-    a: "Ja, voor de deur aan de Heerbaan in Posterholt is gratis parkeren beschikbaar.",
+    a: "Ja, voor de deur kunnen jullie gratis parkeren. Tevens zijn er laadpalen beschikbaar.",
   },
   {
-    q: "Kan ik een cadeaubon kopen?",
-    a: "Jazeker! Een funfitting-ervaring is een prachtig cadeau. Neem contact met ons op voor een gepersonaliseerde cadeaubon.",
+    q: "Hoe is het rookbeleid?",
+    a: "In het gehele gebouw geldt een rookverbod. wel is er buiten een gelegenheid om te roken voor of na de passessie. Tijdens het dragen van een jurk is roken niet toegestaan. ",
   },
 ];
 
@@ -81,7 +81,7 @@ function FaqPage() {
             Veelgestelde <span className="font-semibold italic text-lavender-600">vragen</span>
           </h1>
           <p className="mx-auto mt-4 max-w-2xl font-body text-lg text-muted-foreground">
-            Alles wat je wilt weten over een funfitting-sessie bij Dressperience. Staat jouw vraag er niet bij? We helpen je graag verder.
+            Staat jouw vraag er niet bij? We helpen je graag verder.
           </p>
         </div>
 
@@ -104,7 +104,7 @@ function FaqPage() {
 
         <div className="mt-16 rounded-2xl bg-blush-100/50 p-8 text-center">
           <h2 className="font-display text-2xl font-light text-foreground">
-            Nog een vraag?
+            Heb je een andere vraag?
           </h2>
           <p className="mt-2 font-body text-sm text-muted-foreground">
             We beantwoorden je vraag graag persoonlijk.

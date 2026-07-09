@@ -35,7 +35,7 @@ export const Route = createFileRoute("/reservations")({
 
 const timeSlots = ["10:00", "11:30", "13:00", "14:30", "16:00"];
 const groupSizes = ["1", "2", "3", "4", "5", "6"];
-const packageOptions = ["Sparkle", "Glamour", "Celebration"] as const;
+const packageOptions = ["Sparkle", "Glamour", "VIP"] as const;
 
 const bookingSchema = z.object({
   packageName: z.enum(packageOptions),
@@ -122,7 +122,7 @@ function ReservationsPage() {
             <span className="font-semibold italic text-lavender-600">Reserveren</span>
           </h1>
           <p className="mx-auto mt-4 max-w-2xl font-body text-lg text-muted-foreground">
-            Alle ervaringen zijn alleen op reservering. Kies het pakket dat bij jouw groep past en laat ons samen iets magisch creëren.
+            Hoera, wij zijn open! Speciaal voor onze opening hebben we onze prijzen tijdelijk verlaagd.
           </p>
         </div>
 
@@ -323,7 +323,7 @@ function ReservationsPage() {
                   {submitting ? "Bezig met versturen..." : "Reservering bevestigen"}
                 </Button>
                 <p className="text-center font-body text-xs text-muted-foreground">
-                  Sessies vereisen minimaal 7 dagen vooraf reserveren. We bevestigen je boeking per e-mail.
+                  We bevestigen je boeking per e-mail.
                 </p>
               </form>
             </div>
@@ -364,46 +364,46 @@ function Detail({ label, value }: { label: string; value: string }) {
 const packages = [
   {
     name: "Sparkle",
-    description: "Perfect voor een korte, magische ervaring met je beste vriendin.",
-    price: "€89",
+    description: "Perfect voor een korte, magische ervaring.",
+    price: "€39,50 /€49,50",
     priceNote: " / persoon",
     highlighted: false,
     features: [
-      "Funfitting-sessie van 2 uur",
-      "Tot 2 gasten",
-      "5 jurken passen per persoon",
-      "Welkomstdrankje inbegrepen",
-      "10 bewerkte digitale foto's",
+      "1.5 uur",
+      "Ontvangst met feestelijke bubbels",
+      "2 jurken passen per persoon",
+      "Vrij gebruik van accesoires",
+      "XXXXX",
     ],
   },
   {
     name: "Glamour",
-    description: "Onze populairste ervaring voor kleine groepjes vriendinnen.",
-    price: "€79",
+    description: "Onze populairste ervaring.",
+    price: "€49,50 / €59,50 DOORGESTREEPT",
     priceNote: " / persoon",
     highlighted: true,
     features: [
-      "Funfitting-sessie van 3 uur",
-      "Tot 4 gasten",
-      "8 jurken passen per persoon",
-      "Drankjes & hapjes inbegrepen",
-      "25 bewerkte digitale foto's",
-      "Privé studio-sessie",
+      "2 tot 2.5 uur",
+      "Ontvangst met feestelijke bubbels",
+      "3 jurken passen per persoon",
+      "Vrij gebruik van accesoires",
+      " 1 bewerkte digitale foto",
+      "XXXXXX",
     ],
   },
   {
-    name: "Celebration",
-    description: "De ultieme groepservaring voor bijzondere gelegenheden.",
-    price: "€69",
+    name: "VIP",
+    description: "Ultieme verwennerij met extra aandacht, tijd en styling om écht te stralen.",
+    price: "€65,- / €75,- DOORGESTREEPT",
     priceNote: " / persoon",
     highlighted: false,
     features: [
-      "Funfitting-sessie van 4 uur",
-      "Tot 6 gasten",
-      "Onbeperkt jurken passen",
-      "Volledige drankjes & snacks",
-      "50+ bewerkte digitale foto's",
-      "Persoonlijke videomontage",
+      "2.5 tot 3 uur",
+      "Ontvangst met feestelijke bubbels",
+      "3 jurken passen per persoon",
+      "Luxe hapje van onze lokale bakkerij",
+      "3 bewerkte digitale foto's",
+      "Onbeperkt koffie, thee en fruitwater",
     ],
   },
 ];
@@ -412,21 +412,21 @@ const infoCards = [
   {
     icon: Clock,
     title: "Vooraf reserveren",
-    description: "Alle sessies vereisen minimaal 7 dagen vooraf boeken. Weekendplekken zijn snel volgeboekt!",
+    description: "Weekendplekken zijn snel volgeboekt!",
   },
   {
     icon: Users,
     title: "Groepsgrootte",
-    description: "Onze studio biedt comfortabel plaats aan maximaal 6 gasten per sessie voor de beste ervaring.",
+    description: "Voor groepen groter dan 6 personen nemen jullie beste even contact op voor de beste ervaring.",
   },
   {
     icon: Wine,
-    title: "Drankjes & snacks",
-    description: "Complimentaire prosecco, champagne en verfrissende mocktails zijn bij elk pakket inbegrepen.",
+    title: "High tea",
+    description: "Luxe high tea met lekkernijen van onze lokale bakkerij zijn optioneel bij te boeken.",
   },
   {
     icon: Camera,
     title: "Foto's",
-    description: "Professionele foto's worden tijdens je sessie gemaakt. Digitale galerij wordt binnen 5 dagen geleverd.",
+    description: "Professionele foto's worden tijdens je sessie gemaakt. Foto's zijn binnen 48 uur beschikbaar via een persoonlijke link. ",
   },
 ];

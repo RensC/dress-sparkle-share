@@ -11,9 +11,15 @@ export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Contact — Dressperience" },
-      { name: "description", content: "Neem contact op met Dressperience. Boek je funfitting-sessie, stel een vraag of zeg gewoon hallo. We horen graag van je." },
+      {
+        name: "description",
+        content: "Neem contact op met Dressperience. Boek je funfitting-sessie, stel een vraag of zeg gewoon hallo. We horen graag van je."
+      },
       { property: "og:title", content: "Contact — Dressperience" },
-      { property: "og:description", content: "Neem contact op met Dressperience. Boek je funfitting-sessie of stel ons een vraag." },
+      {
+        property: "og:description",
+        content: "Neem contact op met Dressperience. Boek je funfitting-sessie of stel ons een vraag."
+      },
     ],
   }),
   component: ContactPage,
@@ -90,23 +96,29 @@ function ContactPage() {
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="name" className="font-body text-sm font-medium">Naam</Label>
-                    <Input id="name" name="name" placeholder="Je naam" maxLength={100} className="rounded-lg border-border bg-background font-body" required />
+                    <Input id="name" name="name" placeholder="Je naam" maxLength={100}
+                           className="rounded-lg border-border bg-background font-body" required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email" className="font-body text-sm font-medium">E-mail</Label>
-                    <Input id="email" name="email" type="email" placeholder="jij@voorbeeld.nl" maxLength={255} className="rounded-lg border-border bg-background font-body" required />
+                    <Input id="email" name="email" type="email" placeholder="jij@voorbeeld.nl" maxLength={255}
+                           className="rounded-lg border-border bg-background font-body" required />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="subject" className="font-body text-sm font-medium">Onderwerp</Label>
-                  <Input id="subject" name="subject" placeholder="Boekingsvraag, vraag, enz." maxLength={150} className="rounded-lg border-border bg-background font-body" required />
+                  <Input id="subject" name="subject" placeholder="Boekingsvraag, vraag, enz." maxLength={150}
+                         className="rounded-lg border-border bg-background font-body" required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="message" className="font-body text-sm font-medium">Bericht</Label>
-                  <Textarea id="message" name="message" placeholder="Vertel ons over je ideale funfitting-ervaring..." rows={5} maxLength={1000} className="rounded-lg border-border bg-background font-body resize-none" required />
+                  <Textarea id="message" name="message" placeholder="Vertel ons over je ideale funfitting-ervaring..."
+                            rows={5} maxLength={1000}
+                            className="rounded-lg border-border bg-background font-body resize-none" required />
                 </div>
                 {error && <p className="font-body text-sm text-destructive">{error}</p>}
-                <Button type="submit" className="w-full rounded-full bg-lavender-600 py-3 font-body text-sm font-semibold uppercase tracking-widest text-primary-foreground transition-all hover:bg-lavender-700">
+                <Button type="submit"
+                        className="w-full rounded-full bg-lavender-600 py-3 font-body text-sm font-semibold uppercase tracking-widest text-primary-foreground transition-all hover:bg-lavender-700">
                   Verstuur bericht
                 </Button>
               </form>
@@ -119,13 +131,14 @@ function ContactPage() {
                 Bezoek ons
               </h2>
               <p className="mt-2 font-body text-sm text-muted-foreground">
-                Onze studio bevindt zich in het hart van Posterholt en is ontworpen als jouw privé-ontsnapping naar glamour.
+                Onze vestiging bevindt zich in Posterholt en is ontworpen als jouw privé-ontsnapping naar glamour.
               </p>
             </div>
 
             <div className="space-y-6">
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
+                <div
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
                   <MapPin size={18} />
                 </div>
                 <div>
@@ -139,50 +152,57 @@ function ContactPage() {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
+                <div
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
                   <Mail size={18} />
                 </div>
                 <div>
                   <h4 className="font-body text-sm font-semibold text-foreground">E-mail</h4>
-                  <a href="mailto:hello@dressperience.nl" className="mt-1 block font-body text-sm text-muted-foreground hover:text-lavender-600 transition-colors">
-                    hello@dressperience.nl
+                  <a href="mailto:info@dressperience.nl"
+                     className="mt-1 block font-body text-sm text-muted-foreground hover:text-lavender-600 transition-colors">
+                    info@dressperience.nl
                   </a>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
+                <div
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
                   <Phone size={18} />
                 </div>
                 <div>
                   <h4 className="font-body text-sm font-semibold text-foreground">Telefoon</h4>
-                  <a href="tel:+31612345678" className="mt-1 block font-body text-sm text-muted-foreground hover:text-lavender-600 transition-colors">
-                    +31 6 12 34 56 78
+                  <a href="tel:+31642515172"
+                     className="mt-1 block font-body text-sm text-muted-foreground hover:text-lavender-600 transition-colors">
+                    +31 6 42 51 51 72
                   </a>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
+                <div
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
                   <Instagram size={18} />
                 </div>
                 <div>
                   <h4 className="font-body text-sm font-semibold text-foreground">Instagram</h4>
-                  <a href="https://instagram.com/dressperience" target="_blank" rel="noopener noreferrer" className="mt-1 block font-body text-sm text-muted-foreground hover:text-lavender-600 transition-colors">
+                  <a href="https://instagram.com/dressperience" target="_blank" rel="noopener noreferrer"
+                     className="mt-1 block font-body text-sm text-muted-foreground hover:text-lavender-600 transition-colors">
                     @dressperience
                   </a>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
+                <div
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
                   <Clock size={18} />
                 </div>
                 <div>
                   <h4 className="font-body text-sm font-semibold text-foreground">Openingstijden</h4>
                   <p className="mt-1 font-body text-sm text-muted-foreground">
-                    Dinsdag — Zaterdag: 10:00 – 18:00<br />
-                    Zondag & Maandag: Op afspraak
+                    Wij werken enkel op afspraak. <br />
+
                   </p>
                 </div>
               </div>
@@ -195,7 +215,7 @@ function ContactPage() {
         <div className="relative h-[400px] w-full overflow-hidden rounded-2xl bg-blush-200/40">
           <iframe
             title="Dressperience locatie"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2520.0!2d6.0!3d51.1!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDA2JzAwLjAiTiA2wrAwMCcwMC4wIkU!5e0!3m2!1snl!2snl!4v1600000000000!5m2!1snl!2snl"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2504.028912658567!2d6.026283412624214!3d51.12637472161126!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c0b3c7ad287575%3A0x432b65ef41544c94!2sHeerbaan%2054%2C%206061%20EE%20Posterholt!5e0!3m2!1snl!2snl!4v1782560826661!5m2!1snl!2snl"
             width="100%"
             height="100%"
             style={{ border: 0 }}

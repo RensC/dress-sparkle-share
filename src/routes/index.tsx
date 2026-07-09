@@ -3,14 +3,18 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Heart, Camera, Wine, CalendarDays, Sparkles } from "lucide-react";
 
 import heroImg from "@/assets/hero.jpg";
+import home1 from "@/assets/home-1.jpg";
+import home2 from "@/assets/home-2.jpg";
+import home3 from "@/assets/home-3.jpg";
+import home4 from "@/assets/home-4.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Dressperience — Funfitting met vriendinnen" },
-      { name: "description", content: "Pas samen met vriendinnen prachtige trouwjurken voor de lol. Een unieke ervaring met foto's en drankjes inbegrepen. Boek vandaag jouw funfitting-sessie!" },
+      { name: "description", content: "Pas samen met vriendinnen prachtige trouwjurken voor de lol. Een unieke ervaring met veel foto's en gelach. Boek vandaag jouw pas-sessie!" },
       { property: "og:title", content: "Dressperience — Funfitting met vriendinnen" },
-      { property: "og:description", content: "Pas samen met vriendinnen prachtige trouwjurken voor de lol. Een unieke ervaring met foto's en drankjes inbegrepen." },
+      { property: "og:description", content: "Pas samen met vriendinnen prachtige trouwjurken voor de lol. Een unieke ervaring." },
     ],
   }),
   component: HomePage,
@@ -28,11 +32,13 @@ function HomePage() {
               Welkom bij Dressperience
             </span>
             <h1 className="mt-6 font-display text-5xl font-light leading-tight text-foreground md:text-6xl lg:text-7xl">
-              Zeg ja tegen
-              <span className="block font-semibold italic text-lavender-600">Plezier</span>
+              Say yes to
+              <span className="block font-semibold italic text-lavender-600">Dressperience</span>
             </h1>
             <p className="mt-6 font-body text-lg leading-relaxed text-muted-foreground">
-              Verzamel je vriendinnen en stap in een wereld van glamour. Pas prachtige trouwjurken, geniet van complimentaire drankjes en leg onvergetelijke momenten vast — geen bruiloft vereist.
+              De mooiste trouwjurken passen, elkaar compleet op hypen, draaien voor de spiegel, gillen bij de perfecte look en ondertussen de allerleukste foto’s maken tijdens een mini foto shoot. Vanaf het moment dat jullie binnenstappen, voelt het alsof jullie samen in een romantische film zijn beland. Vol glitter, tule, gezelligheid en keihard lachen. Dit is geen standaard uitje, maar een ervaring waar je maanden later nog steeds over praat!  Of je nu iets te vieren hebt, opzoek bent naar een originele verassing of gewoon zin hebt om jurken te passen.
+		     </p>
+			  <p><br/><strong><i>Dressperience is zonder twijfel het leukste uitje dat je met je vriendinnen kunt doen! </i></strong>
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
@@ -53,7 +59,7 @@ function HomePage() {
 
         <div className="relative order-1 md:order-2 min-h-[50vh] md:min-h-full">
           <img
-            src={heroImg}
+            src={home1}
             alt="Vriendinnen passen samen prachtige trouwjurken"
             className="absolute inset-0 h-full w-full object-cover"
           />
@@ -68,25 +74,18 @@ function HomePage() {
             Wat is <span className="font-semibold italic text-lavender-600">Funfitting</span>?
           </h2>
           <p className="mx-auto mt-4 max-w-2xl font-body text-lg text-muted-foreground">
-            Funfitting is onze unieke ervaring waarbij kleine groepjes vrouwen prachtige trouwjurken passen, puur voor de lol. De perfecte manier om vriendschap, mijlpalen of gewoon een onvergetelijk uitje te vieren.
+            Funfitting is prachtige trouwjurken passen voor iedereen die zich een dag prinses wil voelen: vrijgezellenfeestjes, verjaardagen, moeder-dochter-uitjes of gewoon een leuke dag uit!
           </p>
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature) => (
-            <div
-              key={feature.title}
-              className="group rounded-2xl border border-border/60 bg-card p-8 transition-all hover:border-lavender-400/50 hover:shadow-lg hover:shadow-lavender-500/5"
-            >
-              <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-lavender-500/10 text-lavender-600 transition-colors group-hover:bg-lavender-500/20">
-                <feature.icon size={24} />
-              </div>
-              <h3 className="mt-5 font-display text-xl font-semibold text-foreground">
-                {feature.title}
-              </h3>
-              <p className="mt-2 font-body text-sm leading-relaxed text-muted-foreground">
-                {feature.description}
-              </p>
+            <div className="group rounded-2xl border border-border/60 bg-card p-8 transition-all hover:border-lavender-400/50 hover:shadow-lg hover:shadow-lavender-500/5">
+              <img
+                src={feature.src}
+                alt="Vriendinnen passen samen prachtige trouwjurken"
+                className="w-full aspect-square object-cover rounded-md"
+              />
             </div>
           ))}
         </div>
@@ -139,22 +138,22 @@ function HomePage() {
                     <span className="font-body text-sm font-medium text-foreground">Alleen op reservering</span>
                   </div>
                   <p className="mt-2 font-body text-sm text-muted-foreground">
-                    Sessies zijn beschikbaar op afspraak om een intieme, persoonlijke ervaring te garanderen.
+                    Sessies zijn beschikbaar op afspraak om een exclusieve, persoonlijke ervaring te garanderen.
                   </p>
                 </div>
                 <div className="rounded-xl bg-card p-6 shadow-sm">
                   <div className="flex items-center gap-3">
                     <Wine size={20} className="text-rose-400" />
-                    <span className="font-body text-sm font-medium text-foreground">Drankjes inbegrepen</span>
+                    <span className="font-body text-sm font-medium text-foreground">Welkomsdrankje inbegrepen</span>
                   </div>
                   <p className="mt-2 font-body text-sm text-muted-foreground">
-                    Geniet van complimentaire prosecco, champagne of verfrissende mocktails tijdens je sessie.
+                    Geniet bij aankomst van een heerlijk sprankelend drankje.
                   </p>
                 </div>
                 <div className="rounded-xl bg-card p-6 shadow-sm">
                   <div className="flex items-center gap-3">
                     <Camera size={20} className="text-gold-400" />
-                    <span className="font-body text-sm font-medium text-foreground">Foto's inbegrepen</span>
+                    <span className="font-body text-sm font-medium text-foreground">Foto's optioneel bij te boeken</span>
                   </div>
                   <p className="mt-2 font-body text-sm text-muted-foreground">
                     Professionele foto's worden gemaakt tijdens je ervaring, zodat je de magie steeds opnieuw kunt beleven.
@@ -165,29 +164,6 @@ function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* CTA Sectie */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-3xl bg-lavender-600 px-6 py-16 text-center md:px-12 md:py-20">
-          <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-lavender-500/30 blur-3xl" />
-          <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-lavender-400/20 blur-3xl" />
-          <div className="relative mx-auto max-w-2xl">
-            <h2 className="font-display text-3xl font-light text-white md:text-5xl">
-              Klaar voor jouw
-              <span className="block font-semibold italic">Dressperience?</span>
-            </h2>
-            <p className="mt-4 font-body text-lg text-lavender-100">
-              Verzamel je vriendinnen en boek een sessie. Maak herinneringen die je voor altijd koestert.
-            </p>
-            <Link
-              to="/reservations"
-              className="mt-8 inline-flex items-center justify-center rounded-full bg-white px-10 py-4 font-body text-sm font-semibold uppercase tracking-widest text-lavender-700 transition-all hover:bg-blush-50 hover:shadow-xl"
-            >
-              Boek nu
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
@@ -195,36 +171,33 @@ function HomePage() {
 const features = [
   {
     icon: Heart,
-    title: "Pas prachtige jurken",
-    description: "Stap binnen in onze zorgvuldig samengestelde collectie schitterende trouwjurken. Van klassieke baljurken tot strakke mermaids, vind jouw droomstijl.",
+    src: home2,
   },
   {
     icon: Wine,
-    title: "Complimentaire drankjes",
-    description: "Nip van prosecco, champagne of verfrissende mocktails terwijl je jurken past en met je vriendinnen viert.",
+    src: home3,
   },
   {
     icon: Camera,
-    title: "Leg de momenten vast",
-    description: "Professionele foto's worden tijdens je sessie gemaakt, zodat je elke lach, draai en glinstering opnieuw kunt beleven.",
+    src: home4,
   },
 ];
 
 const experienceSteps = [
   {
     title: "Aankomen & ontspannen",
-    description: "Stap binnen in onze prachtige studio, maak het jezelf gemakkelijk en geniet van een welkomstdrankje met je vriendinnen.",
+    description: "Stap in een magische wereld, ontspan en geniet samen van een welkomstdrankje.",
   },
   {
     title: "Pas de jurken",
-    description: "Blader door onze collectie en pas zoveel jurken als je wilt. Ons team helpt je graag bij het passen.",
+    description: "Neem een kijkje in onze zorgvuldig samengestelde collectie trouwjurken. Van klassieke baljurken tot strakke mermaids, ",
   },
   {
     title: "Poseer voor de camera",
-    description: "Wij leggen elk magisch moment vast — het verbaasde gehijg, het gelach, de draaien — in prachtige foto's.",
+    description: "Leg elk magisch moment vast.",
   },
   {
-    title: "Maak herinneringen",
-    description: "Sluit je sessie af met een toast en vertrek met foto's, verhalen en herinneringen om te koesteren.",
+    title: "Vertrek met magische herinneringen",
+    description: "Beleef samen met je vriendinnen een dag die je echt nooit meer vergeet.",
   },
 ];

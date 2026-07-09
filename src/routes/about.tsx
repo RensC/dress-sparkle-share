@@ -30,7 +30,7 @@ function AboutPage() {
                 <span className="block font-semibold italic text-lavender-600">Vriendschap & Vreugde</span>
               </h1>
               <p className="mt-6 font-body text-lg leading-relaxed text-muted-foreground">
-                Dressperience is ontstaan vanuit een simpel, prachtig idee: elke vrouw verdient het om zich een bruid te voelen, ook als ze niet gaat trouwen. Onze funfitting-sessies veranderen een gewone dag in een buitengewone viering van vriendschap, schoonheid en gelach.
+               Als kleim meisje was ik al bezeten van trouwjurken. ik had een grote stapel tijdschriften "trouwen" en bladerde er dagelijks doorheen. Op de vraag: "Wat wil je worden als je later groot bent?" antwoorde ik: ik ga later heel vaak trouwen want dan kan ik elke keer een andere jurk aan. Dressperience is ontstaan vanuit een kinderwens, omgezet tot een prachtig idee: elke vrouw verdient het om zich een bruid te voelen, ook als ze niet gaat trouwen. Onze funfitting-sessies veranderen een gewone dag in een buitengewone viering van vriendschap, schoonheid en gelach.
               </p>
             </div>
             <div className="relative overflow-hidden rounded-2xl">
