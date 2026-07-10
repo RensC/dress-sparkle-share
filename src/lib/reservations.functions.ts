@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-const ADMIN_EMAIL = "deborahwinkelmolen@outlook.com";
+const ADMIN_EMAILS = ["deborahwinkelmolen@outlook.com", "renscaris@gmail.com"];
 
 const reservationInput = z.object({
   packageName: z.enum(["Sparkle", "Glamour", "Celebration"]),
