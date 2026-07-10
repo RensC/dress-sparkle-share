@@ -365,7 +365,7 @@ const packages = [
   {
     name: "Sparkle",
     description: "Perfect voor een korte, magische ervaring.",
-    price: "€39,50 /€49,50",
+    price: "€49,50",
     priceNote: " / persoon",
     highlighted: false,
     features: [
@@ -373,13 +373,12 @@ const packages = [
       "Ontvangst met feestelijke bubbels",
       "2 jurken passen per persoon",
       "Vrij gebruik van accesoires",
-      "XXXXX",
     ],
   },
   {
     name: "Glamour",
     description: "Onze populairste ervaring.",
-    price: "€49,50 / €59,50 DOORGESTREEPT",
+    price: "€59,50",
     priceNote: " / persoon",
     highlighted: true,
     features: [
@@ -388,13 +387,12 @@ const packages = [
       "3 jurken passen per persoon",
       "Vrij gebruik van accesoires",
       " 1 bewerkte digitale foto",
-      "XXXXXX",
     ],
   },
   {
     name: "VIP",
     description: "Ultieme verwennerij met extra aandacht, tijd en styling om écht te stralen.",
-    price: "€65,- / €75,- DOORGESTREEPT",
+    price: "€75,-",
     priceNote: " / persoon",
     highlighted: false,
     features: [
