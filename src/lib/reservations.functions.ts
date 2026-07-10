@@ -105,7 +105,7 @@ export const ensureAdminBootstrap = createServerFn({ method: "POST" })
   .handler(async ({ context }) => {
     const { supabase, userId, claims } = context;
     const email = typeof claims.email === "string" ? claims.email.toLowerCase() : "";
-    if (email !== ADMIN_EMAIL.toLowerCase()) {
+    if (!ADMIN_EMAILS.map((e) => e.toLowerCase()).includes(email)) {
       return { granted: false };
     }
 
