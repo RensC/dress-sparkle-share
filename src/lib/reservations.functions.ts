@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-const ADMIN_EMAIL = "deborahwinkelmolen@outlook.com";
+const ADMIN_EMAILS = ["deborahwinkelmolen@outlook.com", "renscaris@gmail.com"];
 
 const reservationInput = z.object({
   packageName: z.enum(["Sparkle", "Glamour", "Celebration"]),
@@ -105,7 +105,7 @@ export const ensureAdminBootstrap = createServerFn({ method: "POST" })
   .handler(async ({ context }) => {
     const { supabase, userId, claims } = context;
     const email = typeof claims.email === "string" ? claims.email.toLowerCase() : "";
-    if (email !== ADMIN_EMAIL.toLowerCase()) {
+    if (!ADMIN_EMAILS.map((e) => e.toLowerCase()).includes(email)) {
       return { granted: false };
     }
 
