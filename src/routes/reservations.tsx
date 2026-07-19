@@ -1,17 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { useServerFn } from "@tanstack/react-start";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
 import { z } from "zod";
-import { CalendarIcon, Clock, Users, Wine, Camera, Check, Sparkles } from "lucide-react";
+import {
+  CalendarIcon,
+  Clock,
+  Users,
+  Wine,
+  Camera,
+  Check,
+  Sparkles,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -19,22 +30,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createReservation } from "@/lib/reservations.functions";
 
 export const Route = createFileRoute("/reservations")({
   head: () => ({
     meta: [
       { title: "Reserveren — Dressperience" },
-      { name: "description", content: "Boek je funfitting-ervaring bij Dressperience. Alleen op reservering. Kies je pakket en maak herinneringen met vriendinnen." },
+      {
+        name: "description",
+        content:
+          "Boek je funfitting-ervaring bij Dressperience. Alleen op reservering. Kies je pakket en maak herinneringen met vriendinnen.",
+      },
       { property: "og:title", content: "Reserveren — Dressperience" },
-      { property: "og:description", content: "Boek je funfitting-ervaring bij Dressperience. Alleen op reservering." },
+      {
+        property: "og:description",
+        content:
+          "Boek je funfitting-ervaring bij Dressperience. Alleen op reservering.",
+      },
     ],
   }),
   component: ReservationsPage,
 });
 
-const timeSlots = ["10:00", "11:30", "13:00", "14:30", "16:00"];
-const groupSizes = ["1", "2", "3", "4", "5", "6"];
+const timeSlots = ["10:00", "14:00", "19:00"];
+const groupSizes = ["2", "3", "4", "5", "6"];
 const packageOptions = ["Sparkle", "Glamour", "VIP"] as const;
 
 const bookingSchema = z.object({
@@ -50,20 +68,28 @@ const bookingSchema = z.object({
 
 type Confirmation = z.infer<typeof bookingSchema>;
 
+type ReservationResponse = {
+  success?: boolean;
+  message?: string;
+};
+
 function ReservationsPage() {
-  const [packageName, setPackageName] = useState<(typeof packageOptions)[number]>("Glamour");
+  const [packageName, setPackageName] =
+    useState<(typeof packageOptions)[number]>("Glamour");
   const [date, setDate] = useState<Date | undefined>();
   const [time, setTime] = useState<string>("");
   const [groupSize, setGroupSize] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [confirmation, setConfirmation] = useState<Confirmation | null>(null);
-  const submitReservation = useServerFn(createReservation);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
-    const fd = new FormData(e.currentTarget);
+
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+
     const result = bookingSchema.safeParse({
       packageName,
       date,
@@ -74,29 +100,62 @@ function ReservationsPage() {
       phone: fd.get("phone"),
       notes: fd.get("notes") || undefined,
     });
+
     if (!result.success) {
-      setError(result.error.issues[0]?.message ?? "Controleer het formulier");
+      setError(
+        result.error.issues[0]?.message ?? "Controleer het formulier"
+      );
       return;
     }
 
     setSubmitting(true);
+
     try {
-      await submitReservation({
-        data: {
+      const response = await fetch("/send-reservation.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           packageName: result.data.packageName,
           date: format(result.data.date, "yyyy-MM-dd"),
+          dateLabel: format(result.data.date, "EEEE d MMMM yyyy", {
+            locale: nl,
+          }),
           time: result.data.time,
-          groupSize: parseInt(result.data.groupSize, 10),
+          groupSize: Number.parseInt(result.data.groupSize, 10),
           name: result.data.name,
           email: result.data.email,
           phone: result.data.phone,
-          notes: result.data.notes,
-        },
+          notes: result.data.notes ?? "",
+        }),
       });
+
+      let data: ReservationResponse;
+
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error(
+          "De server gaf geen geldig antwoord. Controleer of send-reservation.php in de hoofdmap van de website staat."
+        );
+      }
+
+      if (!response.ok || !data.success) {
+        throw new Error(
+          data.message || "De reservering kon niet worden verstuurd."
+        );
+      }
+
       setConfirmation(result.data);
+      form.reset();
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Er ging iets mis bij het versturen.");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Er ging iets mis bij het versturen."
+      );
     } finally {
       setSubmitting(false);
     }
@@ -107,9 +166,8 @@ function ReservationsPage() {
     setDate(undefined);
     setTime("");
     setGroupSize("");
+    setError(null);
   }
-
-
 
   return (
     <div className="min-h-screen">
@@ -118,15 +176,19 @@ function ReservationsPage() {
           <span className="font-body text-xs font-semibold uppercase tracking-widest text-lavender-600">
             Boek je sessie
           </span>
+
           <h1 className="mt-4 font-display text-5xl font-light text-foreground md:text-6xl">
-            <span className="font-semibold italic text-lavender-600">Reserveren</span>
+            <span className="font-semibold italic text-lavender-600">
+              Reserveren
+            </span>
           </h1>
+
           <p className="mx-auto mt-4 max-w-2xl font-body text-lg text-muted-foreground">
-            Hoera, wij zijn open! Speciaal voor onze opening hebben we onze prijzen tijdelijk verlaagd.
+            Kies het arrangement dat bij jullie past en maak je klaar voor een
+            dag vol glamour, gezelligheid en onvergetelijke herinneringen.
           </p>
         </div>
 
-        {/* Pakketten */}
         <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
           {packages.map((pkg) => (
             <div
@@ -142,25 +204,47 @@ function ReservationsPage() {
                   Meest gekozen
                 </span>
               )}
-              <h3 className="font-display text-2xl font-semibold text-foreground">{pkg.name}</h3>
-              <p className="mt-2 font-body text-sm text-muted-foreground">{pkg.description}</p>
+
+              <h3 className="font-display text-2xl font-semibold text-foreground">
+                {pkg.name}
+              </h3>
+
+              <p className="mt-2 font-body text-sm text-muted-foreground">
+                {pkg.description}
+              </p>
+
               <div className="mt-6">
-                <span className="font-display text-4xl font-light text-foreground">{pkg.price}</span>
-                <span className="font-body text-sm text-muted-foreground">{pkg.priceNote}</span>
+                <span className="font-display text-4xl font-light text-foreground">
+                  {pkg.price}
+                </span>
+                <span className="font-body text-sm text-muted-foreground">
+                  {pkg.priceNote}
+                </span>
               </div>
+
               <ul className="mt-6 flex-1 space-y-3">
                 {pkg.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-3">
-                    <Check size={18} className="mt-0.5 shrink-0 text-lavender-500" />
-                    <span className="font-body text-sm text-muted-foreground">{feature}</span>
+                    <Check
+                      size={18}
+                      className="mt-0.5 shrink-0 text-lavender-500"
+                    />
+                    <span className="font-body text-sm text-muted-foreground">
+                      {feature}
+                    </span>
                   </li>
                 ))}
               </ul>
+
               <button
                 type="button"
                 onClick={() => {
-                  setPackageName(pkg.name as (typeof packageOptions)[number]);
-                  document.getElementById("booking-form")?.scrollIntoView({ behavior: "smooth" });
+                  setPackageName(
+                    pkg.name as (typeof packageOptions)[number]
+                  );
+                  document
+                    .getElementById("booking-form")
+                    ?.scrollIntoView({ behavior: "smooth" });
                 }}
                 className={`mt-8 inline-flex items-center justify-center rounded-full px-8 py-3.5 font-body text-sm font-semibold uppercase tracking-widest transition-all ${
                   pkg.highlighted
@@ -174,30 +258,48 @@ function ReservationsPage() {
           ))}
         </div>
 
-        {/* Boekingsformulier of bevestiging */}
         <div id="booking-form" className="mt-20 scroll-mt-24">
           {confirmation ? (
-            <div className="mx-auto max-w-2xl rounded-2xl border border-lavender-500/40 bg-lavender-500/5 p-8 md:p-12 text-center">
+            <div className="mx-auto max-w-2xl rounded-2xl border border-lavender-500/40 bg-lavender-500/5 p-8 text-center md:p-12">
               <div className="mx-auto inline-flex h-14 w-14 items-center justify-center rounded-full bg-lavender-600 text-white">
                 <Sparkles size={28} />
               </div>
+
               <h2 className="mt-6 font-display text-3xl font-light text-foreground">
-                Boeking <span className="font-semibold italic text-lavender-600">bevestigd!</span>
+                Aanvraag{" "}
+                <span className="font-semibold italic text-lavender-600">
+                  ontvangen!
+                </span>
               </h2>
+
               <p className="mt-3 font-body text-base text-muted-foreground">
-                Bedankt, {confirmation.name}. We hebben je aanvraag ontvangen en sturen binnen 24 uur een bevestiging naar {confirmation.email}.
+                Bedankt, {confirmation.name}. We hebben je aanvraag ontvangen.
+                Je ontvangt een e-mail op {confirmation.email}.
               </p>
 
               <dl className="mt-8 grid grid-cols-1 gap-4 text-left sm:grid-cols-2">
                 <Detail label="Pakket" value={confirmation.packageName} />
-                <Detail label="Datum" value={format(confirmation.date, "EEEE d MMMM yyyy", { locale: nl })} />
+                <Detail
+                  label="Datum"
+                  value={format(
+                    confirmation.date,
+                    "EEEE d MMMM yyyy",
+                    { locale: nl }
+                  )}
+                />
                 <Detail label="Tijd" value={confirmation.time} />
-                <Detail label="Groepsgrootte" value={`${confirmation.groupSize} ${confirmation.groupSize === "1" ? "gast" : "gasten"}`} />
+                <Detail
+                  label="Groepsgrootte"
+                  value={`${confirmation.groupSize} ${
+                    confirmation.groupSize === "1" ? "gast" : "gasten"
+                  }`}
+                />
                 <Detail label="Telefoon" value={confirmation.phone} />
                 <Detail label="E-mail" value={confirmation.email} />
               </dl>
 
               <Button
+                type="button"
                 onClick={resetForm}
                 className="mt-8 rounded-full bg-lavender-600 px-8 py-3 font-body text-sm font-semibold uppercase tracking-widest text-primary-foreground hover:bg-lavender-700"
               >
@@ -208,23 +310,43 @@ function ReservationsPage() {
             <div className="rounded-2xl border border-border/60 bg-card p-8 md:p-12">
               <div className="text-center">
                 <h2 className="font-display text-3xl font-light text-foreground md:text-4xl">
-                  Reserveer <span className="font-semibold italic text-lavender-600">online</span>
+                  Reserveer{" "}
+                  <span className="font-semibold italic text-lavender-600">
+                    online
+                  </span>
                 </h2>
+
                 <p className="mx-auto mt-3 max-w-xl font-body text-base text-muted-foreground">
-                  Vul het formulier in en ontvang direct een voorlopige bevestiging.
+                  Vul het formulier in en ontvang direct een voorlopige
+                  bevestiging.
                 </p>
               </div>
 
-              <form className="mx-auto mt-10 max-w-2xl space-y-6" onSubmit={handleSubmit}>
+              <form
+                className="mx-auto mt-10 max-w-2xl space-y-6"
+                onSubmit={handleSubmit}
+              >
                 <div className="space-y-2">
-                  <Label className="font-body text-sm font-medium">Pakket</Label>
-                  <Select value={packageName} onValueChange={(v) => setPackageName(v as (typeof packageOptions)[number])}>
+                  <Label className="font-body text-sm font-medium">
+                    Pakket
+                  </Label>
+
+                  <Select
+                    value={packageName}
+                    onValueChange={(value) =>
+                      setPackageName(
+                        value as (typeof packageOptions)[number]
+                      )
+                    }
+                  >
                     <SelectTrigger className="rounded-lg border-border bg-background font-body">
                       <SelectValue placeholder="Kies een pakket" />
                     </SelectTrigger>
                     <SelectContent>
-                      {packageOptions.map((p) => (
-                        <SelectItem key={p} value={p}>{p}</SelectItem>
+                      {packageOptions.map((item) => (
+                        <SelectItem key={item} value={item}>
+                          {item}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -232,7 +354,10 @@ function ReservationsPage() {
 
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                   <div className="space-y-2 sm:col-span-1">
-                    <Label className="font-body text-sm font-medium">Datum</Label>
+                    <Label className="font-body text-sm font-medium">
+                      Datum
+                    </Label>
+
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
@@ -244,47 +369,69 @@ function ReservationsPage() {
                           )}
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
-                          {date ? format(date, "d MMM yyyy", { locale: nl }) : "Kies datum"}
+                          {date
+                            ? format(date, "d MMM yyyy", { locale: nl })
+                            : "Kies datum"}
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
+
+                      <PopoverContent
+                        className="w-auto p-0"
+                        align="start"
+                      >
                         <Calendar
                           mode="single"
                           selected={date}
                           onSelect={setDate}
                           initialFocus
                           locale={nl}
-                          disabled={(d) => d < new Date(new Date().setHours(0, 0, 0, 0))}
-                          className={cn("p-3 pointer-events-auto")}
+                          disabled={(day) =>
+                            day <
+                            new Date(
+                              new Date().setHours(0, 0, 0, 0)
+                            )
+                          }
+                          className={cn("pointer-events-auto p-3")}
                         />
                       </PopoverContent>
                     </Popover>
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="font-body text-sm font-medium">Tijd</Label>
+                    <Label className="font-body text-sm font-medium">
+                      Tijd
+                    </Label>
+
                     <Select value={time} onValueChange={setTime}>
                       <SelectTrigger className="rounded-lg border-border bg-background font-body">
                         <SelectValue placeholder="Kies tijd" />
                       </SelectTrigger>
                       <SelectContent>
-                        {timeSlots.map((t) => (
-                          <SelectItem key={t} value={t}>{t}</SelectItem>
+                        {timeSlots.map((item) => (
+                          <SelectItem key={item} value={item}>
+                            {item}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="font-body text-sm font-medium">Aantal gasten</Label>
-                    <Select value={groupSize} onValueChange={setGroupSize}>
+                    <Label className="font-body text-sm font-medium">
+                      Aantal gasten
+                    </Label>
+
+                    <Select
+                      value={groupSize}
+                      onValueChange={setGroupSize}
+                    >
                       <SelectTrigger className="rounded-lg border-border bg-background font-body">
                         <SelectValue placeholder="Kies aantal" />
                       </SelectTrigger>
                       <SelectContent>
-                        {groupSizes.map((g) => (
-                          <SelectItem key={g} value={g}>
-                            {g} {g === "1" ? "gast" : "gasten"}
+                        {groupSizes.map((item) => (
+                          <SelectItem key={item} value={item}>
+                            {item} {item === "1" ? "gast" : "gasten"}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -294,34 +441,102 @@ function ReservationsPage() {
 
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="name" className="font-body text-sm font-medium">Naam</Label>
-                    <Input id="name" name="name" placeholder="Je naam" maxLength={100} required className="rounded-lg border-border bg-background font-body" />
+                    <Label
+                      htmlFor="name"
+                      className="font-body text-sm font-medium"
+                    >
+                      Naam
+                    </Label>
+
+                    <Input
+                      id="name"
+                      name="name"
+                      placeholder="Je naam"
+                      maxLength={100}
+                      autoComplete="name"
+                      required
+                      className="rounded-lg border-border bg-background font-body"
+                    />
                   </div>
+
                   <div className="space-y-2">
-                    <Label htmlFor="phone" className="font-body text-sm font-medium">Telefoon</Label>
-                    <Input id="phone" name="phone" type="tel" placeholder="+31 6 12 34 56 78" maxLength={30} required className="rounded-lg border-border bg-background font-body" />
+                    <Label
+                      htmlFor="phone"
+                      className="font-body text-sm font-medium"
+                    >
+                      Telefoon
+                    </Label>
+
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      placeholder="+31 6 12 34 56 78"
+                      maxLength={30}
+                      autoComplete="tel"
+                      required
+                      className="rounded-lg border-border bg-background font-body"
+                    />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="font-body text-sm font-medium">E-mail</Label>
-                  <Input id="email" name="email" type="email" placeholder="jij@voorbeeld.nl" maxLength={255} required className="rounded-lg border-border bg-background font-body" />
+                  <Label
+                    htmlFor="email"
+                    className="font-body text-sm font-medium"
+                  >
+                    E-mail
+                  </Label>
+
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="jij@voorbeeld.nl"
+                    maxLength={255}
+                    autoComplete="email"
+                    required
+                    className="rounded-lg border-border bg-background font-body"
+                  />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="notes" className="font-body text-sm font-medium">Opmerkingen (optioneel)</Label>
-                  <Textarea id="notes" name="notes" rows={4} maxLength={500} placeholder="Speciale gelegenheid, dieetwensen of vragen..." className="rounded-lg border-border bg-background font-body resize-none" />
+                  <Label
+                    htmlFor="notes"
+                    className="font-body text-sm font-medium"
+                  >
+                    Opmerkingen (optioneel)
+                  </Label>
+
+                  <Textarea
+                    id="notes"
+                    name="notes"
+                    rows={4}
+                    maxLength={500}
+                    placeholder="Speciale gelegenheid, dieetwensen of vragen..."
+                    className="resize-none rounded-lg border-border bg-background font-body"
+                  />
                 </div>
 
-                {error && <p className="font-body text-sm text-destructive">{error}</p>}
+                {error && (
+                  <p
+                    className="font-body text-sm text-destructive"
+                    role="alert"
+                  >
+                    {error}
+                  </p>
+                )}
 
                 <Button
                   type="submit"
                   disabled={submitting}
-                  className="w-full rounded-full bg-lavender-600 py-3.5 font-body text-sm font-semibold uppercase tracking-widest text-primary-foreground transition-all hover:bg-lavender-700 disabled:opacity-60"
+                  className="w-full rounded-full bg-lavender-600 py-3.5 font-body text-sm font-semibold uppercase tracking-widest text-primary-foreground transition-all hover:bg-lavender-700 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {submitting ? "Bezig met versturen..." : "Reservering bevestigen"}
+                  {submitting
+                    ? "Bezig met versturen..."
+                    : "Reservering bevestigen"}
                 </Button>
+
                 <p className="text-center font-body text-xs text-muted-foreground">
                   We bevestigen je boeking per e-mail.
                 </p>
@@ -330,19 +545,31 @@ function ReservationsPage() {
           )}
         </div>
 
-        {/* Goed om te weten */}
         <div className="mt-20 rounded-2xl border border-border/60 bg-card p-8 md:p-12">
           <h2 className="font-display text-3xl font-light text-foreground">
-            Goed om te <span className="font-semibold italic text-lavender-600">weten</span>
+            Goed om te{" "}
+            <span className="font-semibold italic text-lavender-600">
+              weten
+            </span>
           </h2>
+
           <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {infoCards.map((info) => (
-              <div key={info.title} className="flex flex-col items-start gap-3">
+              <div
+                key={info.title}
+                className="flex flex-col items-start gap-3"
+              >
                 <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
                   <info.icon size={20} />
                 </div>
-                <h4 className="font-body text-base font-semibold text-foreground">{info.title}</h4>
-                <p className="font-body text-sm text-muted-foreground">{info.description}</p>
+
+                <h4 className="font-body text-base font-semibold text-foreground">
+                  {info.title}
+                </h4>
+
+                <p className="font-body text-sm text-muted-foreground">
+                  {info.description}
+                </p>
               </div>
             ))}
           </div>
@@ -352,10 +579,18 @@ function ReservationsPage() {
   );
 }
 
-function Detail({ label, value }: { label: string; value: string }) {
+function Detail({
+                  label,
+                  value,
+                }: {
+  label: string;
+  value: string;
+}) {
   return (
     <div className="rounded-lg border border-border/60 bg-background p-4">
-      <dt className="font-body text-xs font-semibold uppercase tracking-widest text-lavender-600">{label}</dt>
+      <dt className="font-body text-xs font-semibold uppercase tracking-widest text-lavender-600">
+        {label}
+      </dt>
       <dd className="mt-1 font-body text-sm text-foreground">{value}</dd>
     </div>
   );
@@ -372,7 +607,7 @@ const packages = [
       "1.5 uur",
       "Ontvangst met feestelijke bubbels",
       "2 jurken passen per persoon",
-      "Vrij gebruik van accesoires",
+      "Vrij gebruik van accessoires",
     ],
   },
   {
@@ -385,13 +620,14 @@ const packages = [
       "2 tot 2.5 uur",
       "Ontvangst met feestelijke bubbels",
       "3 jurken passen per persoon",
-      "Vrij gebruik van accesoires",
-      " 1 bewerkte digitale foto",
+      "Vrij gebruik van accessoires",
+      "Kleine traktatie van onze lokale bakkerij",
     ],
   },
   {
     name: "VIP",
-    description: "Ultieme verwennerij met extra aandacht, tijd en styling om écht te stralen.",
+    description:
+      "Ultieme verwennerij met extra aandacht, tijd en styling om écht te stralen.",
     price: "€75,-",
     priceNote: " / persoon",
     highlighted: false,
@@ -399,8 +635,10 @@ const packages = [
       "2.5 tot 3 uur",
       "Ontvangst met feestelijke bubbels",
       "3 jurken passen per persoon",
+      "Extra styling en aandacht",
       "Luxe hapje van onze lokale bakkerij",
-      "3 bewerkte digitale foto's",
+      "1 Dressperience cocktail",
+      "1 bewerkte digitale foto",
       "Onbeperkt koffie, thee en fruitwater",
     ],
   },
@@ -415,16 +653,19 @@ const infoCards = [
   {
     icon: Users,
     title: "Groepsgrootte",
-    description: "Voor groepen groter dan 6 personen nemen jullie beste even contact op voor de beste ervaring.",
+    description:
+      "Voor groepen groter dan 6 personen nemen jullie het beste even contact op voor de beste ervaring.",
   },
   {
     icon: Wine,
     title: "High tea",
-    description: "Luxe high tea met lekkernijen van onze lokale bakkerij zijn optioneel bij te boeken.",
+    description:
+      "Luxe high tea met lekkernijen van onze lokale bakkerij zijn optioneel bij te boeken.",
   },
   {
     icon: Camera,
     title: "Foto's",
-    description: "Professionele foto's worden tijdens je sessie gemaakt. Foto's zijn binnen 48 uur beschikbaar via een persoonlijke link. ",
+    description:
+      "Professionele foto's worden tijdens je sessie gemaakt. Foto's zijn binnen 48 uur beschikbaar via een persoonlijke link.",
   },
 ];

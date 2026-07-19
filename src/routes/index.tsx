@@ -37,8 +37,8 @@ function HomePage() {
             </h1>
             <p className="mt-6 font-body text-lg leading-relaxed text-muted-foreground">
               De mooiste trouwjurken passen, elkaar compleet op hypen, draaien voor de spiegel, gillen bij de perfecte look en ondertussen de allerleukste foto’s maken tijdens een mini foto shoot. Vanaf het moment dat jullie binnenstappen, voelt het alsof jullie samen in een romantische film zijn beland. Vol glitter, tule, gezelligheid en keihard lachen. Dit is geen standaard uitje, maar een ervaring waar je maanden later nog steeds over praat!  Of je nu iets te vieren hebt, opzoek bent naar een originele verassing of gewoon zin hebt om jurken te passen.
-		     </p>
-			  <p><br/><strong><i>Dressperience is zonder twijfel het leukste uitje dat je met je vriendinnen kunt doen! </i></strong>
+            </p>
+            <p><br/><strong><i>Dressperience is zonder twijfel het leukste uitje dat je met je vriendinnen kunt doen! </i></strong>
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link

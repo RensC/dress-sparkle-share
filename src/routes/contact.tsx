@@ -13,12 +13,14 @@ export const Route = createFileRoute("/contact")({
       { title: "Contact — Dressperience" },
       {
         name: "description",
-        content: "Neem contact op met Dressperience. Boek je funfitting-sessie, stel een vraag of zeg gewoon hallo. We horen graag van je."
+        content:
+          "Neem contact op met Dressperience. Boek je funfitting-sessie, stel een vraag of zeg gewoon hallo. We horen graag van je.",
       },
       { property: "og:title", content: "Contact — Dressperience" },
       {
         property: "og:description",
-        content: "Neem contact op met Dressperience. Boek je funfitting-sessie of stel ons een vraag."
+        content:
+          "Neem contact op met Dressperience. Boek je funfitting-sessie of stel ons een vraag.",
       },
     ],
   }),
@@ -34,24 +36,69 @@ const schema = z.object({
 
 function ContactPage() {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
-    const fd = new FormData(e.currentTarget);
+    setSent(false);
+
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+
     const result = schema.safeParse({
       name: fd.get("name"),
       email: fd.get("email"),
       subject: fd.get("subject"),
       message: fd.get("message"),
     });
+
     if (!result.success) {
-      setError(result.error.issues[0]?.message ?? "Controleer het formulier");
+      setError(
+        result.error.issues[0]?.message ?? "Controleer het formulier"
+      );
       return;
     }
-    setSent(true);
-    e.currentTarget.reset();
+
+    setSending(true);
+
+    try {
+      const response = await fetch("/send-contact.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(result.data),
+      });
+
+      let data: { success?: boolean; message?: string };
+
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error(
+          "De server gaf geen geldig antwoord. Controleer of send-contact.php in de hoofdmap van de website staat."
+        );
+      }
+
+      if (!response.ok || !data.success) {
+        throw new Error(
+          data.message || "Het bericht kon niet worden verzonden."
+        );
+      }
+
+      setSent(true);
+      form.reset();
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Er is iets misgegaan. Probeer het later opnieuw."
+      );
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -61,11 +108,16 @@ function ContactPage() {
           <span className="font-body text-xs font-semibold uppercase tracking-widest text-lavender-600">
             Neem contact op
           </span>
+
           <h1 className="mt-4 font-display text-5xl font-light text-foreground md:text-6xl">
-            <span className="font-semibold italic text-lavender-600">Contact</span>
+            <span className="font-semibold italic text-lavender-600">
+              Contact
+            </span>
           </h1>
+
           <p className="mx-auto mt-4 max-w-2xl font-body text-lg text-muted-foreground">
-            Vragen over funfitting of klaar om je ervaring te boeken? We horen graag van je.
+            Vragen over funfitting of klaar om je ervaring te boeken? We horen
+            graag van je.
           </p>
         </div>
 
@@ -74,17 +126,23 @@ function ContactPage() {
             <h2 className="font-display text-2xl font-semibold text-foreground">
               Stuur een bericht
             </h2>
+
             <p className="mt-2 font-body text-sm text-muted-foreground">
               Vul het formulier in en we reageren binnen 24 uur.
             </p>
 
             {sent ? (
               <div className="mt-8 rounded-xl border border-lavender-500/40 bg-lavender-500/5 p-6 text-center">
-                <p className="font-display text-xl text-lavender-700">Bedankt voor je bericht!</p>
+                <p className="font-display text-xl text-lavender-700">
+                  Bedankt voor je bericht!
+                </p>
+
                 <p className="mt-2 font-body text-sm text-muted-foreground">
                   We nemen binnenkort contact met je op.
                 </p>
+
                 <button
+                  type="button"
                   onClick={() => setSent(false)}
                   className="mt-4 font-body text-sm text-lavender-600 underline hover:text-lavender-700"
                 >
@@ -95,31 +153,97 @@ function ContactPage() {
               <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="name" className="font-body text-sm font-medium">Naam</Label>
-                    <Input id="name" name="name" placeholder="Je naam" maxLength={100}
-                           className="rounded-lg border-border bg-background font-body" required />
+                    <Label
+                      htmlFor="name"
+                      className="font-body text-sm font-medium"
+                    >
+                      Naam
+                    </Label>
+
+                    <Input
+                      id="name"
+                      name="name"
+                      placeholder="Je naam"
+                      maxLength={100}
+                      autoComplete="name"
+                      className="rounded-lg border-border bg-background font-body"
+                      required
+                    />
                   </div>
+
                   <div className="space-y-2">
-                    <Label htmlFor="email" className="font-body text-sm font-medium">E-mail</Label>
-                    <Input id="email" name="email" type="email" placeholder="jij@voorbeeld.nl" maxLength={255}
-                           className="rounded-lg border-border bg-background font-body" required />
+                    <Label
+                      htmlFor="email"
+                      className="font-body text-sm font-medium"
+                    >
+                      E-mail
+                    </Label>
+
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="jij@voorbeeld.nl"
+                      maxLength={255}
+                      autoComplete="email"
+                      className="rounded-lg border-border bg-background font-body"
+                      required
+                    />
                   </div>
                 </div>
+
                 <div className="space-y-2">
-                  <Label htmlFor="subject" className="font-body text-sm font-medium">Onderwerp</Label>
-                  <Input id="subject" name="subject" placeholder="Boekingsvraag, vraag, enz." maxLength={150}
-                         className="rounded-lg border-border bg-background font-body" required />
+                  <Label
+                    htmlFor="subject"
+                    className="font-body text-sm font-medium"
+                  >
+                    Onderwerp
+                  </Label>
+
+                  <Input
+                    id="subject"
+                    name="subject"
+                    placeholder="Boekingsvraag, vraag, enz."
+                    maxLength={150}
+                    className="rounded-lg border-border bg-background font-body"
+                    required
+                  />
                 </div>
+
                 <div className="space-y-2">
-                  <Label htmlFor="message" className="font-body text-sm font-medium">Bericht</Label>
-                  <Textarea id="message" name="message" placeholder="Vertel ons over je ideale funfitting-ervaring..."
-                            rows={5} maxLength={1000}
-                            className="rounded-lg border-border bg-background font-body resize-none" required />
+                  <Label
+                    htmlFor="message"
+                    className="font-body text-sm font-medium"
+                  >
+                    Bericht
+                  </Label>
+
+                  <Textarea
+                    id="message"
+                    name="message"
+                    placeholder="Vertel ons over je ideale funfitting-ervaring..."
+                    rows={5}
+                    maxLength={1000}
+                    className="resize-none rounded-lg border-border bg-background font-body"
+                    required
+                  />
                 </div>
-                {error && <p className="font-body text-sm text-destructive">{error}</p>}
-                <Button type="submit"
-                        className="w-full rounded-full bg-lavender-600 py-3 font-body text-sm font-semibold uppercase tracking-widest text-primary-foreground transition-all hover:bg-lavender-700">
-                  Verstuur bericht
+
+                {error && (
+                  <p
+                    className="font-body text-sm text-destructive"
+                    role="alert"
+                  >
+                    {error}
+                  </p>
+                )}
+
+                <Button
+                  type="submit"
+                  disabled={sending}
+                  className="w-full rounded-full bg-lavender-600 py-3 font-body text-sm font-semibold uppercase tracking-widest text-primary-foreground transition-all hover:bg-lavender-700 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {sending ? "Bezig met versturen..." : "Verstuur bericht"}
                 </Button>
               </form>
             )}
@@ -130,79 +254,105 @@ function ContactPage() {
               <h2 className="font-display text-2xl font-semibold text-foreground">
                 Bezoek ons
               </h2>
+
               <p className="mt-2 font-body text-sm text-muted-foreground">
-                Onze vestiging bevindt zich in Posterholt en is ontworpen als jouw privé-ontsnapping naar glamour.
+                Onze vestiging bevindt zich in Posterholt en is ontworpen als
+                jouw privé-ontsnapping naar glamour.
               </p>
             </div>
 
             <div className="space-y-6">
               <div className="flex items-start gap-4">
-                <div
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
                   <MapPin size={18} />
                 </div>
+
                 <div>
-                  <h4 className="font-body text-sm font-semibold text-foreground">Adres</h4>
+                  <h4 className="font-body text-sm font-semibold text-foreground">
+                    Adres
+                  </h4>
+
                   <p className="mt-1 font-body text-sm text-muted-foreground">
-                    Heerbaan 54<br />
-                    6061 EE Posterholt<br />
+                    Heerbaan 54
+                    <br />
+                    6061 EE Posterholt
+                    <br />
                     Nederland
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
                   <Mail size={18} />
                 </div>
+
                 <div>
-                  <h4 className="font-body text-sm font-semibold text-foreground">E-mail</h4>
-                  <a href="mailto:info@dressperience.nl"
-                     className="mt-1 block font-body text-sm text-muted-foreground hover:text-lavender-600 transition-colors">
+                  <h4 className="font-body text-sm font-semibold text-foreground">
+                    E-mail
+                  </h4>
+
+                  <a
+                    href="mailto:info@dressperience.nl"
+                    className="mt-1 block font-body text-sm text-muted-foreground transition-colors hover:text-lavender-600"
+                  >
                     info@dressperience.nl
                   </a>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
                   <Phone size={18} />
                 </div>
+
                 <div>
-                  <h4 className="font-body text-sm font-semibold text-foreground">Telefoon</h4>
-                  <a href="tel:+31642515172"
-                     className="mt-1 block font-body text-sm text-muted-foreground hover:text-lavender-600 transition-colors">
+                  <h4 className="font-body text-sm font-semibold text-foreground">
+                    Telefoon
+                  </h4>
+
+                  <a
+                    href="tel:+31642515172"
+                    className="mt-1 block font-body text-sm text-muted-foreground transition-colors hover:text-lavender-600"
+                  >
                     +31 6 42 51 51 72
                   </a>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
                   <Instagram size={18} />
                 </div>
+
                 <div>
-                  <h4 className="font-body text-sm font-semibold text-foreground">Instagram</h4>
-                  <a href="https://instagram.com/dressperience" target="_blank" rel="noopener noreferrer"
-                     className="mt-1 block font-body text-sm text-muted-foreground hover:text-lavender-600 transition-colors">
+                  <h4 className="font-body text-sm font-semibold text-foreground">
+                    Instagram
+                  </h4>
+
+                  <a
+                    href="https://instagram.com/dressperience"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-1 block font-body text-sm text-muted-foreground transition-colors hover:text-lavender-600"
+                  >
                     @dressperience
                   </a>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
                   <Clock size={18} />
                 </div>
-                <div>
-                  <h4 className="font-body text-sm font-semibold text-foreground">Openingstijden</h4>
-                  <p className="mt-1 font-body text-sm text-muted-foreground">
-                    Wij werken enkel op afspraak. <br />
 
+                <div>
+                  <h4 className="font-body text-sm font-semibold text-foreground">
+                    Openingstijden
+                  </h4>
+
+                  <p className="mt-1 font-body text-sm text-muted-foreground">
+                    Wij werken enkel op afspraak.
                   </p>
                 </div>
               </div>

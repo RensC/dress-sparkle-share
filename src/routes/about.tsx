@@ -30,7 +30,10 @@ function AboutPage() {
                 <span className="block font-semibold italic text-lavender-600">Vriendschap & Vreugde</span>
               </h1>
               <p className="mt-6 font-body text-lg leading-relaxed text-muted-foreground">
-               Als kleim meisje was ik al bezeten van trouwjurken. ik had een grote stapel tijdschriften "trouwen" en bladerde er dagelijks doorheen. Op de vraag: "Wat wil je worden als je later groot bent?" antwoorde ik: ik ga later heel vaak trouwen want dan kan ik elke keer een andere jurk aan. Dressperience is ontstaan vanuit een kinderwens, omgezet tot een prachtig idee: elke vrouw verdient het om zich een bruid te voelen, ook als ze niet gaat trouwen. Onze funfitting-sessies veranderen een gewone dag in een buitengewone viering van vriendschap, schoonheid en gelach.
+                Als klein meisje was ik al bezeten van trouwjurken. Ik had een grote stapel tijdschriften "trouwen" en bladerde er dagelijks doorheen. Op de vraag: "Wat wil je worden als je later groot bent?" antwoorde ik: “Ik ga later heel vaak trouwen, dan kan ik elke keer een andere jurk aan!”.
+              </p>
+              <p className="font-body text-lg leading-relaxed text-muted-foreground">
+                Dressperience is ontstaan vanuit een simpele kinderwens, omgezet tot een prachtig idee: elke vrouw verdient het om zich een bruid te voelen, ook als ze niet gaat trouwen. Onze funfitting-sessies veranderen een gewone dag in een buitengewone viering van vriendschap, schoonheid en gelach.
               </p>
             </div>
             <div className="relative overflow-hidden rounded-2xl">
@@ -47,13 +50,13 @@ function AboutPage() {
       <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="space-y-8">
           <p className="font-body text-lg leading-relaxed text-muted-foreground">
-            Het begon allemaal toen een groep vriendinnen besloot trouwjurken te passen, gewoon voor de lol. Het gelach, de draaien, de gedeelde vreugde om elkaar in iets werkelijk moois te zien — het was magisch. We wisten dat we dit gevoel met meer vrouwen wilden delen.
+            Jaren later besloten mijn beste vriendin en ik trouwjurken te gaan passen, gewoon voor de lol. Het gelach, het stralen en de vreugde om elkaar in iets werkelijk moois te zien — het was magisch. Dit gevoel wilde ik met meer vrouwen delen.
           </p>
           <p className="font-body text-lg leading-relaxed text-muted-foreground">
-            Bij Dressperience creëerden we een warme, gastvrije ruimte waar je het alledaagse achter je laat en in iets bijzonders stapt. Onze zorgvuldig samengestelde collectie biedt jurken voor elke stijl en silhouet, van tijdloze klassiekers tot moderne blikvangers.
+            Bij Dressperience creëren we een warme, gastvrije ruimte waar je het alledaagse achter je laat en in iets bijzonders stapt. Onze zorgvuldig samengestelde collectie biedt jurken voor elke stijl en silhouet, van tijdloze klassiekers tot moderne blikvangers.
           </p>
           <p className="font-body text-lg leading-relaxed text-muted-foreground">
-            Elke sessie is intiem en persoonlijk. Met complimentaire drankjes, professionele fotografie en een ontspannen sfeer zorgen we ervoor dat je ervaring net zo onvergetelijk is als de jurken zelf.
+            Elke sessie is persoonlijk en de gehele locatie is exclusief voor jullie gereserveerd. Met sprankelende bubbeltjes, professionele fotografie en een ontspannen sfeer zorgen we ervoor dat jullie ervaring net zo onvergetelijk is als de jurken zelf.
           </p>
         </div>
 
