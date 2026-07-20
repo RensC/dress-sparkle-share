@@ -32,6 +32,7 @@ function AboutPage() {
               <p className="mt-6 font-body text-lg leading-relaxed text-muted-foreground">
                 Als klein meisje was ik al bezeten van trouwjurken. Ik had een grote stapel tijdschriften "trouwen" en bladerde er dagelijks doorheen. Op de vraag: "Wat wil je worden als je later groot bent?" antwoorde ik: “Ik ga later heel vaak trouwen, dan kan ik elke keer een andere jurk aan!”.
               </p>
+              <br />
               <p className="font-body text-lg leading-relaxed text-muted-foreground">
                 Dressperience is ontstaan vanuit een simpele kinderwens, omgezet tot een prachtig idee: elke vrouw verdient het om zich een bruid te voelen, ook als ze niet gaat trouwen. Onze funfitting-sessies veranderen een gewone dag in een buitengewone viering van vriendschap, schoonheid en gelach.
               </p>

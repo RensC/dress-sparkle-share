@@ -32,8 +32,8 @@ const faqs = [
     a: "Alle jurken worden nagekeken, gereinigd en/of gerepareerd na bezoek.",
   },
   {
-    q: "Welke maten jurken hebbern jullie?",
-    a: "We hebben ongeveer 175 unieke jurken, in de maten 34 t/m 52. ",
+    q: "Welke maten jurken hebben jullie?",
+    a: "We hebben ongeveer 200 unieke jurken, in de maten 34 t/m 56.",
   },
   {
     q: "Mag ik make-up dragen?",
