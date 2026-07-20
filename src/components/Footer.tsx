@@ -26,6 +26,7 @@ export function Footer() {
                 { to: "/about", label: "Over ons" },
                 { to: "/reservations", label: "Reserveren" },
                 { to: "/faq", label: "FAQ" },
+                { to: "/algemene-voorwaarden", label: "Algemene voorwaarden" },
                 { to: "/contact", label: "Contact" },
               ].map((link) => (
                 <Link
