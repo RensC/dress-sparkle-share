@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
@@ -538,7 +538,14 @@ function ReservationsPage() {
                 </Button>
 
                 <p className="text-center font-body text-xs text-muted-foreground">
-                  We bevestigen je boeking per e-mail.
+                  Door te reserveren ga je akkoord met onze{" "}
+                  <Link
+                    to="/algemene-voorwaarden"
+                    className="font-semibold text-lavender-600 hover:underline"
+                  >
+                    algemene voorwaarden
+                  </Link>
+                  .
                 </p>
               </form>
             </div>
