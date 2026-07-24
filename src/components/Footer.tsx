@@ -83,7 +83,7 @@ export function Footer() {
                 </svg>
 
                 <a
-                  href="https://facebook.com/dressperience"
+                  href="https://www.facebook.com/people/Dressperience/61587489742533/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-lavender-600 transition-colors"

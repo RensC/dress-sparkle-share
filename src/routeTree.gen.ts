@@ -19,6 +19,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as ApiPublicSendReservationRouteImport } from './routes/api/public/send-reservation'
 import { Route as ApiPublicSendContactRouteImport } from './routes/api/public/send-contact'
 
 const ReservationsRoute = ReservationsRouteImport.update({
@@ -70,6 +71,12 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicSendReservationRoute =
+  ApiPublicSendReservationRouteImport.update({
+    id: '/api/public/send-reservation',
+    path: '/api/public/send-reservation',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicSendContactRoute = ApiPublicSendContactRouteImport.update({
   id: '/api/public/send-contact',
   path: '/api/public/send-contact',
@@ -87,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/reservations': typeof ReservationsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/send-contact': typeof ApiPublicSendContactRoute
+  '/api/public/send-reservation': typeof ApiPublicSendReservationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -99,6 +107,7 @@ export interface FileRoutesByTo {
   '/reservations': typeof ReservationsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/send-contact': typeof ApiPublicSendContactRoute
+  '/api/public/send-reservation': typeof ApiPublicSendReservationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -113,6 +122,7 @@ export interface FileRoutesById {
   '/reservations': typeof ReservationsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/api/public/send-contact': typeof ApiPublicSendContactRoute
+  '/api/public/send-reservation': typeof ApiPublicSendReservationRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/reservations'
     | '/admin'
     | '/api/public/send-contact'
+    | '/api/public/send-reservation'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/reservations'
     | '/admin'
     | '/api/public/send-contact'
+    | '/api/public/send-reservation'
   id:
     | '__root__'
     | '/'
@@ -152,6 +164,7 @@ export interface FileRouteTypes {
     | '/reservations'
     | '/_authenticated/admin'
     | '/api/public/send-contact'
+    | '/api/public/send-reservation'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -165,6 +178,7 @@ export interface RootRouteChildren {
   GalleryRoute: typeof GalleryRoute
   ReservationsRoute: typeof ReservationsRoute
   ApiPublicSendContactRoute: typeof ApiPublicSendContactRoute
+  ApiPublicSendReservationRoute: typeof ApiPublicSendReservationRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -239,6 +253,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/send-reservation': {
+      id: '/api/public/send-reservation'
+      path: '/api/public/send-reservation'
+      fullPath: '/api/public/send-reservation'
+      preLoaderRoute: typeof ApiPublicSendReservationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/send-contact': {
       id: '/api/public/send-contact'
       path: '/api/public/send-contact'
@@ -271,6 +292,7 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRoute: GalleryRoute,
   ReservationsRoute: ReservationsRoute,
   ApiPublicSendContactRoute: ApiPublicSendContactRoute,
+  ApiPublicSendReservationRoute: ApiPublicSendReservationRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

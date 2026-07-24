@@ -14,7 +14,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -158,26 +157,19 @@ function ReservationsPage() {
     setSubmitting(true);
 
     try {
-      const {
-        data,
-        error: functionError,
-      } = await supabase.functions.invoke<ReservationResponse>(
-        "reservation-form",
+      const response = await fetch(
+        "/api/public/send-reservation",
         {
-          body: {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
             packageName: result.data.packageName,
 
             date: format(
               result.data.date,
               "yyyy-MM-dd",
-            ),
-
-            dateLabel: format(
-              result.data.date,
-              "EEEE d MMMM yyyy",
-              {
-                locale: nl,
-              },
             ),
 
             time: result.data.time,
@@ -191,24 +183,15 @@ function ReservationsPage() {
             email: result.data.email,
             phone: result.data.phone,
             notes: result.data.notes ?? "",
-          },
+          }),
         },
       );
 
-      if (functionError) {
-        console.error(
-          "Fout bij het aanroepen van reservation-form:",
-          functionError,
-        );
+      const data = (await response.json()) as ReservationResponse;
 
+      if (!response.ok || !data.success) {
         throw new Error(
-          "De reservering kon niet worden verstuurd. Probeer het later opnieuw.",
-        );
-      }
-
-      if (!data?.success) {
-        throw new Error(
-          data?.message ??
+          data.message ??
           "De reservering kon niet worden verstuurd.",
         );
       }
