@@ -41,8 +41,61 @@ export const createReservation = createServerFn({ method: "POST" })
       throw new Error("Reservering kon niet worden opgeslagen.");
     }
 
-    // Email confirmation is sent from the /lovable/email/transactional/send route
-    // (wired up after the email domain is verified).
+    // Send confirmation emails (customer + admin). Failures do not block the booking.
+    try {
+      const { sendEmail, ADMIN_NOTIFICATION_ADDRESS, escapeHtml } = await import(
+        "@/lib/email.server"
+      );
+
+      const formattedDate = new Date(data.date).toLocaleDateString("nl-NL", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+
+      const detailsHtml = `
+        <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;">
+          <tr><td style="padding:6px 0;"><strong>Pakket:</strong></td><td>${escapeHtml(data.packageName)}</td></tr>
+          <tr><td style="padding:6px 0;"><strong>Datum:</strong></td><td>${escapeHtml(formattedDate)}</td></tr>
+          <tr><td style="padding:6px 0;"><strong>Tijd:</strong></td><td>${escapeHtml(data.time)}</td></tr>
+          <tr><td style="padding:6px 0;"><strong>Groepsgrootte:</strong></td><td>${data.groupSize} personen</td></tr>
+          <tr><td style="padding:6px 0;"><strong>Naam:</strong></td><td>${escapeHtml(data.name)}</td></tr>
+          <tr><td style="padding:6px 0;"><strong>E-mail:</strong></td><td>${escapeHtml(data.email)}</td></tr>
+          <tr><td style="padding:6px 0;"><strong>Telefoon:</strong></td><td>${escapeHtml(data.phone)}</td></tr>
+          ${data.notes ? `<tr><td style="padding:6px 0;vertical-align:top;"><strong>Opmerkingen:</strong></td><td>${escapeHtml(data.notes)}</td></tr>` : ""}
+        </table>
+      `;
+
+      await sendEmail({
+        to: data.email,
+        subject: "Je funfitting-aanvraag is ontvangen — Dressperience",
+        html: `
+          <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#1f1f1f;">
+            <h2 style="color:#9b72cf;margin:0 0 16px;">Bedankt voor je reservering, ${escapeHtml(data.name)}!</h2>
+            <p>We hebben je aanvraag ontvangen en bevestigen deze binnen 24 uur per e-mail.</p>
+            <div style="background:#f8e8ee;padding:16px;border-radius:8px;margin:16px 0;">${detailsHtml}</div>
+            <p>Locatie: Heerbaan 54, 6061 EE Posterholt</p>
+            <p style="margin-top:24px;">Met liefdevolle groet,<br/>Team Dressperience</p>
+          </div>
+        `,
+      });
+
+      await sendEmail({
+        to: ADMIN_NOTIFICATION_ADDRESS,
+        subject: `Nieuwe reservering: ${data.packageName} — ${data.name}`,
+        replyTo: data.email,
+        html: `
+          <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#1f1f1f;">
+            <h2 style="color:#9b72cf;margin:0 0 16px;">Nieuwe reservering</h2>
+            ${detailsHtml}
+            <p style="margin-top:24px;"><a href="https://dressperience.com/admin">Beheer reserveringen →</a></p>
+          </div>
+        `,
+      });
+    } catch (mailErr) {
+      console.error("reservation email send failed", mailErr);
+    }
 
     return { id: row.id };
   });
