@@ -5,7 +5,7 @@
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 
 export const FROM_ADDRESS = "Dressperience <info@dressperience.com>";
-export const ADMIN_NOTIFICATION_ADDRESS = "renscaris@gmail.com";
+export const ADMIN_NOTIFICATION_ADDRESS = "info@dressperience.com";
 
 export interface SendEmailInput {
   to: string | string[];
