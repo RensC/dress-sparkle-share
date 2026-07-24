@@ -78,7 +78,7 @@ function ContactPage() {
         data = await response.json();
       } catch {
         throw new Error(
-          "De server gaf geen geldig antwoord. Controleer of send-contact.php in de hoofdmap van de website staat."
+          "De server gaf geen geldig antwoord. Probeer het later opnieuw."
         );
       }
 
