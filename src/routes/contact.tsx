@@ -1,6 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Mail, Phone, Instagram, Clock } from "lucide-react";
-import { useState } from "react";
+import {
+  MapPin,
+  Mail,
+  Phone,
+  Instagram,
+  Clock,
+  Facebook,
+} from "lucide-react";
+import { useState, type FormEvent } from "react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,43 +35,72 @@ export const Route = createFileRoute("/contact")({
 });
 
 const schema = z.object({
-  name: z.string().trim().min(1, "Naam is verplicht").max(100),
-  email: z.string().trim().email("Ongeldig e-mailadres").max(255),
-  subject: z.string().trim().min(1, "Onderwerp is verplicht").max(150),
-  message: z.string().trim().min(1, "Bericht is verplicht").max(1000),
+  name: z
+    .string()
+    .trim()
+    .min(1, "Naam is verplicht")
+    .max(100, "Naam mag maximaal 100 tekens bevatten"),
+
+  email: z
+    .string()
+    .trim()
+    .email("Ongeldig e-mailadres")
+    .max(255, "E-mailadres is te lang"),
+
+  subject: z
+    .string()
+    .trim()
+    .min(1, "Onderwerp is verplicht")
+    .max(150, "Onderwerp mag maximaal 150 tekens bevatten"),
+
+  message: z
+    .string()
+    .trim()
+    .min(1, "Bericht is verplicht")
+    .max(1000, "Bericht mag maximaal 1000 tekens bevatten"),
 });
+
+type ContactFunctionResponse = {
+  success?: boolean;
+  message?: string;
+};
 
 function ContactPage() {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function handleSubmit(
+    event: FormEvent<HTMLFormElement>,
+  ) {
+    event.preventDefault();
+
     setError(null);
     setSent(false);
 
-    const form = e.currentTarget;
-    const fd = new FormData(form);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
 
     const result = schema.safeParse({
-      name: fd.get("name"),
-      email: fd.get("email"),
-      subject: fd.get("subject"),
-      message: fd.get("message"),
+      name: formData.get("name"),
+      email: formData.get("email"),
+      subject: formData.get("subject"),
+      message: formData.get("message"),
     });
 
     if (!result.success) {
       setError(
-        result.error.issues[0]?.message ?? "Controleer het formulier"
+        result.error.issues[0]?.message ??
+        "Controleer de ingevulde gegevens.",
       );
+
       return;
     }
 
     setSending(true);
 
     try {
-      const response = await fetch("/send-contact.php", {
+      const response = await fetch("/api/public/send-contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -78,7 +114,7 @@ function ContactPage() {
         data = await response.json();
       } catch {
         throw new Error(
-          "De server gaf geen geldig antwoord. Controleer of send-contact.php in de hoofdmap van de website staat."
+          "De server gaf geen geldig antwoord. Probeer het later opnieuw."
         );
       }
 

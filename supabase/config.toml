@@ -1,1 +1,3 @@
 project_id = "hpncjwksnapoacdwhgbn"
+[functions.reservation-form]
+verify_jwt = false

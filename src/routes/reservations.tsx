@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
 import { z } from "zod";
@@ -11,7 +11,10 @@ import {
   Camera,
   Check,
   Sparkles,
+  type LucideIcon,
 } from "lucide-react";
+
+import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,7 +43,10 @@ export const Route = createFileRoute("/reservations")({
         content:
           "Boek je funfitting-ervaring bij Dressperience. Alleen op reservering. Kies je pakket en maak herinneringen met vriendinnen.",
       },
-      { property: "og:title", content: "Reserveren — Dressperience" },
+      {
+        property: "og:title",
+        content: "Reserveren — Dressperience",
+      },
       {
         property: "og:description",
         content:
@@ -51,19 +57,52 @@ export const Route = createFileRoute("/reservations")({
   component: ReservationsPage,
 });
 
-const timeSlots = ["10:00", "14:00", "19:00"];
-const groupSizes = ["2", "3", "4", "5", "6"];
+const timeSlots = ["10:00", "14:00", "19:00"] as const;
+const groupSizes = ["2", "3", "4", "5", "6"] as const;
 const packageOptions = ["Sparkle", "Glamour", "VIP"] as const;
+
+type TimeSlot = (typeof timeSlots)[number];
+type GroupSize = (typeof groupSizes)[number];
+type PackageName = (typeof packageOptions)[number];
 
 const bookingSchema = z.object({
   packageName: z.enum(packageOptions),
-  date: z.date({ message: "Kies een datum" }),
-  time: z.string().min(1, "Kies een tijd"),
-  groupSize: z.string().min(1, "Kies een groepsgrootte"),
-  name: z.string().trim().min(1, "Naam is verplicht").max(100),
-  email: z.string().trim().email("Ongeldig e-mailadres").max(255),
-  phone: z.string().trim().min(6, "Ongeldig telefoonnummer").max(30),
-  notes: z.string().trim().max(500).optional(),
+
+  date: z.date({
+    error: "Kies een datum",
+  }),
+
+  time: z.enum(timeSlots, {
+    error: "Kies een tijd",
+  }),
+
+  groupSize: z.enum(groupSizes, {
+    error: "Kies een groepsgrootte",
+  }),
+
+  name: z
+    .string()
+    .trim()
+    .min(1, "Naam is verplicht")
+    .max(100, "Naam mag maximaal 100 tekens bevatten"),
+
+  email: z
+    .string()
+    .trim()
+    .email("Ongeldig e-mailadres")
+    .max(255, "E-mailadres is te lang"),
+
+  phone: z
+    .string()
+    .trim()
+    .min(6, "Ongeldig telefoonnummer")
+    .max(30, "Telefoonnummer is te lang"),
+
+  notes: z
+    .string()
+    .trim()
+    .max(500, "Opmerkingen mogen maximaal 500 tekens bevatten")
+    .optional(),
 });
 
 type Confirmation = z.infer<typeof bookingSchema>;
@@ -75,86 +114,120 @@ type ReservationResponse = {
 
 function ReservationsPage() {
   const [packageName, setPackageName] =
-    useState<(typeof packageOptions)[number]>("Glamour");
+    useState<PackageName>("Glamour");
+
   const [date, setDate] = useState<Date | undefined>();
-  const [time, setTime] = useState<string>("");
-  const [groupSize, setGroupSize] = useState<string>("");
+  const [time, setTime] = useState<TimeSlot | "">("");
+  const [groupSize, setGroupSize] = useState<GroupSize | "">("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [confirmation, setConfirmation] = useState<Confirmation | null>(null);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  const [confirmation, setConfirmation] =
+    useState<Confirmation | null>(null);
+
+  async function handleSubmit(
+    event: FormEvent<HTMLFormElement>,
+  ) {
+    event.preventDefault();
+
     setError(null);
 
-    const form = e.currentTarget;
-    const fd = new FormData(form);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
 
     const result = bookingSchema.safeParse({
       packageName,
       date,
       time,
       groupSize,
-      name: fd.get("name"),
-      email: fd.get("email"),
-      phone: fd.get("phone"),
-      notes: fd.get("notes") || undefined,
+      name: formData.get("name"),
+      email: formData.get("email"),
+      phone: formData.get("phone"),
+      notes: formData.get("notes") || undefined,
     });
 
     if (!result.success) {
       setError(
-        result.error.issues[0]?.message ?? "Controleer het formulier"
+        result.error.issues[0]?.message ??
+        "Controleer het formulier.",
       );
+
       return;
     }
 
     setSubmitting(true);
 
     try {
-      const response = await fetch("/send-reservation.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const {
+        data,
+        error: functionError,
+      } = await supabase.functions.invoke<ReservationResponse>(
+        "reservation-form",
+        {
+          body: {
+            packageName: result.data.packageName,
+
+            date: format(
+              result.data.date,
+              "yyyy-MM-dd",
+            ),
+
+            dateLabel: format(
+              result.data.date,
+              "EEEE d MMMM yyyy",
+              {
+                locale: nl,
+              },
+            ),
+
+            time: result.data.time,
+
+            groupSize: Number.parseInt(
+              result.data.groupSize,
+              10,
+            ),
+
+            name: result.data.name,
+            email: result.data.email,
+            phone: result.data.phone,
+            notes: result.data.notes ?? "",
+          },
         },
-        body: JSON.stringify({
-          packageName: result.data.packageName,
-          date: format(result.data.date, "yyyy-MM-dd"),
-          dateLabel: format(result.data.date, "EEEE d MMMM yyyy", {
-            locale: nl,
-          }),
-          time: result.data.time,
-          groupSize: Number.parseInt(result.data.groupSize, 10),
-          name: result.data.name,
-          email: result.data.email,
-          phone: result.data.phone,
-          notes: result.data.notes ?? "",
-        }),
-      });
+      );
 
-      let data: ReservationResponse;
+      if (functionError) {
+        console.error(
+          "Fout bij het aanroepen van reservation-form:",
+          functionError,
+        );
 
-      try {
-        data = await response.json();
-      } catch {
         throw new Error(
-          "De server gaf geen geldig antwoord. Controleer of send-reservation.php in de hoofdmap van de website staat."
+          "De reservering kon niet worden verstuurd. Probeer het later opnieuw.",
         );
       }
 
-      if (!response.ok || !data.success) {
+      if (!data?.success) {
         throw new Error(
-          data.message || "De reservering kon niet worden verstuurd."
+          data?.message ??
+          "De reservering kon niet worden verstuurd.",
         );
       }
 
       setConfirmation(result.data);
+
       form.reset();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     } catch (err) {
+      console.error("Reserveringsfout:", err);
+
       setError(
         err instanceof Error
           ? err.message
-          : "Er ging iets mis bij het versturen."
+          : "Er ging iets mis bij het versturen.",
       );
     } finally {
       setSubmitting(false);
@@ -163,6 +236,7 @@ function ReservationsPage() {
 
   function resetForm() {
     setConfirmation(null);
+    setPackageName("Glamour");
     setDate(undefined);
     setTime("");
     setGroupSize("");
@@ -184,8 +258,9 @@ function ReservationsPage() {
           </h1>
 
           <p className="mx-auto mt-4 max-w-2xl font-body text-lg text-muted-foreground">
-            Kies het arrangement dat bij jullie past en maak je klaar voor een
-            dag vol glamour, gezelligheid en onvergetelijke herinneringen.
+            Kies het arrangement dat bij jullie past en maak je klaar
+            voor een dag vol glamour, gezelligheid en onvergetelijke
+            herinneringen.
           </p>
         </div>
 
@@ -217,6 +292,7 @@ function ReservationsPage() {
                 <span className="font-display text-4xl font-light text-foreground">
                   {pkg.price}
                 </span>
+
                 <span className="font-body text-sm text-muted-foreground">
                   {pkg.priceNote}
                 </span>
@@ -224,11 +300,15 @@ function ReservationsPage() {
 
               <ul className="mt-6 flex-1 space-y-3">
                 {pkg.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3">
+                  <li
+                    key={feature}
+                    className="flex items-start gap-3"
+                  >
                     <Check
                       size={18}
                       className="mt-0.5 shrink-0 text-lavender-500"
                     />
+
                     <span className="font-body text-sm text-muted-foreground">
                       {feature}
                     </span>
@@ -239,12 +319,13 @@ function ReservationsPage() {
               <button
                 type="button"
                 onClick={() => {
-                  setPackageName(
-                    pkg.name as (typeof packageOptions)[number]
-                  );
+                  setPackageName(pkg.name);
+
                   document
                     .getElementById("booking-form")
-                    ?.scrollIntoView({ behavior: "smooth" });
+                    ?.scrollIntoView({
+                      behavior: "smooth",
+                    });
                 }}
                 className={`mt-8 inline-flex items-center justify-center rounded-full px-8 py-3.5 font-body text-sm font-semibold uppercase tracking-widest transition-all ${
                   pkg.highlighted
@@ -258,7 +339,10 @@ function ReservationsPage() {
           ))}
         </div>
 
-        <div id="booking-form" className="mt-20 scroll-mt-24">
+        <div
+          id="booking-form"
+          className="mt-20 scroll-mt-24"
+        >
           {confirmation ? (
             <div className="mx-auto max-w-2xl rounded-2xl border border-lavender-500/40 bg-lavender-500/5 p-8 text-center md:p-12">
               <div className="mx-auto inline-flex h-14 w-14 items-center justify-center rounded-full bg-lavender-600 text-white">
@@ -273,29 +357,47 @@ function ReservationsPage() {
               </h2>
 
               <p className="mt-3 font-body text-base text-muted-foreground">
-                Bedankt, {confirmation.name}. We hebben je aanvraag ontvangen.
-                Je ontvangt een e-mail op {confirmation.email}.
+                Bedankt, {confirmation.name}. We hebben je aanvraag
+                ontvangen. Je ontvangt een e-mail op{" "}
+                {confirmation.email}.
               </p>
 
               <dl className="mt-8 grid grid-cols-1 gap-4 text-left sm:grid-cols-2">
-                <Detail label="Pakket" value={confirmation.packageName} />
+                <Detail
+                  label="Pakket"
+                  value={confirmation.packageName}
+                />
+
                 <Detail
                   label="Datum"
                   value={format(
                     confirmation.date,
                     "EEEE d MMMM yyyy",
-                    { locale: nl }
+                    {
+                      locale: nl,
+                    },
                   )}
                 />
-                <Detail label="Tijd" value={confirmation.time} />
+
+                <Detail
+                  label="Tijd"
+                  value={confirmation.time}
+                />
+
                 <Detail
                   label="Groepsgrootte"
-                  value={`${confirmation.groupSize} ${
-                    confirmation.groupSize === "1" ? "gast" : "gasten"
-                  }`}
+                  value={`${confirmation.groupSize} gasten`}
                 />
-                <Detail label="Telefoon" value={confirmation.phone} />
-                <Detail label="E-mail" value={confirmation.email} />
+
+                <Detail
+                  label="Telefoon"
+                  value={confirmation.phone}
+                />
+
+                <Detail
+                  label="E-mail"
+                  value={confirmation.email}
+                />
               </dl>
 
               <Button
@@ -317,8 +419,8 @@ function ReservationsPage() {
                 </h2>
 
                 <p className="mx-auto mt-3 max-w-xl font-body text-base text-muted-foreground">
-                  Vul het formulier in en ontvang direct een voorlopige
-                  bevestiging.
+                  Vul het formulier in en ontvang direct een
+                  voorlopige bevestiging.
                 </p>
               </div>
 
@@ -334,17 +436,20 @@ function ReservationsPage() {
                   <Select
                     value={packageName}
                     onValueChange={(value) =>
-                      setPackageName(
-                        value as (typeof packageOptions)[number]
-                      )
+                      setPackageName(value as PackageName)
                     }
+                    disabled={submitting}
                   >
                     <SelectTrigger className="rounded-lg border-border bg-background font-body">
                       <SelectValue placeholder="Kies een pakket" />
                     </SelectTrigger>
+
                     <SelectContent>
                       {packageOptions.map((item) => (
-                        <SelectItem key={item} value={item}>
+                        <SelectItem
+                          key={item}
+                          value={item}
+                        >
                           {item}
                         </SelectItem>
                       ))}
@@ -363,14 +468,23 @@ function ReservationsPage() {
                         <Button
                           type="button"
                           variant="outline"
+                          disabled={submitting}
                           className={cn(
                             "w-full justify-start rounded-lg border-border bg-background font-body font-normal",
-                            !date && "text-muted-foreground"
+                            !date &&
+                            "text-muted-foreground",
                           )}
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
+
                           {date
-                            ? format(date, "d MMM yyyy", { locale: nl })
+                            ? format(
+                              date,
+                              "d MMM yyyy",
+                              {
+                                locale: nl,
+                              },
+                            )
                             : "Kies datum"}
                         </Button>
                       </PopoverTrigger>
@@ -383,15 +497,22 @@ function ReservationsPage() {
                           mode="single"
                           selected={date}
                           onSelect={setDate}
-                          initialFocus
+                          autoFocus
                           locale={nl}
                           disabled={(day) =>
                             day <
                             new Date(
-                              new Date().setHours(0, 0, 0, 0)
+                              new Date().setHours(
+                                0,
+                                0,
+                                0,
+                                0,
+                              ),
                             )
                           }
-                          className={cn("pointer-events-auto p-3")}
+                          className={cn(
+                            "pointer-events-auto p-3",
+                          )}
                         />
                       </PopoverContent>
                     </Popover>
@@ -402,13 +523,23 @@ function ReservationsPage() {
                       Tijd
                     </Label>
 
-                    <Select value={time} onValueChange={setTime}>
+                    <Select
+                      value={time}
+                      onValueChange={(value) =>
+                        setTime(value as TimeSlot)
+                      }
+                      disabled={submitting}
+                    >
                       <SelectTrigger className="rounded-lg border-border bg-background font-body">
                         <SelectValue placeholder="Kies tijd" />
                       </SelectTrigger>
+
                       <SelectContent>
                         {timeSlots.map((item) => (
-                          <SelectItem key={item} value={item}>
+                          <SelectItem
+                            key={item}
+                            value={item}
+                          >
                             {item}
                           </SelectItem>
                         ))}
@@ -423,15 +554,22 @@ function ReservationsPage() {
 
                     <Select
                       value={groupSize}
-                      onValueChange={setGroupSize}
+                      onValueChange={(value) =>
+                        setGroupSize(value as GroupSize)
+                      }
+                      disabled={submitting}
                     >
                       <SelectTrigger className="rounded-lg border-border bg-background font-body">
                         <SelectValue placeholder="Kies aantal" />
                       </SelectTrigger>
+
                       <SelectContent>
                         {groupSizes.map((item) => (
-                          <SelectItem key={item} value={item}>
-                            {item} {item === "1" ? "gast" : "gasten"}
+                          <SelectItem
+                            key={item}
+                            value={item}
+                          >
+                            {item} gasten
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -454,6 +592,7 @@ function ReservationsPage() {
                       placeholder="Je naam"
                       maxLength={100}
                       autoComplete="name"
+                      disabled={submitting}
                       required
                       className="rounded-lg border-border bg-background font-body"
                     />
@@ -474,6 +613,7 @@ function ReservationsPage() {
                       placeholder="+31 6 12 34 56 78"
                       maxLength={30}
                       autoComplete="tel"
+                      disabled={submitting}
                       required
                       className="rounded-lg border-border bg-background font-body"
                     />
@@ -495,6 +635,7 @@ function ReservationsPage() {
                     placeholder="jij@voorbeeld.nl"
                     maxLength={255}
                     autoComplete="email"
+                    disabled={submitting}
                     required
                     className="rounded-lg border-border bg-background font-body"
                   />
@@ -513,6 +654,7 @@ function ReservationsPage() {
                     name="notes"
                     rows={4}
                     maxLength={500}
+                    disabled={submitting}
                     placeholder="Speciale gelegenheid, dieetwensen of vragen..."
                     className="resize-none rounded-lg border-border bg-background font-body"
                   />
@@ -520,7 +662,7 @@ function ReservationsPage() {
 
                 {error && (
                   <p
-                    className="font-body text-sm text-destructive"
+                    className="rounded-lg border border-destructive/30 bg-destructive/5 p-3 font-body text-sm text-destructive"
                     role="alert"
                   >
                     {error}
@@ -598,10 +740,28 @@ function Detail({
       <dt className="font-body text-xs font-semibold uppercase tracking-widest text-lavender-600">
         {label}
       </dt>
-      <dd className="mt-1 font-body text-sm text-foreground">{value}</dd>
+
+      <dd className="mt-1 font-body text-sm text-foreground">
+        {value}
+      </dd>
     </div>
   );
 }
+
+type PackageCard = {
+  name: PackageName;
+  description: string;
+  price: string;
+  priceNote: string;
+  highlighted: boolean;
+  features: string[];
+};
+
+type InfoCard = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+};
 
 const packages = [
   {
@@ -649,7 +809,7 @@ const packages = [
       "Onbeperkt koffie, thee en fruitwater",
     ],
   },
-];
+] satisfies PackageCard[];
 
 const infoCards = [
   {
@@ -675,4 +835,4 @@ const infoCards = [
     description:
       "Professionele foto's worden tijdens je sessie gemaakt. Foto's zijn binnen 48 uur beschikbaar via een persoonlijke link.",
   },
-];
+] satisfies InfoCard[];
