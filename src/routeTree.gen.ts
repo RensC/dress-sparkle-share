@@ -19,6 +19,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as ApiPublicSendContactRouteImport } from './routes/api/public/send-contact'
 
 const ReservationsRoute = ReservationsRouteImport.update({
   id: '/reservations',
@@ -69,6 +70,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicSendContactRoute = ApiPublicSendContactRouteImport.update({
+  id: '/api/public/send-contact',
+  path: '/api/public/send-contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRoute
   '/reservations': typeof ReservationsRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/api/public/send-contact': typeof ApiPublicSendContactRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/gallery': typeof GalleryRoute
   '/reservations': typeof ReservationsRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/api/public/send-contact': typeof ApiPublicSendContactRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/reservations': typeof ReservationsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/api/public/send-contact': typeof ApiPublicSendContactRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/reservations'
     | '/admin'
+    | '/api/public/send-contact'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -128,6 +138,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/reservations'
     | '/admin'
+    | '/api/public/send-contact'
   id:
     | '__root__'
     | '/'
@@ -140,6 +151,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/reservations'
     | '/_authenticated/admin'
+    | '/api/public/send-contact'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   GalleryRoute: typeof GalleryRoute
   ReservationsRoute: typeof ReservationsRoute
+  ApiPublicSendContactRoute: typeof ApiPublicSendContactRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -226,6 +239,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/send-contact': {
+      id: '/api/public/send-contact'
+      path: '/api/public/send-contact'
+      fullPath: '/api/public/send-contact'
+      preLoaderRoute: typeof ApiPublicSendContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -250,17 +270,8 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   GalleryRoute: GalleryRoute,
   ReservationsRoute: ReservationsRoute,
+  ApiPublicSendContactRoute: ApiPublicSendContactRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
