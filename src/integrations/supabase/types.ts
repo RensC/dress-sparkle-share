@@ -18,6 +18,8 @@ export type Database = {
         Row: {
           created_at: string
           email: string
+          extras: Json
+          extras_total: number
           group_size: number
           id: string
           name: string
@@ -32,6 +34,8 @@ export type Database = {
         Insert: {
           created_at?: string
           email: string
+          extras?: Json
+          extras_total?: number
           group_size: number
           id?: string
           name: string
@@ -46,6 +50,8 @@ export type Database = {
         Update: {
           created_at?: string
           email?: string
+          extras?: Json
+          extras_total?: number
           group_size?: number
           id?: string
           name?: string
