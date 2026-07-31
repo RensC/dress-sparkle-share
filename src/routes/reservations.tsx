@@ -128,6 +128,43 @@ function ReservationsPage() {
   const [confirmation, setConfirmation] =
     useState<Confirmation | null>(null);
 
+  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
+
+  // Load already reserved time slots for the chosen date
+  useEffect(() => {
+    if (!date) {
+      setBookedSlots([]);
+      return;
+    }
+
+    let cancelled = false;
+    const dateKey = format(date, "yyyy-MM-dd");
+
+    setLoadingSlots(true);
+
+    fetch(`/api/public/booked-slots?date=${dateKey}`)
+      .then((res) => res.json())
+      .then((data: { bookedSlots?: string[] }) => {
+        if (cancelled) return;
+        const taken = data.bookedSlots ?? [];
+        setBookedSlots(taken);
+        setTime((current) => (current && taken.includes(current) ? "" : current));
+      })
+      .catch(() => {
+        if (!cancelled) setBookedSlots([]);
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingSlots(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [date]);
+
+
+
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>,
   ) {
