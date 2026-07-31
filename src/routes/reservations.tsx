@@ -485,6 +485,38 @@ function ReservationsPage() {
                 />
               </dl>
 
+              {confirmedExtras.length > 0 && (
+                <div className="mt-6 rounded-lg border border-border/60 bg-background p-4 text-left">
+                  <p className="font-body text-xs font-semibold uppercase tracking-widest text-lavender-600">
+                    Gekozen extra's
+                  </p>
+
+                  <ul className="mt-3 space-y-2">
+                    {confirmedExtras.map((extra) => (
+                      <li
+                        key={extra.id}
+                        className="flex items-center justify-between gap-4 font-body text-sm text-foreground"
+                      >
+                        <span>
+                          {extra.quantity > 1 ? `${extra.quantity}× ` : ""}
+                          {extra.name}
+                          {extra.variant ? ` (${extra.variant})` : ""}
+                        </span>
+
+                        <span>{formatEuro(extra.total)}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="mt-3 flex items-center justify-between border-t border-border/60 pt-3 font-body text-sm font-semibold text-lavender-600">
+                    <span>Totaal extra's</span>
+                    <span>{formatEuro(extrasTotal(confirmedExtras))}</span>
+                  </div>
+                </div>
+              )}
+
+
+
               <Button
                 type="button"
                 onClick={resetForm}
