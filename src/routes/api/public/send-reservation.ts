@@ -272,7 +272,9 @@ export const Route = createFileRoute(
                     <strong>Aantal gasten:</strong>
                     ${safeGroupSize}
                   </p>
+                  ${extrasHtml}
                 </div>
+
 
                 <h3 style="color:#9b72cf;margin:24px 0 12px;">
                   Contactgegevens
