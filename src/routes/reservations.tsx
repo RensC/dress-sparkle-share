@@ -323,6 +323,8 @@ function ReservationsPage() {
     setDate(undefined);
     setTime("");
     setGroupSize("");
+    setExtrasState({});
+    setConfirmedExtras([]);
     setError(null);
   }
 
