@@ -368,6 +368,9 @@ export const Route = createFileRoute(
               </div>
             `,
           });
+          } catch (emailErr) {
+            console.error("send-reservation email delivery failed (reservation was saved):", emailErr);
+          }
 
           return Response.json(
             {
@@ -377,6 +380,7 @@ export const Route = createFileRoute(
               headers: corsHeaders,
             },
           );
+
         } catch (error) {
           console.error("send-reservation failed", error);
 
