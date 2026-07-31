@@ -65,19 +65,23 @@ type GroupSize = (typeof groupSizes)[number];
 type PackageName = (typeof packageOptions)[number];
 
 const bookingSchema = z.object({
-  packageName: z.enum(packageOptions),
+  packageName: z.enum([...packageOptions] as [PackageName, ...PackageName[]]),
 
   date: z.date({
-    error: "Kies een datum",
+    required_error: "Kies een datum",
+    invalid_type_error: "Kies een datum",
   }),
 
-  time: z.enum(timeSlots, {
-    error: "Kies een tijd",
+  time: z.enum([...timeSlots] as [TimeSlot, ...TimeSlot[]], {
+    required_error: "Kies een tijd",
+    invalid_type_error: "Kies een tijd",
   }),
 
-  groupSize: z.enum(groupSizes, {
-    error: "Kies een groepsgrootte",
+  groupSize: z.enum([...groupSizes] as [GroupSize, ...GroupSize[]], {
+    required_error: "Kies een groepsgrootte",
+    invalid_type_error: "Kies een groepsgrootte",
   }),
+
 
   name: z
     .string()

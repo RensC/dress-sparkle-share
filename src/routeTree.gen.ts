@@ -21,6 +21,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiPublicSendReservationRouteImport } from './routes/api/public/send-reservation'
 import { Route as ApiPublicSendContactRouteImport } from './routes/api/public/send-contact'
+import { Route as ApiPublicBookedSlotsRouteImport } from './routes/api/public/booked-slots'
 
 const ReservationsRoute = ReservationsRouteImport.update({
   id: '/reservations',
@@ -82,6 +83,11 @@ const ApiPublicSendContactRoute = ApiPublicSendContactRouteImport.update({
   path: '/api/public/send-contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicBookedSlotsRoute = ApiPublicBookedSlotsRouteImport.update({
+  id: '/api/public/booked-slots',
+  path: '/api/public/booked-slots',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRoute
   '/reservations': typeof ReservationsRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/api/public/booked-slots': typeof ApiPublicBookedSlotsRoute
   '/api/public/send-contact': typeof ApiPublicSendContactRoute
   '/api/public/send-reservation': typeof ApiPublicSendReservationRoute
 }
@@ -106,6 +113,7 @@ export interface FileRoutesByTo {
   '/gallery': typeof GalleryRoute
   '/reservations': typeof ReservationsRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/api/public/booked-slots': typeof ApiPublicBookedSlotsRoute
   '/api/public/send-contact': typeof ApiPublicSendContactRoute
   '/api/public/send-reservation': typeof ApiPublicSendReservationRoute
 }
@@ -121,6 +129,7 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/reservations': typeof ReservationsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/api/public/booked-slots': typeof ApiPublicBookedSlotsRoute
   '/api/public/send-contact': typeof ApiPublicSendContactRoute
   '/api/public/send-reservation': typeof ApiPublicSendReservationRoute
 }
@@ -136,6 +145,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/reservations'
     | '/admin'
+    | '/api/public/booked-slots'
     | '/api/public/send-contact'
     | '/api/public/send-reservation'
   fileRoutesByTo: FileRoutesByTo
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/reservations'
     | '/admin'
+    | '/api/public/booked-slots'
     | '/api/public/send-contact'
     | '/api/public/send-reservation'
   id:
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/reservations'
     | '/_authenticated/admin'
+    | '/api/public/booked-slots'
     | '/api/public/send-contact'
     | '/api/public/send-reservation'
   fileRoutesById: FileRoutesById
@@ -177,6 +189,7 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   GalleryRoute: typeof GalleryRoute
   ReservationsRoute: typeof ReservationsRoute
+  ApiPublicBookedSlotsRoute: typeof ApiPublicBookedSlotsRoute
   ApiPublicSendContactRoute: typeof ApiPublicSendContactRoute
   ApiPublicSendReservationRoute: typeof ApiPublicSendReservationRoute
 }
@@ -267,6 +280,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicSendContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/booked-slots': {
+      id: '/api/public/booked-slots'
+      path: '/api/public/booked-slots'
+      fullPath: '/api/public/booked-slots'
+      preLoaderRoute: typeof ApiPublicBookedSlotsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -291,19 +311,10 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   GalleryRoute: GalleryRoute,
   ReservationsRoute: ReservationsRoute,
+  ApiPublicBookedSlotsRoute: ApiPublicBookedSlotsRoute,
   ApiPublicSendContactRoute: ApiPublicSendContactRoute,
   ApiPublicSendReservationRoute: ApiPublicSendReservationRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
