@@ -552,23 +552,44 @@ function ReservationsPage() {
                       onValueChange={(value) =>
                         setTime(value as TimeSlot)
                       }
-                      disabled={submitting}
+                      disabled={submitting || !date || loadingSlots}
                     >
                       <SelectTrigger className="rounded-lg border-border bg-background font-body">
-                        <SelectValue placeholder="Kies tijd" />
+                        <SelectValue
+                          placeholder={
+                            !date
+                              ? "Kies eerst een datum"
+                              : loadingSlots
+                                ? "Beschikbaarheid laden..."
+                                : "Kies tijd"
+                          }
+                        />
                       </SelectTrigger>
 
                       <SelectContent>
-                        {timeSlots.map((item) => (
-                          <SelectItem
-                            key={item}
-                            value={item}
-                          >
-                            {item}
-                          </SelectItem>
-                        ))}
+                        {timeSlots.map((item) => {
+                          const taken = bookedSlots.includes(item);
+
+                          return (
+                            <SelectItem
+                              key={item}
+                              value={item}
+                              disabled={taken}
+                            >
+                              {item}
+                              {taken ? " — volgeboekt" : ""}
+                            </SelectItem>
+                          );
+                        })}
                       </SelectContent>
                     </Select>
+
+                    {date && !loadingSlots && bookedSlots.length >= timeSlots.length && (
+                      <p className="font-body text-xs text-destructive">
+                        Deze dag is volledig volgeboekt. Kies een andere datum.
+                      </p>
+                    )}
+
                   </div>
 
                   <div className="space-y-2">
