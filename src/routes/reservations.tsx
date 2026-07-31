@@ -281,6 +281,7 @@ function ReservationsPage() {
             email: result.data.email,
             phone: result.data.phone,
             notes: result.data.notes ?? "",
+            extras: selectedExtras,
           }),
         },
       );
@@ -295,6 +296,7 @@ function ReservationsPage() {
       }
 
       setConfirmation(result.data);
+      setConfirmedExtras(selectedExtras);
 
       form.reset();
 
