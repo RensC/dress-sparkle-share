@@ -45,6 +45,21 @@ const schema = z.object({
     .max(500, "Opmerkingen mogen maximaal 500 tekens bevatten")
     .optional()
     .default(""),
+
+  extras: z
+    .array(
+      z.object({
+        id: z.string().max(50),
+        name: z.string().max(100),
+        quantity: z.number().int().min(1).max(10),
+        variant: z.string().max(50).optional(),
+        unitPrice: z.number().min(0).max(1000),
+        total: z.number().min(0).max(10000),
+      }),
+    )
+    .max(10)
+    .optional()
+    .default([]),
 });
 
 export const Route = createFileRoute(
