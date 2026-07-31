@@ -184,11 +184,14 @@ export const Route = createFileRoute(
             );
           }
 
+          // Emails must never block a saved reservation
+          try {
           const {
             sendEmail,
             ADMIN_NOTIFICATION_ADDRESS,
             escapeHtml,
           } = await import("@/lib/email.server");
+
 
 
           const dateLabel = format(
