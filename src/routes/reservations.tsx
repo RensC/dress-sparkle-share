@@ -133,8 +133,57 @@ function ReservationsPage() {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
+  const [extrasState, setExtrasState] = useState<
+    Partial<Record<ExtraId, { quantity: number; variant?: string }>>
+  >({});
+
+  const selectedExtras: SelectedExtra[] = extraOptions
+    .filter((option) => extrasState[option.id])
+    .map((option) => {
+      const state = extrasState[option.id]!;
+      const quantity = option.quantity ? state.quantity : 1;
+
+      return {
+        id: option.id,
+        name: option.name,
+        quantity,
+        variant: option.variants ? (state.variant ?? option.variants[0]) : undefined,
+        unitPrice: option.price,
+        total: Number((option.price * quantity).toFixed(2)),
+      };
+    });
+
+  const selectedExtrasTotal = extrasTotal(selectedExtras);
+
+  function toggleExtra(id: ExtraId, checked: boolean) {
+    setExtrasState((current) => {
+      const next = { ...current };
+      if (checked) {
+        const option = extraOptions.find((item) => item.id === id)!;
+        next[id] = {
+          quantity: option.quantity?.min ?? 1,
+          variant: option.variants?.[0],
+        };
+      } else {
+        delete next[id];
+      }
+      return next;
+    });
+  }
+
+  function updateExtra(
+    id: ExtraId,
+    patch: Partial<{ quantity: number; variant: string }>,
+  ) {
+    setExtrasState((current) =>
+      current[id] ? { ...current, [id]: { ...current[id]!, ...patch } } : current,
+    );
+  }
+
   const [confirmation, setConfirmation] =
     useState<Confirmation | null>(null);
+
+  const [confirmedExtras, setConfirmedExtras] = useState<SelectedExtra[]>([]);
 
   const [bookedSlots, setBookedSlots] = useState<string[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
