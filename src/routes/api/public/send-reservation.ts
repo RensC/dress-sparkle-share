@@ -129,11 +129,70 @@ export const Route = createFileRoute(
             );
           }
 
+          const { supabaseAdmin } = await import(
+            "@/integrations/supabase/client.server"
+          );
+
+          // Slot must still be free (an already confirmed booking blocks it)
+          const { data: existing, error: existingError } = await supabaseAdmin
+            .from("reservations")
+            .select("id")
+            .eq("reservation_date", date)
+            .eq("reservation_time", time)
+            .in("status", ["pending", "confirmed"])
+            .limit(1);
+
+          if (existingError) {
+            console.error("slot check failed", existingError);
+          }
+
+          if (existing && existing.length > 0) {
+            return Response.json(
+              {
+                success: false,
+                message:
+                  "Dit tijdslot is helaas al gereserveerd. Kies een andere datum of tijd.",
+              },
+              { status: 409, headers: corsHeaders },
+            );
+          }
+
+          const { error: insertError } = await supabaseAdmin
+            .from("reservations")
+            .insert({
+              package_name: packageName,
+              reservation_date: date,
+              reservation_time: time,
+              group_size: groupSize,
+              name,
+              email,
+              phone,
+              notes: notes || null,
+              status: "pending",
+            });
+
+          if (insertError) {
+            console.error("reservation insert failed", insertError);
+
+            return Response.json(
+              {
+                success: false,
+                message:
+                  "De reservering kon niet worden opgeslagen. Probeer het opnieuw.",
+              },
+              { status: 500, headers: corsHeaders },
+            );
+          }
+
+          // Emails must never block a saved reservation
+          try {
           const {
             sendEmail,
             ADMIN_NOTIFICATION_ADDRESS,
             escapeHtml,
           } = await import("@/lib/email.server");
+
+
 
           const dateLabel = format(
             reservationDate,
@@ -309,6 +368,9 @@ export const Route = createFileRoute(
               </div>
             `,
           });
+          } catch (emailErr) {
+            console.error("send-reservation email delivery failed (reservation was saved):", emailErr);
+          }
 
           return Response.json(
             {
@@ -318,6 +380,7 @@ export const Route = createFileRoute(
               headers: corsHeaders,
             },
           );
+
         } catch (error) {
           console.error("send-reservation failed", error);
 

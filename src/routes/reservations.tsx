@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
 import { z } from "zod";
@@ -65,19 +65,23 @@ type GroupSize = (typeof groupSizes)[number];
 type PackageName = (typeof packageOptions)[number];
 
 const bookingSchema = z.object({
-  packageName: z.enum(packageOptions),
+  packageName: z.enum([...packageOptions] as [PackageName, ...PackageName[]]),
 
   date: z.date({
-    error: "Kies een datum",
+    required_error: "Kies een datum",
+    invalid_type_error: "Kies een datum",
   }),
 
-  time: z.enum(timeSlots, {
-    error: "Kies een tijd",
+  time: z.enum([...timeSlots] as [TimeSlot, ...TimeSlot[]], {
+    required_error: "Kies een tijd",
+    invalid_type_error: "Kies een tijd",
   }),
 
-  groupSize: z.enum(groupSizes, {
-    error: "Kies een groepsgrootte",
+  groupSize: z.enum([...groupSizes] as [GroupSize, ...GroupSize[]], {
+    required_error: "Kies een groepsgrootte",
+    invalid_type_error: "Kies een groepsgrootte",
   }),
+
 
   name: z
     .string()
@@ -123,6 +127,43 @@ function ReservationsPage() {
 
   const [confirmation, setConfirmation] =
     useState<Confirmation | null>(null);
+
+  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
+
+  // Load already reserved time slots for the chosen date
+  useEffect(() => {
+    if (!date) {
+      setBookedSlots([]);
+      return;
+    }
+
+    let cancelled = false;
+    const dateKey = format(date, "yyyy-MM-dd");
+
+    setLoadingSlots(true);
+
+    fetch(`/api/public/booked-slots?date=${dateKey}`)
+      .then((res) => res.json())
+      .then((data: { bookedSlots?: string[] }) => {
+        if (cancelled) return;
+        const taken = data.bookedSlots ?? [];
+        setBookedSlots(taken);
+        setTime((current) => (current && taken.includes(current) ? "" : current));
+      })
+      .catch(() => {
+        if (!cancelled) setBookedSlots([]);
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingSlots(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [date]);
+
+
 
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>,
@@ -511,23 +552,44 @@ function ReservationsPage() {
                       onValueChange={(value) =>
                         setTime(value as TimeSlot)
                       }
-                      disabled={submitting}
+                      disabled={submitting || !date || loadingSlots}
                     >
                       <SelectTrigger className="rounded-lg border-border bg-background font-body">
-                        <SelectValue placeholder="Kies tijd" />
+                        <SelectValue
+                          placeholder={
+                            !date
+                              ? "Kies eerst een datum"
+                              : loadingSlots
+                                ? "Beschikbaarheid laden..."
+                                : "Kies tijd"
+                          }
+                        />
                       </SelectTrigger>
 
                       <SelectContent>
-                        {timeSlots.map((item) => (
-                          <SelectItem
-                            key={item}
-                            value={item}
-                          >
-                            {item}
-                          </SelectItem>
-                        ))}
+                        {timeSlots.map((item) => {
+                          const taken = bookedSlots.includes(item);
+
+                          return (
+                            <SelectItem
+                              key={item}
+                              value={item}
+                              disabled={taken}
+                            >
+                              {item}
+                              {taken ? " — volgeboekt" : ""}
+                            </SelectItem>
+                          );
+                        })}
                       </SelectContent>
                     </Select>
+
+                    {date && !loadingSlots && bookedSlots.length >= timeSlots.length && (
+                      <p className="font-body text-xs text-destructive">
+                        Deze dag is volledig volgeboekt. Kies een andere datum.
+                      </p>
+                    )}
+
                   </div>
 
                   <div className="space-y-2">
