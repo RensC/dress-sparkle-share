@@ -110,7 +110,15 @@ export const Route = createFileRoute(
             email,
             phone,
             notes,
+            extras,
           } = parsed.data;
+
+          const extrasTotalAmount = Number(
+            extras.reduce((sum, item) => sum + item.total, 0).toFixed(2),
+          );
+
+          const formatEuroAmount = (value: number) =>
+            `€${value.toFixed(2).replace(".", ",")}`;
 
           const reservationDate = parseISO(date);
 
