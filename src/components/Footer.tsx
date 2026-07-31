@@ -63,7 +63,7 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Instagram size={16} className="shrink-0 text-lavender-500"/>
-                <a href="https://instagram.com/dressperience" target="_blank" rel="noopener noreferrer"
+                <a href="http://www.instagram.com/dressperience_limburg" target="_blank" rel="noopener noreferrer"
                    className="hover:text-lavender-600 transition-colors">
                   @dressperience
                 </a>

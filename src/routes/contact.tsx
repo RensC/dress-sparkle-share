@@ -332,7 +332,7 @@ function ContactPage() {
                     href="mailto:info@dressperience.nl"
                     className="mt-1 block font-body text-sm text-muted-foreground transition-colors hover:text-lavender-600"
                   >
-                    info@dressperience.nl
+                    info@dressperience.com
                   </a>
                 </div>
               </div>
@@ -367,12 +367,33 @@ function ContactPage() {
                   </h4>
 
                   <a
-                    href="https://instagram.com/dressperience"
+                    href="http://www.instagram.com/dressperience_limburg"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-1 block font-body text-sm text-muted-foreground transition-colors hover:text-lavender-600"
                   >
                     @dressperience
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lavender-500/10 text-lavender-600">
+                  <Facebook size={18} />
+                </div>
+
+                <div>
+                  <h4 className="font-body text-sm font-semibold text-foreground">
+                    Facebook
+                  </h4>
+
+                  <a
+                    href="https://www.facebook.com/people/Dressperience/61587489742533/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-1 block font-body text-sm text-muted-foreground transition-colors hover:text-lavender-600"
+                  >
+                    Dressperience
                   </a>
                 </div>
               </div>

@@ -2,13 +2,21 @@ services:
   website:
     build:
       context: .
+      dockerfile: Dockerfile
       args:
         VITE_SUPABASE_URL: ${VITE_SUPABASE_URL}
         VITE_SUPABASE_PUBLISHABLE_KEY: ${VITE_SUPABASE_PUBLISHABLE_KEY}
-    restart: unless-stopped
+        VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY}
+
+    restart: no #unless-stopped
+
     environment:
       NODE_ENV: production
-      PORT: 3000
       HOST: 0.0.0.0
+      PORT: 3000
+
+      # Private server-side variables belong here.
+      RESEND_API_KEY: ${RESEND_API_KEY}
+
     ports:
       - "127.0.0.1:3000:3000"

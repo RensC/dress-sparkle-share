@@ -53,7 +53,7 @@ const faqs = [
   },
   {
     q: "Hoe zit het met reserveren?",
-    a: "Bezoek is alleen mogelijk is op afspraak. Reserveren kan via het reserveringsformulier. Om jullie reservering definitief te maken, werken wij met een aanbetaling van €50 per groep. Na ontvangst van de bevestiging staat jullie moment vast. Reservering kan tot 48 uur van te voren worden gewijzigd of geannuleerd. De aanbetaling wordt niet terugbetaald, maar kan worden gebruikt om een nieuwe datum te plannen. Bij annuleringen binnen 48 uur vervalt de aanbetaling. ",
+    a: "Bezoek is alleen mogelijk op afspraak. Reserveren kan via het reserveringsformulier. Om jullie reservering definitief te maken, werken wij met een aanbetaling van €50 per groep. Na ontvangst van de bevestiging staat jullie moment vast. Reservering kan tot 48 uur van te voren worden gewijzigd of geannuleerd. De aanbetaling wordt niet terugbetaald, maar kan worden gebruikt om een nieuwe datum te plannen. Bij annuleringen binnen 48 uur vervalt de aanbetaling. ",
   },
   {
     q: "Hoe kan ik betalen?",
@@ -61,7 +61,7 @@ const faqs = [
   },
   {
     q: "Is er parkeergelegenheid?",
-    a: "Ja, voor de deur kunnen jullie gratis parkeren. Tevens zijn er laadpalen beschikbaar.",
+    a: "Ja, voor de deur kunnen jullie gratis parkeren. Tevens zijn er 2 publieke laadpalen voor de deur.",
   },
   {
     q: "Hoe is het rookbeleid?",

@@ -104,7 +104,7 @@ const values = [
   {
     icon: Heart,
     title: "Inclusiviteit",
-    description: "Elk lichaam is mooi. Onze jurken zijn beschikbaar in een breed scala aan maten, zodat iedere gast straalt.",
+    description: "Elk lichaam is mooi. Wij hebben een brede selectie aan maten verdeeld over ruim 200 verschillende jurken. Zo kan iedere gast stralen in een unieke jurk.",
   },
   {
     icon: Sparkles,
@@ -119,6 +119,6 @@ const values = [
   {
     icon: Award,
     title: "Excellentie",
-    description: "Vanaf het moment dat je aankomt tot de laatste foto wordt elk detail met zorg verzorgd.",
+    description: "Wij verzorgen elke sessie tot in detail, zodat jullie zorgeloos kunnen genieten.",
   },
 ];
