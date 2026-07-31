@@ -183,6 +183,8 @@ export const Route = createFileRoute(
               email,
               phone,
               notes: notes || null,
+              extras,
+              extras_total: extrasTotalAmount,
               status: "pending",
             });
 
