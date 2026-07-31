@@ -542,6 +542,188 @@ function ReservationsPage() {
                   </Select>
                 </div>
 
+                <div className="space-y-3 rounded-xl border border-border/60 bg-blush-200/20 p-5">
+                  <div>
+                    <Label className="font-body text-sm font-medium">
+                      Extra's (optioneel)
+                    </Label>
+
+                    <p className="font-body text-xs text-muted-foreground">
+                      Maak jullie Dressperience compleet met een extraatje.
+                    </p>
+                  </div>
+
+                  <div className="space-y-3">
+                    {extraOptions.map((option) => {
+                      const state = extrasState[option.id];
+                      const checked = Boolean(state);
+
+                      return (
+                        <div
+                          key={option.id}
+                          className={cn(
+                            "rounded-lg border bg-background p-4 transition-colors",
+                            checked
+                              ? "border-lavender-500 shadow-sm shadow-lavender-500/10"
+                              : "border-border/60",
+                          )}
+                        >
+                          <div className="flex items-start gap-3">
+                            <Checkbox
+                              id={`extra-${option.id}`}
+                              checked={checked}
+                              disabled={submitting}
+                              onCheckedChange={(value) =>
+                                toggleExtra(option.id, value === true)
+                              }
+                              className="mt-1"
+                            />
+
+                            <div className="flex-1">
+                              <label
+                                htmlFor={`extra-${option.id}`}
+                                className="flex flex-wrap items-baseline justify-between gap-2"
+                              >
+                                <span className="font-body text-sm font-semibold text-foreground">
+                                  {option.name}
+                                </span>
+
+                                <span className="font-body text-sm font-semibold text-lavender-600">
+                                  {option.priceLabel}
+                                </span>
+                              </label>
+
+                              <p className="mt-1 font-body text-xs italic text-muted-foreground">
+                                {option.tagline}
+                              </p>
+
+                              <p className="mt-2 font-body text-xs text-muted-foreground">
+                                {option.description}
+                              </p>
+
+                              {option.includes && (
+                                <ul className="mt-3 space-y-1.5">
+                                  {option.includes.map((item) => (
+                                    <li
+                                      key={item}
+                                      className="flex items-start gap-2"
+                                    >
+                                      <Check
+                                        size={14}
+                                        className="mt-0.5 shrink-0 text-lavender-500"
+                                      />
+
+                                      <span className="font-body text-xs text-muted-foreground">
+                                        {item}
+                                      </span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+
+                              {checked &&
+                                (option.quantity || option.variants) && (
+                                  <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                    {option.quantity && (
+                                      <div className="space-y-1.5">
+                                        <Label className="font-body text-xs font-medium">
+                                          Aantal
+                                        </Label>
+
+                                        <Select
+                                          value={String(state?.quantity ?? 1)}
+                                          onValueChange={(value) =>
+                                            updateExtra(option.id, {
+                                              quantity: Number.parseInt(value, 10),
+                                            })
+                                          }
+                                          disabled={submitting}
+                                        >
+                                          <SelectTrigger className="h-9 rounded-lg border-border bg-background font-body text-sm">
+                                            <SelectValue />
+                                          </SelectTrigger>
+
+                                          <SelectContent>
+                                            {Array.from(
+                                              {
+                                                length:
+                                                  option.quantity.max -
+                                                  option.quantity.min +
+                                                  1,
+                                              },
+                                              (_, index) =>
+                                                option.quantity!.min + index,
+                                            ).map((value) => (
+                                              <SelectItem
+                                                key={value}
+                                                value={String(value)}
+                                              >
+                                                {value}× {option.quantity!.unit}
+                                              </SelectItem>
+                                            ))}
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+                                    )}
+
+                                    {option.variants && (
+                                      <div className="space-y-1.5">
+                                        <Label className="font-body text-xs font-medium">
+                                          Variant
+                                        </Label>
+
+                                        <Select
+                                          value={
+                                            state?.variant ?? option.variants[0]
+                                          }
+                                          onValueChange={(value) =>
+                                            updateExtra(option.id, {
+                                              variant: value,
+                                            })
+                                          }
+                                          disabled={submitting}
+                                        >
+                                          <SelectTrigger className="h-9 rounded-lg border-border bg-background font-body text-sm">
+                                            <SelectValue />
+                                          </SelectTrigger>
+
+                                          <SelectContent>
+                                            {option.variants.map((variant) => (
+                                              <SelectItem
+                                                key={variant}
+                                                value={variant}
+                                              >
+                                                {variant}
+                                              </SelectItem>
+                                            ))}
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {selectedExtras.length > 0 && (
+                    <div className="flex items-center justify-between rounded-lg bg-lavender-500/10 px-4 py-3">
+                      <span className="font-body text-sm text-foreground">
+                        Totaal extra's
+                      </span>
+
+                      <span className="font-body text-sm font-semibold text-lavender-600">
+                        {formatEuro(selectedExtrasTotal)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+
+
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
                   <div className="space-y-2 sm:col-span-1">
                     <Label className="font-body text-sm font-medium">
