@@ -366,7 +366,9 @@ export const Route = createFileRoute(
                     <strong>Aantal gasten:</strong>
                     ${safeGroupSize}
                   </p>
+                  ${extrasHtml}
                 </div>
+
 
                 ${
               safeNotes
