@@ -45,6 +45,21 @@ const schema = z.object({
     .max(500, "Opmerkingen mogen maximaal 500 tekens bevatten")
     .optional()
     .default(""),
+
+  extras: z
+    .array(
+      z.object({
+        id: z.string().max(50),
+        name: z.string().max(100),
+        quantity: z.number().int().min(1).max(10),
+        variant: z.string().max(50).optional(),
+        unitPrice: z.number().min(0).max(1000),
+        total: z.number().min(0).max(10000),
+      }),
+    )
+    .max(10)
+    .optional()
+    .default([]),
 });
 
 export const Route = createFileRoute(
@@ -95,7 +110,15 @@ export const Route = createFileRoute(
             email,
             phone,
             notes,
+            extras,
           } = parsed.data;
+
+          const extrasTotalAmount = Number(
+            extras.reduce((sum, item) => sum + item.total, 0).toFixed(2),
+          );
+
+          const formatEuroAmount = (value: number) =>
+            `€${value.toFixed(2).replace(".", ",")}`;
 
           const reservationDate = parseISO(date);
 
@@ -129,11 +152,72 @@ export const Route = createFileRoute(
             );
           }
 
+          const { supabaseAdmin } = await import(
+            "@/integrations/supabase/client.server"
+          );
+
+          // Slot must still be free (an already confirmed booking blocks it)
+          const { data: existing, error: existingError } = await supabaseAdmin
+            .from("reservations")
+            .select("id")
+            .eq("reservation_date", date)
+            .eq("reservation_time", time)
+            .in("status", ["pending", "confirmed"])
+            .limit(1);
+
+          if (existingError) {
+            console.error("slot check failed", existingError);
+          }
+
+          if (existing && existing.length > 0) {
+            return Response.json(
+              {
+                success: false,
+                message:
+                  "Dit tijdslot is helaas al gereserveerd. Kies een andere datum of tijd.",
+              },
+              { status: 409, headers: corsHeaders },
+            );
+          }
+
+          const { error: insertError } = await supabaseAdmin
+            .from("reservations")
+            .insert({
+              package_name: packageName,
+              reservation_date: date,
+              reservation_time: time,
+              group_size: groupSize,
+              name,
+              email,
+              phone,
+              notes: notes || null,
+              extras,
+              extras_total: extrasTotalAmount,
+              status: "pending",
+            });
+
+          if (insertError) {
+            console.error("reservation insert failed", insertError);
+
+            return Response.json(
+              {
+                success: false,
+                message:
+                  "De reservering kon niet worden opgeslagen. Probeer het opnieuw.",
+              },
+              { status: 500, headers: corsHeaders },
+            );
+          }
+
+          // Emails must never block a saved reservation
+          try {
           const {
             sendEmail,
             ADMIN_NOTIFICATION_ADDRESS,
             escapeHtml,
           } = await import("@/lib/email.server");
+
+
 
           const dateLabel = format(
             reservationDate,
@@ -154,6 +238,30 @@ export const Route = createFileRoute(
             /\n/g,
             "<br />",
           );
+
+          const extrasHtml = extras.length
+            ? `
+                  <p style="margin:12px 0 6px;">
+                    <strong>Extra's:</strong>
+                  </p>
+                  <ul style="margin:0;padding-left:18px;">
+                    ${extras
+                      .map(
+                        (item) =>
+                          `<li style="margin-bottom:4px;">${escapeHtml(
+                            `${item.quantity > 1 ? `${item.quantity}× ` : ""}${item.name}${
+                              item.variant ? ` (${item.variant})` : ""
+                            }`,
+                          )} — ${escapeHtml(formatEuroAmount(item.total))}</li>`,
+                      )
+                      .join("")}
+                  </ul>
+                  <p style="margin:8px 0 0;">
+                    <strong>Totaal extra's:</strong>
+                    ${escapeHtml(formatEuroAmount(extrasTotalAmount))}
+                  </p>
+                `
+            : "";
 
           /*
            * Notification for Dressperience
@@ -188,7 +296,9 @@ export const Route = createFileRoute(
                     <strong>Aantal gasten:</strong>
                     ${safeGroupSize}
                   </p>
+                  ${extrasHtml}
                 </div>
+
 
                 <h3 style="color:#9b72cf;margin:24px 0 12px;">
                   Contactgegevens
@@ -282,7 +392,9 @@ export const Route = createFileRoute(
                     <strong>Aantal gasten:</strong>
                     ${safeGroupSize}
                   </p>
+                  ${extrasHtml}
                 </div>
+
 
                 ${
               safeNotes
@@ -309,6 +421,9 @@ export const Route = createFileRoute(
               </div>
             `,
           });
+          } catch (emailErr) {
+            console.error("send-reservation email delivery failed (reservation was saved):", emailErr);
+          }
 
           return Response.json(
             {
@@ -318,6 +433,7 @@ export const Route = createFileRoute(
               headers: corsHeaders,
             },
           );
+
         } catch (error) {
           console.error("send-reservation failed", error);
 
