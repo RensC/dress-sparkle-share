@@ -221,7 +221,25 @@ function AdminPage() {
                       {r.phone}
                     </a>
                   </TableCell>
-                  <TableCell className="font-body text-sm text-foreground">{r.package_name}</TableCell>
+                  <TableCell className="font-body text-sm text-foreground">
+                    {r.package_name}
+                    {Array.isArray(r.extras) && r.extras.length > 0 && (
+                      <ul className="mt-1 space-y-0.5 text-xs text-muted-foreground">
+                        {(r.extras as Array<{ name?: string; quantity?: number; variant?: string }>).map(
+                          (extra, index) => (
+                            <li key={index}>
+                              + {extra.quantity && extra.quantity > 1 ? `${extra.quantity}× ` : ""}
+                              {extra.name}
+                              {extra.variant ? ` (${extra.variant})` : ""}
+                            </li>
+                          ),
+                        )}
+                        <li className="font-medium text-lavender-600">
+                          Extra's: €{Number(r.extras_total ?? 0).toFixed(2)}
+                        </li>
+                      </ul>
+                    )}
+                  </TableCell>
                   <TableCell className="text-center font-body text-sm">{r.group_size}</TableCell>
                   <TableCell>
                     <Select
