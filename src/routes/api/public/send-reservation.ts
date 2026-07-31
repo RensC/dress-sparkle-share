@@ -239,6 +239,30 @@ export const Route = createFileRoute(
             "<br />",
           );
 
+          const extrasHtml = extras.length
+            ? `
+                  <p style="margin:12px 0 6px;">
+                    <strong>Extra's:</strong>
+                  </p>
+                  <ul style="margin:0;padding-left:18px;">
+                    ${extras
+                      .map(
+                        (item) =>
+                          `<li style="margin-bottom:4px;">${escapeHtml(
+                            `${item.quantity > 1 ? `${item.quantity}× ` : ""}${item.name}${
+                              item.variant ? ` (${item.variant})` : ""
+                            }`,
+                          )} — ${escapeHtml(formatEuroAmount(item.total))}</li>`,
+                      )
+                      .join("")}
+                  </ul>
+                  <p style="margin:8px 0 0;">
+                    <strong>Totaal extra's:</strong>
+                    ${escapeHtml(formatEuroAmount(extrasTotalAmount))}
+                  </p>
+                `
+            : "";
+
           /*
            * Notification for Dressperience
            */
