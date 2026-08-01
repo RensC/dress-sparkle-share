@@ -359,6 +359,12 @@ function ReservationsPage() {
         );
       }
 
+      // Deposit is mandatory: send the guest straight to Mollie
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+        return;
+      }
+
       setConfirmation(result.data);
       setConfirmedExtras(selectedExtras);
 
