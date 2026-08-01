@@ -202,6 +202,56 @@ function ReservationsPage() {
   const [bookedSlots, setBookedSlots] = useState<string[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
 
+  const [paymentInfo, setPaymentInfo] = useState<PaymentStatusInfo | null>(null);
+  const [paymentChecking, setPaymentChecking] = useState(false);
+
+  // After returning from Mollie: show the payment result
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("betaling");
+    if (!id) return;
+
+    let cancelled = false;
+    let attempts = 0;
+    setPaymentChecking(true);
+
+    async function poll() {
+      attempts += 1;
+      try {
+        const res = await fetch(
+          `/api/public/reservation-status?id=${encodeURIComponent(id!)}`,
+        );
+        const json = (await res.json()) as {
+          success?: boolean;
+          reservation?: PaymentStatusInfo;
+        };
+
+        if (cancelled) return;
+
+        if (json.success && json.reservation) {
+          setPaymentInfo(json.reservation);
+
+          // Mollie's webhook can arrive slightly later than the redirect
+          if (json.reservation.payment_status === "open" && attempts < 5) {
+            setTimeout(poll, 2000);
+            return;
+          }
+        }
+      } catch (err) {
+        console.error("payment status check failed", err);
+      }
+
+      if (!cancelled) setPaymentChecking(false);
+    }
+
+    void poll();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+
   // Load already reserved time slots for the chosen date
   useEffect(() => {
     if (!date) {
