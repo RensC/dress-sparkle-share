@@ -21,6 +21,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiPublicSendReservationRouteImport } from './routes/api/public/send-reservation'
 import { Route as ApiPublicSendContactRouteImport } from './routes/api/public/send-contact'
+import { Route as ApiPublicMollieWebhookRouteImport } from './routes/api/public/mollie-webhook'
 import { Route as ApiPublicBookedSlotsRouteImport } from './routes/api/public/booked-slots'
 
 const ReservationsRoute = ReservationsRouteImport.update({
@@ -83,6 +84,11 @@ const ApiPublicSendContactRoute = ApiPublicSendContactRouteImport.update({
   path: '/api/public/send-contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicMollieWebhookRoute = ApiPublicMollieWebhookRouteImport.update({
+  id: '/api/public/mollie-webhook',
+  path: '/api/public/mollie-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicBookedSlotsRoute = ApiPublicBookedSlotsRouteImport.update({
   id: '/api/public/booked-slots',
   path: '/api/public/booked-slots',
@@ -100,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/reservations': typeof ReservationsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/booked-slots': typeof ApiPublicBookedSlotsRoute
+  '/api/public/mollie-webhook': typeof ApiPublicMollieWebhookRoute
   '/api/public/send-contact': typeof ApiPublicSendContactRoute
   '/api/public/send-reservation': typeof ApiPublicSendReservationRoute
 }
@@ -114,6 +121,7 @@ export interface FileRoutesByTo {
   '/reservations': typeof ReservationsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/booked-slots': typeof ApiPublicBookedSlotsRoute
+  '/api/public/mollie-webhook': typeof ApiPublicMollieWebhookRoute
   '/api/public/send-contact': typeof ApiPublicSendContactRoute
   '/api/public/send-reservation': typeof ApiPublicSendReservationRoute
 }
@@ -130,6 +138,7 @@ export interface FileRoutesById {
   '/reservations': typeof ReservationsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/api/public/booked-slots': typeof ApiPublicBookedSlotsRoute
+  '/api/public/mollie-webhook': typeof ApiPublicMollieWebhookRoute
   '/api/public/send-contact': typeof ApiPublicSendContactRoute
   '/api/public/send-reservation': typeof ApiPublicSendReservationRoute
 }
@@ -146,6 +155,7 @@ export interface FileRouteTypes {
     | '/reservations'
     | '/admin'
     | '/api/public/booked-slots'
+    | '/api/public/mollie-webhook'
     | '/api/public/send-contact'
     | '/api/public/send-reservation'
   fileRoutesByTo: FileRoutesByTo
@@ -160,6 +170,7 @@ export interface FileRouteTypes {
     | '/reservations'
     | '/admin'
     | '/api/public/booked-slots'
+    | '/api/public/mollie-webhook'
     | '/api/public/send-contact'
     | '/api/public/send-reservation'
   id:
@@ -175,6 +186,7 @@ export interface FileRouteTypes {
     | '/reservations'
     | '/_authenticated/admin'
     | '/api/public/booked-slots'
+    | '/api/public/mollie-webhook'
     | '/api/public/send-contact'
     | '/api/public/send-reservation'
   fileRoutesById: FileRoutesById
@@ -190,6 +202,7 @@ export interface RootRouteChildren {
   GalleryRoute: typeof GalleryRoute
   ReservationsRoute: typeof ReservationsRoute
   ApiPublicBookedSlotsRoute: typeof ApiPublicBookedSlotsRoute
+  ApiPublicMollieWebhookRoute: typeof ApiPublicMollieWebhookRoute
   ApiPublicSendContactRoute: typeof ApiPublicSendContactRoute
   ApiPublicSendReservationRoute: typeof ApiPublicSendReservationRoute
 }
@@ -280,6 +293,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicSendContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/mollie-webhook': {
+      id: '/api/public/mollie-webhook'
+      path: '/api/public/mollie-webhook'
+      fullPath: '/api/public/mollie-webhook'
+      preLoaderRoute: typeof ApiPublicMollieWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/booked-slots': {
       id: '/api/public/booked-slots'
       path: '/api/public/booked-slots'
@@ -312,6 +332,7 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRoute: GalleryRoute,
   ReservationsRoute: ReservationsRoute,
   ApiPublicBookedSlotsRoute: ApiPublicBookedSlotsRoute,
+  ApiPublicMollieWebhookRoute: ApiPublicMollieWebhookRoute,
   ApiPublicSendContactRoute: ApiPublicSendContactRoute,
   ApiPublicSendReservationRoute: ApiPublicSendReservationRoute,
 }
