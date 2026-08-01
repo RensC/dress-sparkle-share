@@ -121,6 +121,20 @@ type Confirmation = z.infer<typeof bookingSchema>;
 type ReservationResponse = {
   success?: boolean;
   message?: string;
+  reservationId?: string;
+  checkoutUrl?: string | null;
+};
+
+const DEPOSIT_AMOUNT = 50;
+
+type PaymentStatusInfo = {
+  reservation_date: string;
+  reservation_time: string;
+  package_name: string;
+  group_size: number;
+  payment_status: string;
+  status: string;
+  deposit_amount: number | string | null;
 };
 
 function ReservationsPage() {
