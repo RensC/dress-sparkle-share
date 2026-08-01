@@ -494,6 +494,32 @@ function ReservationsPage() {
           ))}
         </div>
 
+        {paymentInfo && (
+          <div
+            className={`mx-auto mt-16 max-w-2xl rounded-2xl border p-8 text-center ${
+              paymentInfo.payment_status === "paid"
+                ? "border-lavender-500/40 bg-lavender-500/5"
+                : "border-border/60 bg-card"
+            }`}
+          >
+            <h2 className="font-display text-2xl font-light text-foreground">
+              {paymentInfo.payment_status === "paid"
+                ? "Je aanbetaling is ontvangen"
+                : paymentChecking
+                  ? "We controleren je betaling…"
+                  : "Betaling nog niet afgerond"}
+            </h2>
+
+            <p className="mt-3 font-body text-sm text-muted-foreground">
+              {paymentInfo.payment_status === "paid"
+                ? `Je reservering voor het ${paymentInfo.package_name}-pakket op ${paymentInfo.reservation_date} om ${paymentInfo.reservation_time} is definitief bevestigd. Je ontvangt een bevestiging per e-mail.`
+                : paymentChecking
+                  ? "Een moment geduld, we halen de status van je betaling op."
+                  : `We hebben nog geen aanbetaling van €${DEPOSIT_AMOUNT} ontvangen. Je reservering is daardoor nog niet definitief — probeer het opnieuw of neem contact met ons op.`}
+            </p>
+          </div>
+        )}
+
         <div
           id="booking-form"
           className="mt-20 scroll-mt-24"
