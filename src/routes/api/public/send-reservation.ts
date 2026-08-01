@@ -473,6 +473,8 @@ export const Route = createFileRoute(
           return Response.json(
             {
               success: true,
+              reservationId: inserted.id,
+              checkoutUrl,
             },
             {
               headers: corsHeaders,
