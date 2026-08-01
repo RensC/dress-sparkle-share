@@ -204,43 +204,88 @@ function ReservationsPage() {
 
   const [paymentInfo, setPaymentInfo] = useState<PaymentStatusInfo | null>(null);
   const [paymentChecking, setPaymentChecking] = useState(false);
+  const [paymentStatusError, setPaymentStatusError] = useState<string | null>(null);
 
   // After returning from Mollie: show the payment result
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("betaling");
-    if (!id) return;
+    const reservationId = new URLSearchParams(window.location.search).get(
+      "betaling",
+    );
+
+    if (!reservationId) return;
 
     let cancelled = false;
     let attempts = 0;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+    const finalPaymentStatuses = new Set([
+      "paid",
+      "failed",
+      "canceled",
+      "cancelled",
+      "expired",
+    ]);
+
     setPaymentChecking(true);
+    setPaymentStatusError(null);
 
     async function poll() {
       attempts += 1;
+
       try {
-        const res = await fetch(
-          `/api/public/reservation-status?id=${encodeURIComponent(id!)}`,
+        const response = await fetch(
+          `/api/public/reservation-status?id=${encodeURIComponent(
+            reservationId,
+          )}`,
         );
-        const json = (await res.json()) as {
+
+        if (!response.ok) {
+          throw new Error(
+            "De betaalstatus kon niet worden opgehaald.",
+          );
+        }
+
+        const data = (await response.json()) as {
           success?: boolean;
+          message?: string;
           reservation?: PaymentStatusInfo;
         };
 
         if (cancelled) return;
 
-        if (json.success && json.reservation) {
-          setPaymentInfo(json.reservation);
-
-          // Mollie's webhook can arrive slightly later than the redirect
-          if (json.reservation.payment_status === "open" && attempts < 5) {
-            setTimeout(poll, 2000);
-            return;
-          }
+        if (!data.success || !data.reservation) {
+          throw new Error(
+            data.message ??
+            "De betaalstatus kon niet worden opgehaald.",
+          );
         }
-      } catch (err) {
-        console.error("payment status check failed", err);
-      }
 
-      if (!cancelled) setPaymentChecking(false);
+        setPaymentInfo(data.reservation);
+
+        if (
+          !finalPaymentStatuses.has(data.reservation.payment_status) &&
+          attempts < 5
+        ) {
+          timeoutId = setTimeout(() => {
+            void poll();
+          }, 2000);
+
+          return;
+        }
+
+        setPaymentChecking(false);
+      } catch (err) {
+        if (cancelled) return;
+
+        console.error("payment status check failed", err);
+
+        setPaymentStatusError(
+          err instanceof Error
+            ? err.message
+            : "De betaalstatus kon niet worden opgehaald.",
+        );
+        setPaymentChecking(false);
+      }
     }
 
     void poll();
@@ -248,9 +293,12 @@ function ReservationsPage() {
 
     return () => {
       cancelled = true;
+
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
     };
   }, []);
-
 
   // Load already reserved time slots for the chosen date
   useEffect(() => {
@@ -494,28 +542,36 @@ function ReservationsPage() {
           ))}
         </div>
 
-        {paymentInfo && (
+        {(paymentChecking || paymentInfo || paymentStatusError) && (
           <div
             className={`mx-auto mt-16 max-w-2xl rounded-2xl border p-8 text-center ${
-              paymentInfo.payment_status === "paid"
+              paymentInfo?.payment_status === "paid"
                 ? "border-lavender-500/40 bg-lavender-500/5"
-                : "border-border/60 bg-card"
+                : paymentStatusError
+                  ? "border-destructive/30 bg-destructive/5"
+                  : "border-border/60 bg-card"
             }`}
           >
             <h2 className="font-display text-2xl font-light text-foreground">
-              {paymentInfo.payment_status === "paid"
-                ? "Je aanbetaling is ontvangen"
-                : paymentChecking
-                  ? "We controleren je betaling…"
-                  : "Betaling nog niet afgerond"}
+              {paymentChecking
+                ? "We controleren je betaling…"
+                : paymentStatusError
+                  ? "Betaalstatus niet beschikbaar"
+                  : paymentInfo?.payment_status === "paid"
+                    ? "Je aanbetaling is ontvangen"
+                    : "Betaling nog niet afgerond"}
             </h2>
 
             <p className="mt-3 font-body text-sm text-muted-foreground">
-              {paymentInfo.payment_status === "paid"
-                ? `Je reservering voor het ${paymentInfo.package_name}-pakket op ${paymentInfo.reservation_date} om ${paymentInfo.reservation_time} is definitief bevestigd. Je ontvangt een bevestiging per e-mail.`
-                : paymentChecking
-                  ? "Een moment geduld, we halen de status van je betaling op."
-                  : `We hebben nog geen aanbetaling van €${DEPOSIT_AMOUNT} ontvangen. Je reservering is daardoor nog niet definitief — probeer het opnieuw of neem contact met ons op.`}
+              {paymentChecking
+                ? "Een moment geduld, we halen de status van je betaling op."
+                : paymentStatusError
+                  ? paymentStatusError
+                  : paymentInfo?.payment_status === "paid"
+                    ? `Je reservering voor het ${paymentInfo.package_name}-pakket op ${paymentInfo.reservation_date} om ${paymentInfo.reservation_time} is definitief bevestigd. Je ontvangt een bevestiging per e-mail.`
+                    : `We hebben nog geen aanbetaling van ${formatEuro(
+                      Number(paymentInfo?.deposit_amount ?? DEPOSIT_AMOUNT),
+                    )} ontvangen. Je reservering is daardoor nog niet definitief — probeer het opnieuw of neem contact met ons op.`}
             </p>
           </div>
         )}

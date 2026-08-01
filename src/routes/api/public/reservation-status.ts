@@ -4,42 +4,122 @@ import { createFileRoute } from "@tanstack/react-router";
  * Returns the payment/booking status of a single reservation.
  * Only non-sensitive fields are exposed.
  */
-export const Route = createFileRoute("/api/public/reservation-status")({
+export const Route = createFileRoute(
+  "/api/public/reservation-status",
+)({
   server: {
     handlers: {
       GET: async ({ request }) => {
         const url = new URL(request.url);
         const id = url.searchParams.get("id") ?? "";
 
-        if (
-          !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+        const isValidUuid =
+          /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
             id,
-          )
-        ) {
-          return Response.json({ success: false }, { status: 400 });
+          );
+
+        if (!isValidUuid) {
+          return Response.json(
+            {
+              success: false,
+              message: "Ongeldig reserveringsnummer.",
+            },
+            {
+              status: 400,
+              headers: {
+                "Cache-Control": "no-store",
+              },
+            },
+          );
         }
 
         try {
           const { supabaseAdmin } = await import(
             "@/integrations/supabase/client.server"
-          );
+            );
 
           const { data, error } = await supabaseAdmin
             .from("reservations")
             .select(
-              "reservation_date, reservation_time, package_name, group_size, payment_status, status, deposit_amount",
+              [
+                "reservation_date",
+                "reservation_time",
+                "package_name",
+                "group_size",
+                "payment_status",
+                "status",
+                "deposit_amount",
+              ].join(", "),
             )
             .eq("id", id)
             .maybeSingle();
 
-          if (error || !data) {
-            return Response.json({ success: false }, { status: 404 });
+          if (error) {
+            console.error(
+              "reservation-status query failed",
+              error,
+            );
+
+            return Response.json(
+              {
+                success: false,
+                message:
+                  "De reserveringsstatus kon niet worden opgehaald.",
+              },
+              {
+                status: 500,
+                headers: {
+                  "Cache-Control": "no-store",
+                },
+              },
+            );
           }
 
-          return Response.json({ success: true, reservation: data });
-        } catch (err) {
-          console.error("reservation-status failed", err);
-          return Response.json({ success: false }, { status: 500 });
+          if (!data) {
+            return Response.json(
+              {
+                success: false,
+                message: "Reservering niet gevonden.",
+              },
+              {
+                status: 404,
+                headers: {
+                  "Cache-Control": "no-store",
+                },
+              },
+            );
+          }
+
+          return Response.json(
+            {
+              success: true,
+              reservation: data,
+            },
+            {
+              headers: {
+                "Cache-Control": "no-store",
+              },
+            },
+          );
+        } catch (error) {
+          console.error(
+            "reservation-status failed",
+            error,
+          );
+
+          return Response.json(
+            {
+              success: false,
+              message:
+                "De reserveringsstatus kon niet worden opgehaald.",
+            },
+            {
+              status: 500,
+              headers: {
+                "Cache-Control": "no-store",
+              },
+            },
+          );
         }
       },
     },
