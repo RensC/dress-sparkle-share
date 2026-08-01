@@ -156,20 +156,24 @@ export const Route = createFileRoute(
             "@/integrations/supabase/client.server"
           );
 
-          // Slot must still be free (an already confirmed booking blocks it)
+          // Slot must still be free (a paid or confirmed booking blocks it)
           const { data: existing, error: existingError } = await supabaseAdmin
             .from("reservations")
-            .select("id")
+            .select("id, payment_status, status")
             .eq("reservation_date", date)
             .eq("reservation_time", time)
             .in("status", ["pending", "confirmed"])
-            .limit(1);
+            .limit(20);
 
           if (existingError) {
             console.error("slot check failed", existingError);
           }
 
-          if (existing && existing.length > 0) {
+          const blocking = (existing ?? []).filter(
+            (row) => row.payment_status === "paid" || row.status === "confirmed",
+          );
+
+          if (blocking.length > 0) {
             return Response.json(
               {
                 success: false,
@@ -180,7 +184,9 @@ export const Route = createFileRoute(
             );
           }
 
-          const { error: insertError } = await supabaseAdmin
+          const DEPOSIT_AMOUNT = 50;
+
+          const { data: inserted, error: insertError } = await supabaseAdmin
             .from("reservations")
             .insert({
               package_name: packageName,
@@ -193,10 +199,14 @@ export const Route = createFileRoute(
               notes: notes || null,
               extras,
               extras_total: extrasTotalAmount,
+              deposit_amount: DEPOSIT_AMOUNT,
+              payment_status: "open",
               status: "pending",
-            });
+            })
+            .select("id")
+            .single();
 
-          if (insertError) {
+          if (insertError || !inserted) {
             console.error("reservation insert failed", insertError);
 
             return Response.json(
@@ -208,6 +218,41 @@ export const Route = createFileRoute(
               { status: 500, headers: corsHeaders },
             );
           }
+
+          // Start the Mollie deposit payment
+          let checkoutUrl: string | null = null;
+
+          try {
+            const { createMolliePayment } = await import("@/lib/mollie.server");
+            const origin = new URL(request.url).origin;
+
+            const payment = await createMolliePayment({
+              amount: DEPOSIT_AMOUNT,
+              description: `Aanbetaling Dressperience — ${packageName} ${date} ${time}`,
+              redirectUrl: `${origin}/reservations?betaling=${inserted.id}`,
+              webhookUrl: `${origin}/api/public/mollie-webhook`,
+              metadata: { reservationId: inserted.id },
+            });
+
+            checkoutUrl = payment._links?.checkout?.href ?? null;
+
+            await supabaseAdmin
+              .from("reservations")
+              .update({ mollie_payment_id: payment.id })
+              .eq("id", inserted.id);
+          } catch (payErr) {
+            console.error("mollie payment creation failed", payErr);
+
+            return Response.json(
+              {
+                success: false,
+                message:
+                  "De reservering is opgeslagen, maar de betaling kon niet worden gestart. Neem contact met ons op.",
+              },
+              { status: 502, headers: corsHeaders },
+            );
+          }
+
 
           // Emails must never block a saved reservation
           try {
