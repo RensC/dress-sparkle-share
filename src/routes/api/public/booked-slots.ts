@@ -33,10 +33,10 @@ export const Route = createFileRoute("/api/public/booked-slots")({
             "@/integrations/supabase/client.server"
           );
 
-          // Return slots that are either confirmed or pending (so nobody can double book)
+          // Only paid or confirmed bookings block a slot; unpaid attempts don't
           const { data, error } = await supabaseAdmin
             .from("reservations")
-            .select("reservation_time")
+            .select("reservation_time, status, payment_status")
             .eq("reservation_date", date)
             .in("status", ["pending", "confirmed"]);
 
@@ -49,7 +49,14 @@ export const Route = createFileRoute("/api/public/booked-slots")({
           }
 
           const bookedSlots = Array.from(
-            new Set((data ?? []).map((row) => row.reservation_time))
+            new Set(
+              (data ?? [])
+                .filter(
+                  (row) =>
+                    row.payment_status === "paid" || row.status === "confirmed"
+                )
+                .map((row) => row.reservation_time)
+            )
           );
 
           return Response.json(

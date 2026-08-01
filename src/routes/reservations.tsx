@@ -121,6 +121,20 @@ type Confirmation = z.infer<typeof bookingSchema>;
 type ReservationResponse = {
   success?: boolean;
   message?: string;
+  reservationId?: string;
+  checkoutUrl?: string | null;
+};
+
+const DEPOSIT_AMOUNT = 50;
+
+type PaymentStatusInfo = {
+  reservation_date: string;
+  reservation_time: string;
+  package_name: string;
+  group_size: number;
+  payment_status: string;
+  status: string;
+  deposit_amount: number | string | null;
 };
 
 function ReservationsPage() {
@@ -187,6 +201,56 @@ function ReservationsPage() {
 
   const [bookedSlots, setBookedSlots] = useState<string[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
+
+  const [paymentInfo, setPaymentInfo] = useState<PaymentStatusInfo | null>(null);
+  const [paymentChecking, setPaymentChecking] = useState(false);
+
+  // After returning from Mollie: show the payment result
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("betaling");
+    if (!id) return;
+
+    let cancelled = false;
+    let attempts = 0;
+    setPaymentChecking(true);
+
+    async function poll() {
+      attempts += 1;
+      try {
+        const res = await fetch(
+          `/api/public/reservation-status?id=${encodeURIComponent(id!)}`,
+        );
+        const json = (await res.json()) as {
+          success?: boolean;
+          reservation?: PaymentStatusInfo;
+        };
+
+        if (cancelled) return;
+
+        if (json.success && json.reservation) {
+          setPaymentInfo(json.reservation);
+
+          // Mollie's webhook can arrive slightly later than the redirect
+          if (json.reservation.payment_status === "open" && attempts < 5) {
+            setTimeout(poll, 2000);
+            return;
+          }
+        }
+      } catch (err) {
+        console.error("payment status check failed", err);
+      }
+
+      if (!cancelled) setPaymentChecking(false);
+    }
+
+    void poll();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
 
   // Load already reserved time slots for the chosen date
   useEffect(() => {
@@ -293,6 +357,12 @@ function ReservationsPage() {
           data.message ??
           "De reservering kon niet worden verstuurd.",
         );
+      }
+
+      // Deposit is mandatory: send the guest straight to Mollie
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+        return;
       }
 
       setConfirmation(result.data);
@@ -424,6 +494,32 @@ function ReservationsPage() {
           ))}
         </div>
 
+        {paymentInfo && (
+          <div
+            className={`mx-auto mt-16 max-w-2xl rounded-2xl border p-8 text-center ${
+              paymentInfo.payment_status === "paid"
+                ? "border-lavender-500/40 bg-lavender-500/5"
+                : "border-border/60 bg-card"
+            }`}
+          >
+            <h2 className="font-display text-2xl font-light text-foreground">
+              {paymentInfo.payment_status === "paid"
+                ? "Je aanbetaling is ontvangen"
+                : paymentChecking
+                  ? "We controleren je betaling…"
+                  : "Betaling nog niet afgerond"}
+            </h2>
+
+            <p className="mt-3 font-body text-sm text-muted-foreground">
+              {paymentInfo.payment_status === "paid"
+                ? `Je reservering voor het ${paymentInfo.package_name}-pakket op ${paymentInfo.reservation_date} om ${paymentInfo.reservation_time} is definitief bevestigd. Je ontvangt een bevestiging per e-mail.`
+                : paymentChecking
+                  ? "Een moment geduld, we halen de status van je betaling op."
+                  : `We hebben nog geen aanbetaling van €${DEPOSIT_AMOUNT} ontvangen. Je reservering is daardoor nog niet definitief — probeer het opnieuw of neem contact met ons op.`}
+            </p>
+          </div>
+        )}
+
         <div
           id="booking-form"
           className="mt-20 scroll-mt-24"
@@ -536,8 +632,10 @@ function ReservationsPage() {
                 </h2>
 
                 <p className="mx-auto mt-3 max-w-xl font-body text-base text-muted-foreground">
-                  Vul het formulier in en ontvang direct een
-                  voorlopige bevestiging.
+                  Vul het formulier in en rond je reservering af met
+                  een aanbetaling van €{DEPOSIT_AMOUNT} via Mollie
+                  (o.a. iDEAL). Je reservering is definitief zodra de
+                  aanbetaling is ontvangen.
                 </p>
               </div>
 
