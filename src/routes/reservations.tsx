@@ -632,8 +632,10 @@ function ReservationsPage() {
                 </h2>
 
                 <p className="mx-auto mt-3 max-w-xl font-body text-base text-muted-foreground">
-                  Vul het formulier in en ontvang direct een
-                  voorlopige bevestiging.
+                  Vul het formulier in en rond je reservering af met
+                  een aanbetaling van €{DEPOSIT_AMOUNT} via Mollie
+                  (o.a. iDEAL). Je reservering is definitief zodra de
+                  aanbetaling is ontvangen.
                 </p>
               </div>
 
