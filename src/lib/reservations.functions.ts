@@ -148,6 +148,54 @@ export const deleteReservation = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+/* ---------------------------------------------------------------------------
+ * Blocked slots — days / time slots the studio marks as unavailable
+ * ------------------------------------------------------------------------ */
+
+export const listBlockedSlots = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { supabase } = context;
+    const { data, error } = await supabase
+      .from("blocked_slots")
+      .select("*")
+      .order("blocked_date", { ascending: true });
+    if (error) throw new Error(error.message);
+    return { blockedSlots: data ?? [] };
+  });
+
+export const createBlockedSlot = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) =>
+    z
+      .object({
+        date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Ongeldige datum"),
+        timeSlot: z.string().min(1).max(10).nullable().optional(),
+        reason: z.string().trim().max(200).optional(),
+      })
+      .parse(input),
+  )
+  .handler(async ({ data, context }) => {
+    const { supabase } = context;
+    const { error } = await supabase.from("blocked_slots").insert({
+      blocked_date: data.date,
+      time_slot: data.timeSlot ?? null,
+      reason: data.reason?.trim() ? data.reason.trim() : null,
+    });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const deleteBlockedSlot = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => z.object({ id: z.string().uuid() }).parse(input))
+  .handler(async ({ data, context }) => {
+    const { supabase } = context;
+    const { error } = await supabase.from("blocked_slots").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
 /**
  * Grants the calling user the `admin` role if their email matches the
  * configured admin email. Idempotent — safe to call every time the admin
