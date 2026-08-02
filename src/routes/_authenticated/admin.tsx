@@ -293,6 +293,8 @@ function AdminPage() {
         </Table>
       </div>
 
+      <BlockedSlotsPanel />
+
       <p className="mt-6 text-center font-body text-xs text-muted-foreground">
         Toont {filtered.length} van {data.reservations.length} reserveringen. •{" "}
         <Link to="/" className="underline hover:text-lavender-600">Terug naar de website</Link>
