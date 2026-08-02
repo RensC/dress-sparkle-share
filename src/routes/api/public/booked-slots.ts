@@ -81,26 +81,47 @@ export const Route = createFileRoute(
             );
           }
 
+          const { data: blocked, error: blockedError } = await supabaseAdmin
+            .from("blocked_slots")
+            .select("time_slot")
+            .eq("blocked_date", date);
+
+          if (blockedError) {
+            console.error("fetch blocked slots failed", blockedError);
+          }
+
+          const fullDayBlocked = (blocked ?? []).some(
+            (row) => row.time_slot === null,
+          );
+
           const bookedSlots = Array.from(
-            new Set(
-              (data ?? [])
+            new Set([
+              ...(data ?? [])
                 .map((row) => row.reservation_time)
                 .filter(
                   (value): value is string =>
                     typeof value === "string",
                 ),
-            ),
+              ...(blocked ?? [])
+                .map((row) => row.time_slot)
+                .filter(
+                  (value): value is string =>
+                    typeof value === "string",
+                ),
+            ]),
           );
 
           return Response.json(
             {
               success: true,
               bookedSlots,
+              fullDayBlocked,
             },
             {
               headers,
             },
           );
+
         } catch (error) {
           console.error(
             "booked-slots handler failed",

@@ -153,7 +153,7 @@ export const Route = createFileRoute(
           const nextReservationStatus = paid
             ? "confirmed"
             : unsuccessfulFinalStatuses.includes(payment.status)
-              ? "canceled"
+              ? "cancelled"
               : existingReservation.status;
 
           const {

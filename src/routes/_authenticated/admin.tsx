@@ -39,6 +39,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { BlockedSlotsPanel } from "@/components/admin/BlockedSlotsPanel";
 
 type Status = "pending" | "confirmed" | "cancelled" | "completed";
 
@@ -291,6 +292,8 @@ function AdminPage() {
           </TableBody>
         </Table>
       </div>
+
+      <BlockedSlotsPanel />
 
       <p className="mt-6 text-center font-body text-xs text-muted-foreground">
         Toont {filtered.length} van {data.reservations.length} reserveringen. •{" "}

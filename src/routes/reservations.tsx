@@ -208,11 +208,13 @@ function ReservationsPage() {
 
   // After returning from Mollie: show the payment result
   useEffect(() => {
-    const reservationId = new URLSearchParams(window.location.search).get(
+    const rawReservationId = new URLSearchParams(window.location.search).get(
       "betaling",
     );
 
-    if (!reservationId) return;
+    if (!rawReservationId) return;
+    const reservationId: string = rawReservationId;
+
 
     let cancelled = false;
     let attempts = 0;
@@ -314,9 +316,11 @@ function ReservationsPage() {
 
     fetch(`/api/public/booked-slots?date=${dateKey}`)
       .then((res) => res.json())
-      .then((data: { bookedSlots?: string[] }) => {
+      .then((data: { bookedSlots?: string[]; fullDayBlocked?: boolean }) => {
         if (cancelled) return;
-        const taken = data.bookedSlots ?? [];
+        const taken = data.fullDayBlocked
+          ? [...timeSlots]
+          : (data.bookedSlots ?? []);
         setBookedSlots(taken);
         setTime((current) => (current && taken.includes(current) ? "" : current));
       })

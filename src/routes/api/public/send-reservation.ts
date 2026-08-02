@@ -344,6 +344,31 @@ export const Route = createFileRoute(
             );
           }
 
+          // Slots that the studio manually marked as unavailable
+          const { data: blocked } = await supabaseAdmin
+            .from("blocked_slots")
+            .select("time_slot")
+            .eq("blocked_date", date);
+
+          const isBlocked = (blocked ?? []).some(
+            (row) => row.time_slot === null || row.time_slot === time,
+          );
+
+          if (isBlocked) {
+            return Response.json(
+              {
+                success: false,
+                message:
+                  "Dit tijdslot is helaas niet beschikbaar. Kies een andere datum of tijd.",
+              },
+              {
+                status: 409,
+                headers: corsHeaders,
+              },
+            );
+          }
+
+
           const {
             data: inserted,
             error: insertError,
