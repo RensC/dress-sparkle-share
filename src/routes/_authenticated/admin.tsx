@@ -39,6 +39,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { BlockedSlotsPanel } from "@/components/admin/BlockedSlotsPanel";
 
 type Status = "pending" | "confirmed" | "cancelled" | "completed";
 
