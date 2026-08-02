@@ -6,6 +6,7 @@ import {
   Instagram,
   Clock,
   Facebook,
+  Gift,
 } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { z } from "zod";
@@ -155,6 +156,26 @@ function ContactPage() {
             Vragen over funfitting of klaar om je ervaring te boeken? We horen
             graag van je.
           </p>
+
+          <div className="mx-auto mt-8 flex max-w-2xl items-start gap-4 rounded-xl border border-lavender-400/30 bg-lavender-500/5 p-5 text-left">
+            <Gift className="mt-0.5 shrink-0 text-lavender-600" size={20} />
+            <p className="font-body text-sm text-muted-foreground">
+              <strong className="font-semibold text-foreground">
+                Cadeaubonnen:
+              </strong>{" "}
+              Op zoek naar het perfecte cadeau? Een Dressperience-cadeaubon is een
+              onvergetelijke ervaring om cadeau te doen. Omdat er geen vaste datum
+              vaststaat, werken we deze persoonlijk met je uit. Stuur ons een
+              bericht met als onderwerp "Cadeaubon" of e-mail naar{" "}
+              <a
+                href="mailto:info@dressperience.com?subject=Cadeaubon%20aanvragen"
+                className="font-medium text-lavender-600 underline hover:text-lavender-700"
+              >
+                info@dressperience.com
+              </a>
+              .
+            </p>
+          </div>
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-2">
