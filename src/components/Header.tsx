@@ -18,7 +18,14 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <Link to="/" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2.5">
+          <img
+            src={logo}
+            alt="Dressperience logo"
+            width={48}
+            height={48}
+            className="h-11 w-11 object-contain"
+          />
           <span className="font-display text-2xl font-semibold tracking-tight text-lavender-700">
             Dressperience
           </span>
