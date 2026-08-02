@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
-import { Heart, Camera, Wine, CalendarDays, Sparkles } from "lucide-react";
+import { Heart, Camera, Wine, CalendarDays, Sparkles, Gift } from "lucide-react";
 
 import heroImg from "@/assets/hero.jpg";
 import home1 from "@/assets/home-1.jpg";
@@ -159,6 +159,76 @@ function HomePage() {
                     Professionele foto's worden gemaakt tijdens je ervaring, zodat je de magie steeds opnieuw kunt beleven.
                   </p>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Cadeaubonnen */}
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 items-center gap-12 rounded-3xl bg-gradient-to-br from-blush-100/60 to-lavender-500/10 p-8 md:p-16 lg:grid-cols-2">
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full bg-lavender-500/15 px-4 py-1.5 font-body text-xs font-medium uppercase tracking-widest text-lavender-600">
+              <Gift size={14} />
+              Cadeaubonnen
+            </span>
+            <h2 className="mt-6 font-display text-4xl font-light text-foreground md:text-5xl">
+              Geef een <span className="font-semibold italic text-lavender-600">Dressperience</span> cadeau
+            </h2>
+            <p className="mt-6 font-body text-lg leading-relaxed text-muted-foreground">
+              Op zoek naar het perfecte cadeau voor een verjaardag, vrijgezellenfeest
+              of gewoon een verrassing? Met een Dressperience-cadeaubon geef je een
+              onvergetelijke funfitting-ervaring met vriendinnen — het mooiste
+              cadeau dat er is!
+            </p>
+            <p className="mt-4 font-body text-base text-muted-foreground">
+              Omdat een cadeaubon geen vaste datum heeft, werken we deze persoonlijk
+              met je uit. Neem contact met ons op om een cadeaubon te bestellen.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center rounded-full bg-lavender-600 px-8 py-3.5 font-body text-sm font-semibold uppercase tracking-widest text-primary-foreground transition-all hover:bg-lavender-700 hover:shadow-lg hover:shadow-lavender-500/20"
+              >
+                Cadeaubon aanvragen
+              </Link>
+              <a
+                href="mailto:info@dressperience.com?subject=Cadeaubon%20aanvragen"
+                className="inline-flex items-center justify-center rounded-full border border-border bg-background px-8 py-3.5 font-body text-sm font-semibold uppercase tracking-widest text-foreground transition-all hover:bg-blush-200/50"
+              >
+                Stuur een e-mail
+              </a>
+            </div>
+          </div>
+
+          <div className="relative flex justify-center">
+            <div className="relative w-full max-w-sm rotate-3 overflow-hidden rounded-2xl border border-lavender-400/40 bg-card p-8 shadow-xl shadow-lavender-500/10 transition-transform hover:rotate-0">
+              <div className="flex items-center justify-between">
+                <span className="font-display text-2xl font-semibold italic text-lavender-600">
+                  Dressperience
+                </span>
+                <Gift className="text-lavender-500" size={28} />
+              </div>
+              <div className="mt-6 border-t border-dashed border-lavender-300/60 pt-6">
+                <p className="font-body text-sm uppercase tracking-widest text-muted-foreground">
+                  Cadeaubon
+                </p>
+                <p className="mt-2 font-display text-3xl font-light text-foreground">
+                  Funfitting-ervaring
+                </p>
+                <p className="mt-4 font-body text-sm text-muted-foreground">
+                  Een magische dag vol jurken, foto's en gelach — voor de
+                  gelukkige ontvanger.
+                </p>
+              </div>
+              <div className="mt-6 flex items-center justify-between border-t border-dashed border-lavender-300/60 pt-6">
+                <span className="font-body text-xs text-muted-foreground">
+                  Waarde op aanvraag
+                </span>
+                <span className="font-display text-lg font-semibold text-lavender-600">
+                  ♥
+                </span>
               </div>
             </div>
           </div>
