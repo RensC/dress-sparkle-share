@@ -316,9 +316,11 @@ function ReservationsPage() {
 
     fetch(`/api/public/booked-slots?date=${dateKey}`)
       .then((res) => res.json())
-      .then((data: { bookedSlots?: string[] }) => {
+      .then((data: { bookedSlots?: string[]; fullDayBlocked?: boolean }) => {
         if (cancelled) return;
-        const taken = data.bookedSlots ?? [];
+        const taken = data.fullDayBlocked
+          ? [...timeSlots]
+          : (data.bookedSlots ?? []);
         setBookedSlots(taken);
         setTime((current) => (current && taken.includes(current) ? "" : current));
       })
