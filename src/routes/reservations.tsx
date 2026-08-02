@@ -208,11 +208,13 @@ function ReservationsPage() {
 
   // After returning from Mollie: show the payment result
   useEffect(() => {
-    const reservationId = new URLSearchParams(window.location.search).get(
+    const rawReservationId = new URLSearchParams(window.location.search).get(
       "betaling",
     );
 
-    if (!reservationId) return;
+    if (!rawReservationId) return;
+    const reservationId: string = rawReservationId;
+
 
     let cancelled = false;
     let attempts = 0;
