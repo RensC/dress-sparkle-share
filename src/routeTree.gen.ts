@@ -22,6 +22,7 @@ import { Route as AlgemeneVoorwaardenRouteImport } from './routes/algemene-voorw
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SitemapXmlRouteImport } from './routes/sitemap.xml'
 import { Route as BlogVrijgezellenfeestActiviteitenRouteImport } from './routes/blog.vrijgezellenfeest-activiteiten'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiPublicSendReservationRouteImport } from './routes/api/public/send-reservation'
@@ -96,6 +97,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapXmlRoute = SitemapXmlRouteImport.update({
+  id: '/sitemap/xml',
+  path: '/sitemap/xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogVrijgezellenfeestActiviteitenRoute =
   BlogVrijgezellenfeestActiviteitenRouteImport.update({
     id: '/blog/vrijgezellenfeest-activiteiten',
@@ -150,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/vrijgezellenfeest-limburg': typeof VrijgezellenfeestLimburgRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/blog/vrijgezellenfeest-activiteiten': typeof BlogVrijgezellenfeestActiviteitenRoute
+  '/sitemap/xml': typeof SitemapXmlRoute
   '/api/public/booked-slots': typeof ApiPublicBookedSlotsRoute
   '/api/public/mollie-webhook': typeof ApiPublicMollieWebhookRoute
   '/api/public/reservation-status': typeof ApiPublicReservationStatusRoute
@@ -171,6 +178,7 @@ export interface FileRoutesByTo {
   '/vrijgezellenfeest-limburg': typeof VrijgezellenfeestLimburgRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/blog/vrijgezellenfeest-activiteiten': typeof BlogVrijgezellenfeestActiviteitenRoute
+  '/sitemap/xml': typeof SitemapXmlRoute
   '/api/public/booked-slots': typeof ApiPublicBookedSlotsRoute
   '/api/public/mollie-webhook': typeof ApiPublicMollieWebhookRoute
   '/api/public/reservation-status': typeof ApiPublicReservationStatusRoute
@@ -194,6 +202,7 @@ export interface FileRoutesById {
   '/vrijgezellenfeest-limburg': typeof VrijgezellenfeestLimburgRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/blog/vrijgezellenfeest-activiteiten': typeof BlogVrijgezellenfeestActiviteitenRoute
+  '/sitemap/xml': typeof SitemapXmlRoute
   '/api/public/booked-slots': typeof ApiPublicBookedSlotsRoute
   '/api/public/mollie-webhook': typeof ApiPublicMollieWebhookRoute
   '/api/public/reservation-status': typeof ApiPublicReservationStatusRoute
@@ -217,6 +226,7 @@ export interface FileRouteTypes {
     | '/vrijgezellenfeest-limburg'
     | '/admin'
     | '/blog/vrijgezellenfeest-activiteiten'
+    | '/sitemap/xml'
     | '/api/public/booked-slots'
     | '/api/public/mollie-webhook'
     | '/api/public/reservation-status'
@@ -238,6 +248,7 @@ export interface FileRouteTypes {
     | '/vrijgezellenfeest-limburg'
     | '/admin'
     | '/blog/vrijgezellenfeest-activiteiten'
+    | '/sitemap/xml'
     | '/api/public/booked-slots'
     | '/api/public/mollie-webhook'
     | '/api/public/reservation-status'
@@ -260,6 +271,7 @@ export interface FileRouteTypes {
     | '/vrijgezellenfeest-limburg'
     | '/_authenticated/admin'
     | '/blog/vrijgezellenfeest-activiteiten'
+    | '/sitemap/xml'
     | '/api/public/booked-slots'
     | '/api/public/mollie-webhook'
     | '/api/public/reservation-status'
@@ -282,6 +294,7 @@ export interface RootRouteChildren {
   VriendinnenuitjeLimburgRoute: typeof VriendinnenuitjeLimburgRoute
   VrijgezellenfeestLimburgRoute: typeof VrijgezellenfeestLimburgRoute
   BlogVrijgezellenfeestActiviteitenRoute: typeof BlogVrijgezellenfeestActiviteitenRoute
+  SitemapXmlRoute: typeof SitemapXmlRoute
   ApiPublicBookedSlotsRoute: typeof ApiPublicBookedSlotsRoute
   ApiPublicMollieWebhookRoute: typeof ApiPublicMollieWebhookRoute
   ApiPublicReservationStatusRoute: typeof ApiPublicReservationStatusRoute
@@ -382,6 +395,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap/xml': {
+      id: '/sitemap/xml'
+      path: '/sitemap/xml'
+      fullPath: '/sitemap/xml'
+      preLoaderRoute: typeof SitemapXmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/vrijgezellenfeest-activiteiten': {
       id: '/blog/vrijgezellenfeest-activiteiten'
       path: '/blog/vrijgezellenfeest-activiteiten'
@@ -461,6 +481,7 @@ const rootRouteChildren: RootRouteChildren = {
   VrijgezellenfeestLimburgRoute: VrijgezellenfeestLimburgRoute,
   BlogVrijgezellenfeestActiviteitenRoute:
     BlogVrijgezellenfeestActiviteitenRoute,
+  SitemapXmlRoute: SitemapXmlRoute,
   ApiPublicBookedSlotsRoute: ApiPublicBookedSlotsRoute,
   ApiPublicMollieWebhookRoute: ApiPublicMollieWebhookRoute,
   ApiPublicReservationStatusRoute: ApiPublicReservationStatusRoute,

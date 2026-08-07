@@ -24,7 +24,7 @@ const entries: SitemapEntry[] = [
   { path: "/blog/vrijgezellenfeest-activiteiten", changefreq: "monthly", priority: "0.8" },
 ];
 
-export const Route = createFileRoute("/sitemap.xml")({
+export const Route = createFileRoute("/sitemap/xml")({
   server: {
     handlers: {
       GET: async () => {
