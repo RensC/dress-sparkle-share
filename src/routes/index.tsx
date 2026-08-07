@@ -36,7 +36,7 @@ function HomePage() {
               <span className="block font-semibold italic text-lavender-600">Dressperience</span>
             </h1>
             <p className="mt-6 font-body text-lg leading-relaxed text-muted-foreground">
-              De mooiste trouwjurken passen, elkaar compleet op hypen, draaien voor de spiegel, gillen bij de perfecte look en ondertussen de allerleukste foto’s maken tijdens een mini foto shoot. Vanaf het moment dat jullie binnenstappen, voelt het alsof jullie samen in een romantische film zijn beland. Vol glitter, tule, gezelligheid en keihard lachen. Dit is geen standaard uitje, maar een ervaring waar je maanden later nog steeds over praat!  Of je nu iets te vieren hebt, opzoek bent naar een originele verassing of gewoon zin hebt om jurken te passen.
+              De mooiste trouwjurken passen, elkaar compleet op hypen, draaien voor de spiegel, gillen bij de perfecte look en ondertussen de allerleukste foto’s maken tijdens een mini foto shoot. Vanaf het moment dat jullie binnenstappen, voelt het alsof jullie samen in een romantische film zijn beland. Vol glitter, tule, gezelligheid en keihard lachen. Dit is geen standaard uitje, maar een ervaring waar je maanden later nog steeds over praat!  Of je nu iets te vieren hebt, opzoek bent naar een originele verrassing of gewoon zin hebt om jurken te passen.
             </p>
             <p><br/><strong><i>Dressperience is zonder twijfel het leukste uitje dat je met je vriendinnen kunt doen! </i></strong>
             </p>
@@ -144,7 +144,7 @@ function HomePage() {
                 <div className="rounded-xl bg-card p-6 shadow-sm">
                   <div className="flex items-center gap-3">
                     <Wine size={20} className="text-rose-400" />
-                    <span className="font-body text-sm font-medium text-foreground">Welkomsdrankje inbegrepen</span>
+                    <span className="font-body text-sm font-medium text-foreground">Welkomstdrankje inbegrepen</span>
                   </div>
                   <p className="mt-2 font-body text-sm text-muted-foreground">
                     Geniet bij aankomst van een heerlijk sprankelend drankje.
