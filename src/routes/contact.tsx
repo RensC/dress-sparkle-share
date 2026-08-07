@@ -22,14 +22,18 @@ export const Route = createFileRoute("/contact")({
       {
         name: "description",
         content:
-          "Neem contact op met Dressperience. Boek je funfitting-sessie, stel een vraag of zeg gewoon hallo. We horen graag van je.",
+          "Neem contact op met Dressperience in Posterholt, Limburg. Boek je funfitting-sessie, stel een vraag of bestel een cadeaubon. We horen graag van je.",
       },
       { property: "og:title", content: "Contact — Dressperience" },
       {
         property: "og:description",
         content:
-          "Neem contact op met Dressperience. Boek je funfitting-sessie of stel ons een vraag.",
+          "Neem contact op met Dressperience in Posterholt, Limburg. Boek je funfitting-sessie of stel ons een vraag.",
       },
+      { property: "og:url", content: "https://dress-sparkle-share.lovable.app/contact" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://dress-sparkle-share.lovable.app/contact" },
     ],
   }),
   component: ContactPage,
