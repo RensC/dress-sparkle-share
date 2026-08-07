@@ -11,10 +11,14 @@ import home4 from "@/assets/home-4.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Dressperience — Funfitting met vriendinnen" },
-      { name: "description", content: "Pas samen met vriendinnen prachtige trouwjurken voor de lol. Een unieke ervaring met veel foto's en gelach. Boek vandaag jouw pas-sessie!" },
-      { property: "og:title", content: "Dressperience — Funfitting met vriendinnen" },
-      { property: "og:description", content: "Pas samen met vriendinnen prachtige trouwjurken voor de lol. Een unieke ervaring." },
+      { title: "Dressperience — Funfitting met vriendinnen in Limburg" },
+      { name: "description", content: "Pas samen met vriendinnen prachtige trouwjurken voor de lol in Limburg. Funfitting is het perfecte vriendinnenuitje, vrouwenuitje of vrijgezellenfeest. Boek vandaag jouw pas-sessie!" },
+      { property: "og:title", content: "Dressperience — Funfitting met vriendinnen in Limburg" },
+      { property: "og:description", content: "Pas samen met vriendinnen prachtige trouwjurken voor de lol. Het leukste vriendinnenuitje of vrijgezellenfeest in Limburg." },
+      { property: "og:url", content: "https://dress-sparkle-share.lovable.app/" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://dress-sparkle-share.lovable.app/" },
     ],
   }),
   component: HomePage,
