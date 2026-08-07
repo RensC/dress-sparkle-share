@@ -42,6 +42,29 @@ export function Footer() {
 
           <div className="space-y-4">
             <h4 className="font-body text-sm font-semibold uppercase tracking-widest text-foreground">
+              Inspiratie
+            </h4>
+            <div className="flex flex-col gap-2">
+              {[
+                { to: "/blog/vrijgezellenfeest-activiteiten", label: "Vrijgezellenfeest activiteiten" },
+                { to: "/vrijgezellenfeest-limburg", label: "Vrijgezellenfeest Limburg" },
+                { to: "/vriendinnenuitje-limburg", label: "Vriendinnenuitje Limburg" },
+                { to: "/trouwjurken-passen-voor-de-lol", label: "Trouwjurken passen voor de lol" },
+                { to: "/funfitting-limburg", label: "Funfitting Limburg" },
+              ].map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className="font-body text-sm text-muted-foreground transition-colors hover:text-lavender-600"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <h4 className="font-body text-sm font-semibold uppercase tracking-widest text-foreground">
               Contact
             </h4>
             <div className="flex flex-col gap-3">
