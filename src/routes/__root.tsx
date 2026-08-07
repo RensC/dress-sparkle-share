@@ -85,6 +85,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "Dressperience — Funfitting met vriendinnen" },
       { property: "og:description", content: "Pas samen met vriendinnen prachtige trouwjurken voor de lol. Een unieke ervaring met foto's en drankjes inbegrepen." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://dress-sparkle-share.lovable.app/" },
+      { property: "og:site_name", content: "Dressperience" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@dressperience" },
     ],
@@ -94,6 +96,52 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              name: "Dressperience",
+              url: "https://dress-sparkle-share.lovable.app/",
+              logo: "https://dress-sparkle-share.lovable.app/favicon.png",
+              description: "Dressperience organiseert funfitting-ervaringen in Posterholt, Limburg: samen met vriendinnen prachtige trouwjurken passen voor de lol.",
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "Heerbaan 54",
+                addressLocality: "Posterholt",
+                postalCode: "6061 EE",
+                addressCountry: "NL",
+              },
+              contactPoint: {
+                "@type": "ContactPoint",
+                telephone: "+31642515172",
+                email: "info@dressperience.com",
+                contactType: "customer service",
+                areaServed: "NL",
+                availableLanguage: "Dutch",
+              },
+              sameAs: [
+                "https://www.instagram.com/dressperience_limburg",
+                "https://www.facebook.com/people/Dressperience/61587489742533/",
+              ],
+            },
+            {
+              "@type": "WebSite",
+              name: "Dressperience",
+              url: "https://dress-sparkle-share.lovable.app/",
+              inLanguage: "nl",
+              publisher: {
+                "@type": "Organization",
+                name: "Dressperience",
+              },
+            },
+          ],
+        }),
+      },
     ],
   }),
   shellComponent: RootShell,
