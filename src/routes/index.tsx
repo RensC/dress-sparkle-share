@@ -114,9 +114,9 @@ function HomePage() {
                       {i + 1}
                     </div>
                     <div>
-                      <h4 className="font-body text-base font-semibold text-foreground">
+                      <h3 className="font-body text-base font-semibold text-foreground">
                         {step.title}
-                      </h4>
+                      </h3>
                       <p className="mt-1 font-body text-sm text-muted-foreground">
                         {step.description}
                       </p>
