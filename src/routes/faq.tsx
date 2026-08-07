@@ -10,9 +10,30 @@ export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: [
       { title: "Veelgestelde vragen — Dressperience" },
-      { name: "description", content: "Antwoorden op de meest gestelde vragen over funfitting bij Dressperience: reserveren, pakketten, jurken, drankjes en foto's." },
+      { name: "description", content: "Antwoorden op de meest gestelde vragen over funfitting bij Dressperience in Limburg: reserveren, pakketten, trouwjurken, drankjes, foto's en vrijgezellenfeesten." },
       { property: "og:title", content: "Veelgestelde vragen — Dressperience" },
-      { property: "og:description", content: "Antwoorden op de meest gestelde vragen." },
+      { property: "og:description", content: "Antwoorden op de meest gestelde vragen over funfitting in Limburg." },
+      { property: "og:url", content: "https://dress-sparkle-share.lovable.app/faq" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://dress-sparkle-share.lovable.app/faq" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.q,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: faq.a,
+            },
+          })),
+        }),
+      },
     ],
   }),
   component: FaqPage,

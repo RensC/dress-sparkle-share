@@ -5,7 +5,7 @@ export function Footer() {
   return (
     <footer className="w-full border-t border-border/40 bg-background">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
             <h3 className="font-display text-2xl font-semibold text-lavender-700">
               Dressperience
@@ -28,6 +28,29 @@ export function Footer() {
                 { to: "/faq", label: "FAQ" },
                 { to: "/algemene-voorwaarden", label: "Algemene voorwaarden" },
                 { to: "/contact", label: "Contact" },
+              ].map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className="font-body text-sm text-muted-foreground transition-colors hover:text-lavender-600"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <h4 className="font-body text-sm font-semibold uppercase tracking-widest text-foreground">
+              Inspiratie
+            </h4>
+            <div className="flex flex-col gap-2">
+              {[
+                { to: "/blog/vrijgezellenfeest-activiteiten", label: "Vrijgezellenfeest activiteiten" },
+                { to: "/vrijgezellenfeest-limburg", label: "Vrijgezellenfeest Limburg" },
+                { to: "/vriendinnenuitje-limburg", label: "Vriendinnenuitje Limburg" },
+                { to: "/trouwjurken-passen-voor-de-lol", label: "Trouwjurken passen voor de lol" },
+                { to: "/funfitting-limburg", label: "Funfitting Limburg" },
               ].map((link) => (
                 <Link
                   key={link.to}

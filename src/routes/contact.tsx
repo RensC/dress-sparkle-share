@@ -22,13 +22,57 @@ export const Route = createFileRoute("/contact")({
       {
         name: "description",
         content:
-          "Neem contact op met Dressperience. Boek je funfitting-sessie, stel een vraag of zeg gewoon hallo. We horen graag van je.",
+          "Neem contact op met Dressperience in Posterholt, Limburg. Boek je funfitting-sessie, stel een vraag of bestel een cadeaubon. We horen graag van je.",
       },
       { property: "og:title", content: "Contact — Dressperience" },
       {
         property: "og:description",
         content:
-          "Neem contact op met Dressperience. Boek je funfitting-sessie of stel ons een vraag.",
+          "Neem contact op met Dressperience in Posterholt, Limburg. Boek je funfitting-sessie of stel ons een vraag.",
+      },
+      { property: "og:url", content: "https://dress-sparkle-share.lovable.app/contact" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://dress-sparkle-share.lovable.app/contact" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: "Dressperience",
+          description: "Dressperience organiseert funfitting-ervaringen: samen met vriendinnen prachtige trouwjurken passen voor de lol in Posterholt, Limburg.",
+          url: "https://dress-sparkle-share.lovable.app/",
+          image: "https://dress-sparkle-share.lovable.app/favicon.png",
+          telephone: "+31642515172",
+          email: "info@dressperience.com",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "Heerbaan 54",
+            addressLocality: "Posterholt",
+            postalCode: "6061 EE",
+            addressCountry: "NL",
+          },
+          geo: {
+            "@type": "GeoCoordinates",
+            latitude: "51.1263747",
+            longitude: "6.0262834",
+          },
+          priceRange: "€€",
+          areaServed: {
+            "@type": "City",
+            name: "Posterholt",
+          },
+          sameAs: [
+            "https://www.instagram.com/dressperience_limburg",
+            "https://www.facebook.com/people/Dressperience/61587489742533/",
+          ],
+          openingHoursSpecification: {
+            "@type": "OpeningHoursSpecification",
+            description: "Alleen op afspraak",
+          },
+        }),
       },
     ],
   }),

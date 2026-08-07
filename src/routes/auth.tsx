@@ -6,7 +6,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/auth")({
-  head: () => ({ meta: [{ title: "Inloggen — Dressperience" }] }),
+  head: () => ({
+    meta: [
+      { title: "Inloggen — Dressperience" },
+      { name: "description", content: "Inloggen op het admin-paneel van Dressperience. Alleen voor bevoegde medewerkers." },
+      { property: "og:title", content: "Inloggen — Dressperience" },
+      { property: "og:description", content: "Inloggen op het admin-paneel van Dressperience." },
+      { property: "og:url", content: "https://dress-sparkle-share.lovable.app/auth" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://dress-sparkle-share.lovable.app/auth" },
+    ],
+  }),
   beforeLoad: async () => {
     if (typeof window === "undefined") return;
     const { data } = await supabase.auth.getUser();

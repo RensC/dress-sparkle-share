@@ -48,7 +48,7 @@ export const Route = createFileRoute("/reservations")({
       {
         name: "description",
         content:
-          "Boek je funfitting-ervaring bij Dressperience. Alleen op reservering. Kies je pakket en maak herinneringen met vriendinnen.",
+          "Boek je funfitting-ervaring bij Dressperience in Limburg. Alleen op reservering. Kies je pakket, datum en tijd voor een dag vol trouwjurken, foto's en gelach met vriendinnen.",
       },
       {
         property: "og:title",
@@ -57,8 +57,12 @@ export const Route = createFileRoute("/reservations")({
       {
         property: "og:description",
         content:
-          "Boek je funfitting-ervaring bij Dressperience. Alleen op reservering.",
+          "Boek je funfitting-ervaring bij Dressperience in Limburg. Alleen op reservering.",
       },
+      { property: "og:url", content: "https://dress-sparkle-share.lovable.app/reservations" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://dress-sparkle-share.lovable.app/reservations" },
     ],
   }),
   component: ReservationsPage,

@@ -9,8 +9,13 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VrijgezellenfeestLimburgRouteImport } from './routes/vrijgezellenfeest-limburg'
+import { Route as VriendinnenuitjeLimburgRouteImport } from './routes/vriendinnenuitje-limburg'
+import { Route as TrouwjurkenPassenVoorDeLolRouteImport } from './routes/trouwjurken-passen-voor-de-lol'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ReservationsRouteImport } from './routes/reservations'
 import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as FunfittingLimburgRouteImport } from './routes/funfitting-limburg'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -18,6 +23,7 @@ import { Route as AlgemeneVoorwaardenRouteImport } from './routes/algemene-voorw
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogVrijgezellenfeestActiviteitenRouteImport } from './routes/blog.vrijgezellenfeest-activiteiten'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiPublicSendReservationRouteImport } from './routes/api/public/send-reservation'
 import { Route as ApiPublicSendContactRouteImport } from './routes/api/public/send-contact'
@@ -25,6 +31,28 @@ import { Route as ApiPublicReservationStatusRouteImport } from './routes/api/pub
 import { Route as ApiPublicMollieWebhookRouteImport } from './routes/api/public/mollie-webhook'
 import { Route as ApiPublicBookedSlotsRouteImport } from './routes/api/public/booked-slots'
 
+const VrijgezellenfeestLimburgRoute =
+  VrijgezellenfeestLimburgRouteImport.update({
+    id: '/vrijgezellenfeest-limburg',
+    path: '/vrijgezellenfeest-limburg',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const VriendinnenuitjeLimburgRoute = VriendinnenuitjeLimburgRouteImport.update({
+  id: '/vriendinnenuitje-limburg',
+  path: '/vriendinnenuitje-limburg',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrouwjurkenPassenVoorDeLolRoute =
+  TrouwjurkenPassenVoorDeLolRouteImport.update({
+    id: '/trouwjurken-passen-voor-de-lol',
+    path: '/trouwjurken-passen-voor-de-lol',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReservationsRoute = ReservationsRouteImport.update({
   id: '/reservations',
   path: '/reservations',
@@ -33,6 +61,11 @@ const ReservationsRoute = ReservationsRouteImport.update({
 const GalleryRoute = GalleryRouteImport.update({
   id: '/gallery',
   path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FunfittingLimburgRoute = FunfittingLimburgRouteImport.update({
+  id: '/funfitting-limburg',
+  path: '/funfitting-limburg',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -69,6 +102,12 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogVrijgezellenfeestActiviteitenRoute =
+  BlogVrijgezellenfeestActiviteitenRouteImport.update({
+    id: '/blog/vrijgezellenfeest-activiteiten',
+    path: '/blog/vrijgezellenfeest-activiteiten',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -109,9 +148,15 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/funfitting-limburg': typeof FunfittingLimburgRoute
   '/gallery': typeof GalleryRoute
   '/reservations': typeof ReservationsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/trouwjurken-passen-voor-de-lol': typeof TrouwjurkenPassenVoorDeLolRoute
+  '/vriendinnenuitje-limburg': typeof VriendinnenuitjeLimburgRoute
+  '/vrijgezellenfeest-limburg': typeof VrijgezellenfeestLimburgRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/blog/vrijgezellenfeest-activiteiten': typeof BlogVrijgezellenfeestActiviteitenRoute
   '/api/public/booked-slots': typeof ApiPublicBookedSlotsRoute
   '/api/public/mollie-webhook': typeof ApiPublicMollieWebhookRoute
   '/api/public/reservation-status': typeof ApiPublicReservationStatusRoute
@@ -125,9 +170,15 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/funfitting-limburg': typeof FunfittingLimburgRoute
   '/gallery': typeof GalleryRoute
   '/reservations': typeof ReservationsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/trouwjurken-passen-voor-de-lol': typeof TrouwjurkenPassenVoorDeLolRoute
+  '/vriendinnenuitje-limburg': typeof VriendinnenuitjeLimburgRoute
+  '/vrijgezellenfeest-limburg': typeof VrijgezellenfeestLimburgRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/blog/vrijgezellenfeest-activiteiten': typeof BlogVrijgezellenfeestActiviteitenRoute
   '/api/public/booked-slots': typeof ApiPublicBookedSlotsRoute
   '/api/public/mollie-webhook': typeof ApiPublicMollieWebhookRoute
   '/api/public/reservation-status': typeof ApiPublicReservationStatusRoute
@@ -143,9 +194,15 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/funfitting-limburg': typeof FunfittingLimburgRoute
   '/gallery': typeof GalleryRoute
   '/reservations': typeof ReservationsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/trouwjurken-passen-voor-de-lol': typeof TrouwjurkenPassenVoorDeLolRoute
+  '/vriendinnenuitje-limburg': typeof VriendinnenuitjeLimburgRoute
+  '/vrijgezellenfeest-limburg': typeof VrijgezellenfeestLimburgRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/blog/vrijgezellenfeest-activiteiten': typeof BlogVrijgezellenfeestActiviteitenRoute
   '/api/public/booked-slots': typeof ApiPublicBookedSlotsRoute
   '/api/public/mollie-webhook': typeof ApiPublicMollieWebhookRoute
   '/api/public/reservation-status': typeof ApiPublicReservationStatusRoute
@@ -161,9 +218,15 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/faq'
+    | '/funfitting-limburg'
     | '/gallery'
     | '/reservations'
+    | '/sitemap.xml'
+    | '/trouwjurken-passen-voor-de-lol'
+    | '/vriendinnenuitje-limburg'
+    | '/vrijgezellenfeest-limburg'
     | '/admin'
+    | '/blog/vrijgezellenfeest-activiteiten'
     | '/api/public/booked-slots'
     | '/api/public/mollie-webhook'
     | '/api/public/reservation-status'
@@ -177,9 +240,15 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/faq'
+    | '/funfitting-limburg'
     | '/gallery'
     | '/reservations'
+    | '/sitemap.xml'
+    | '/trouwjurken-passen-voor-de-lol'
+    | '/vriendinnenuitje-limburg'
+    | '/vrijgezellenfeest-limburg'
     | '/admin'
+    | '/blog/vrijgezellenfeest-activiteiten'
     | '/api/public/booked-slots'
     | '/api/public/mollie-webhook'
     | '/api/public/reservation-status'
@@ -194,9 +263,15 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/faq'
+    | '/funfitting-limburg'
     | '/gallery'
     | '/reservations'
+    | '/sitemap.xml'
+    | '/trouwjurken-passen-voor-de-lol'
+    | '/vriendinnenuitje-limburg'
+    | '/vrijgezellenfeest-limburg'
     | '/_authenticated/admin'
+    | '/blog/vrijgezellenfeest-activiteiten'
     | '/api/public/booked-slots'
     | '/api/public/mollie-webhook'
     | '/api/public/reservation-status'
@@ -212,8 +287,14 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
+  FunfittingLimburgRoute: typeof FunfittingLimburgRoute
   GalleryRoute: typeof GalleryRoute
   ReservationsRoute: typeof ReservationsRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TrouwjurkenPassenVoorDeLolRoute: typeof TrouwjurkenPassenVoorDeLolRoute
+  VriendinnenuitjeLimburgRoute: typeof VriendinnenuitjeLimburgRoute
+  VrijgezellenfeestLimburgRoute: typeof VrijgezellenfeestLimburgRoute
+  BlogVrijgezellenfeestActiviteitenRoute: typeof BlogVrijgezellenfeestActiviteitenRoute
   ApiPublicBookedSlotsRoute: typeof ApiPublicBookedSlotsRoute
   ApiPublicMollieWebhookRoute: typeof ApiPublicMollieWebhookRoute
   ApiPublicReservationStatusRoute: typeof ApiPublicReservationStatusRoute
@@ -223,6 +304,34 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/vrijgezellenfeest-limburg': {
+      id: '/vrijgezellenfeest-limburg'
+      path: '/vrijgezellenfeest-limburg'
+      fullPath: '/vrijgezellenfeest-limburg'
+      preLoaderRoute: typeof VrijgezellenfeestLimburgRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vriendinnenuitje-limburg': {
+      id: '/vriendinnenuitje-limburg'
+      path: '/vriendinnenuitje-limburg'
+      fullPath: '/vriendinnenuitje-limburg'
+      preLoaderRoute: typeof VriendinnenuitjeLimburgRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trouwjurken-passen-voor-de-lol': {
+      id: '/trouwjurken-passen-voor-de-lol'
+      path: '/trouwjurken-passen-voor-de-lol'
+      fullPath: '/trouwjurken-passen-voor-de-lol'
+      preLoaderRoute: typeof TrouwjurkenPassenVoorDeLolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reservations': {
       id: '/reservations'
       path: '/reservations'
@@ -235,6 +344,13 @@ declare module '@tanstack/react-router' {
       path: '/gallery'
       fullPath: '/gallery'
       preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/funfitting-limburg': {
+      id: '/funfitting-limburg'
+      path: '/funfitting-limburg'
+      fullPath: '/funfitting-limburg'
+      preLoaderRoute: typeof FunfittingLimburgRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -284,6 +400,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/vrijgezellenfeest-activiteiten': {
+      id: '/blog/vrijgezellenfeest-activiteiten'
+      path: '/blog/vrijgezellenfeest-activiteiten'
+      fullPath: '/blog/vrijgezellenfeest-activiteiten'
+      preLoaderRoute: typeof BlogVrijgezellenfeestActiviteitenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -350,8 +473,15 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
+  FunfittingLimburgRoute: FunfittingLimburgRoute,
   GalleryRoute: GalleryRoute,
   ReservationsRoute: ReservationsRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TrouwjurkenPassenVoorDeLolRoute: TrouwjurkenPassenVoorDeLolRoute,
+  VriendinnenuitjeLimburgRoute: VriendinnenuitjeLimburgRoute,
+  VrijgezellenfeestLimburgRoute: VrijgezellenfeestLimburgRoute,
+  BlogVrijgezellenfeestActiviteitenRoute:
+    BlogVrijgezellenfeestActiviteitenRoute,
   ApiPublicBookedSlotsRoute: ApiPublicBookedSlotsRoute,
   ApiPublicMollieWebhookRoute: ApiPublicMollieWebhookRoute,
   ApiPublicReservationStatusRoute: ApiPublicReservationStatusRoute,
@@ -361,13 +491,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
