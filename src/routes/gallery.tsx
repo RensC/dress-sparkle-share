@@ -14,9 +14,13 @@ export const Route = createFileRoute("/gallery")({
   head: () => ({
     meta: [
       { title: "Galerij — Dressperience" },
-      { name: "description", content: "Ontdek prachtige momenten uit onze funfitting-ervaringen. Echte vriendinnen, echte jurken, echt plezier." },
+      { name: "description", content: "Ontdek prachtige momenten uit onze funfitting-ervaringen in Limburg. Echte vriendinnen, echte trouwjurken, echt plezier." },
       { property: "og:title", content: "Galerij — Dressperience" },
-      { property: "og:description", content: "Ontdek prachtige momenten uit onze funfitting-ervaringen." },
+      { property: "og:description", content: "Ontdek prachtige momenten uit onze funfitting-ervaringen in Limburg." },
+      { property: "og:url", content: "https://dress-sparkle-share.lovable.app/gallery" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://dress-sparkle-share.lovable.app/gallery" },
     ],
   }),
   component: GalleryPage,
