@@ -15,6 +15,10 @@ export const Route = createFileRoute("/algemene-voorwaarden")({
         content:
           "Lees de algemene voorwaarden van Dressperience Posterholt.",
       },
+      { property: "og:url", content: "https://dress-sparkle-share.lovable.app/algemene-voorwaarden" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://dress-sparkle-share.lovable.app/algemene-voorwaarden" },
     ],
   }),
   component: TermsPage,
