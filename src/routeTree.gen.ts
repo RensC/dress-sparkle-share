@@ -9,8 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VrijgezellenfeestLimburgRouteImport } from './routes/vrijgezellenfeest-limburg'
+import { Route as VriendinnenuitjeLimburgRouteImport } from './routes/vriendinnenuitje-limburg'
+import { Route as TrouwjurkenPassenVoorDeLolRouteImport } from './routes/trouwjurken-passen-voor-de-lol'
 import { Route as ReservationsRouteImport } from './routes/reservations'
 import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as FunfittingLimburgRouteImport } from './routes/funfitting-limburg'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -25,6 +29,23 @@ import { Route as ApiPublicReservationStatusRouteImport } from './routes/api/pub
 import { Route as ApiPublicMollieWebhookRouteImport } from './routes/api/public/mollie-webhook'
 import { Route as ApiPublicBookedSlotsRouteImport } from './routes/api/public/booked-slots'
 
+const VrijgezellenfeestLimburgRoute =
+  VrijgezellenfeestLimburgRouteImport.update({
+    id: '/vrijgezellenfeest-limburg',
+    path: '/vrijgezellenfeest-limburg',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const VriendinnenuitjeLimburgRoute = VriendinnenuitjeLimburgRouteImport.update({
+  id: '/vriendinnenuitje-limburg',
+  path: '/vriendinnenuitje-limburg',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrouwjurkenPassenVoorDeLolRoute =
+  TrouwjurkenPassenVoorDeLolRouteImport.update({
+    id: '/trouwjurken-passen-voor-de-lol',
+    path: '/trouwjurken-passen-voor-de-lol',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ReservationsRoute = ReservationsRouteImport.update({
   id: '/reservations',
   path: '/reservations',
@@ -33,6 +54,11 @@ const ReservationsRoute = ReservationsRouteImport.update({
 const GalleryRoute = GalleryRouteImport.update({
   id: '/gallery',
   path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FunfittingLimburgRoute = FunfittingLimburgRouteImport.update({
+  id: '/funfitting-limburg',
+  path: '/funfitting-limburg',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -109,8 +135,12 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/funfitting-limburg': typeof FunfittingLimburgRoute
   '/gallery': typeof GalleryRoute
   '/reservations': typeof ReservationsRoute
+  '/trouwjurken-passen-voor-de-lol': typeof TrouwjurkenPassenVoorDeLolRoute
+  '/vriendinnenuitje-limburg': typeof VriendinnenuitjeLimburgRoute
+  '/vrijgezellenfeest-limburg': typeof VrijgezellenfeestLimburgRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/booked-slots': typeof ApiPublicBookedSlotsRoute
   '/api/public/mollie-webhook': typeof ApiPublicMollieWebhookRoute
@@ -125,8 +155,12 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/funfitting-limburg': typeof FunfittingLimburgRoute
   '/gallery': typeof GalleryRoute
   '/reservations': typeof ReservationsRoute
+  '/trouwjurken-passen-voor-de-lol': typeof TrouwjurkenPassenVoorDeLolRoute
+  '/vriendinnenuitje-limburg': typeof VriendinnenuitjeLimburgRoute
+  '/vrijgezellenfeest-limburg': typeof VrijgezellenfeestLimburgRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/public/booked-slots': typeof ApiPublicBookedSlotsRoute
   '/api/public/mollie-webhook': typeof ApiPublicMollieWebhookRoute
@@ -143,8 +177,12 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/funfitting-limburg': typeof FunfittingLimburgRoute
   '/gallery': typeof GalleryRoute
   '/reservations': typeof ReservationsRoute
+  '/trouwjurken-passen-voor-de-lol': typeof TrouwjurkenPassenVoorDeLolRoute
+  '/vriendinnenuitje-limburg': typeof VriendinnenuitjeLimburgRoute
+  '/vrijgezellenfeest-limburg': typeof VrijgezellenfeestLimburgRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/api/public/booked-slots': typeof ApiPublicBookedSlotsRoute
   '/api/public/mollie-webhook': typeof ApiPublicMollieWebhookRoute
@@ -161,8 +199,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/faq'
+    | '/funfitting-limburg'
     | '/gallery'
     | '/reservations'
+    | '/trouwjurken-passen-voor-de-lol'
+    | '/vriendinnenuitje-limburg'
+    | '/vrijgezellenfeest-limburg'
     | '/admin'
     | '/api/public/booked-slots'
     | '/api/public/mollie-webhook'
@@ -177,8 +219,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/faq'
+    | '/funfitting-limburg'
     | '/gallery'
     | '/reservations'
+    | '/trouwjurken-passen-voor-de-lol'
+    | '/vriendinnenuitje-limburg'
+    | '/vrijgezellenfeest-limburg'
     | '/admin'
     | '/api/public/booked-slots'
     | '/api/public/mollie-webhook'
@@ -194,8 +240,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/faq'
+    | '/funfitting-limburg'
     | '/gallery'
     | '/reservations'
+    | '/trouwjurken-passen-voor-de-lol'
+    | '/vriendinnenuitje-limburg'
+    | '/vrijgezellenfeest-limburg'
     | '/_authenticated/admin'
     | '/api/public/booked-slots'
     | '/api/public/mollie-webhook'
@@ -212,8 +262,12 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
+  FunfittingLimburgRoute: typeof FunfittingLimburgRoute
   GalleryRoute: typeof GalleryRoute
   ReservationsRoute: typeof ReservationsRoute
+  TrouwjurkenPassenVoorDeLolRoute: typeof TrouwjurkenPassenVoorDeLolRoute
+  VriendinnenuitjeLimburgRoute: typeof VriendinnenuitjeLimburgRoute
+  VrijgezellenfeestLimburgRoute: typeof VrijgezellenfeestLimburgRoute
   ApiPublicBookedSlotsRoute: typeof ApiPublicBookedSlotsRoute
   ApiPublicMollieWebhookRoute: typeof ApiPublicMollieWebhookRoute
   ApiPublicReservationStatusRoute: typeof ApiPublicReservationStatusRoute
@@ -223,6 +277,27 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/vrijgezellenfeest-limburg': {
+      id: '/vrijgezellenfeest-limburg'
+      path: '/vrijgezellenfeest-limburg'
+      fullPath: '/vrijgezellenfeest-limburg'
+      preLoaderRoute: typeof VrijgezellenfeestLimburgRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vriendinnenuitje-limburg': {
+      id: '/vriendinnenuitje-limburg'
+      path: '/vriendinnenuitje-limburg'
+      fullPath: '/vriendinnenuitje-limburg'
+      preLoaderRoute: typeof VriendinnenuitjeLimburgRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trouwjurken-passen-voor-de-lol': {
+      id: '/trouwjurken-passen-voor-de-lol'
+      path: '/trouwjurken-passen-voor-de-lol'
+      fullPath: '/trouwjurken-passen-voor-de-lol'
+      preLoaderRoute: typeof TrouwjurkenPassenVoorDeLolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reservations': {
       id: '/reservations'
       path: '/reservations'
@@ -235,6 +310,13 @@ declare module '@tanstack/react-router' {
       path: '/gallery'
       fullPath: '/gallery'
       preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/funfitting-limburg': {
+      id: '/funfitting-limburg'
+      path: '/funfitting-limburg'
+      fullPath: '/funfitting-limburg'
+      preLoaderRoute: typeof FunfittingLimburgRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -350,8 +432,12 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
+  FunfittingLimburgRoute: FunfittingLimburgRoute,
   GalleryRoute: GalleryRoute,
   ReservationsRoute: ReservationsRoute,
+  TrouwjurkenPassenVoorDeLolRoute: TrouwjurkenPassenVoorDeLolRoute,
+  VriendinnenuitjeLimburgRoute: VriendinnenuitjeLimburgRoute,
+  VrijgezellenfeestLimburgRoute: VrijgezellenfeestLimburgRoute,
   ApiPublicBookedSlotsRoute: ApiPublicBookedSlotsRoute,
   ApiPublicMollieWebhookRoute: ApiPublicMollieWebhookRoute,
   ApiPublicReservationStatusRoute: ApiPublicReservationStatusRoute,
