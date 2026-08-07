@@ -9,6 +9,7 @@ const navLinks = [
   { to: "/about", label: "Over ons" },
   { to: "/reservations", label: "Reserveren" },
   { to: "/faq", label: "FAQ" },
+  { to: "/blog/vrijgezellenfeest-activiteiten", label: "Inspiratie" },
   { to: "/contact", label: "Contact" },
 ];
 
