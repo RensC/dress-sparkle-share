@@ -226,33 +226,19 @@ export const Route = createFileRoute(
                 .toFixed(2)
                 .replace(".", ",");
 
+              const {
+                buildConfirmationEmailHtml,
+                CONFIRMATION_SUBJECT,
+              } = await import(
+                "@/lib/reservation-confirmation-email.server"
+                );
+
               await sendEmail({
                 to: updatedReservation.email,
-                subject:
-                  "Je aanbetaling is ontvangen — reservering bevestigd",
-                html: `
-                  <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;padding:24px;color:#1f1f1f;">
-                    <h2 style="color:#9b72cf;margin:0 0 16px;">
-                      Bedankt, ${safeName}!
-                    </h2>
-
-                    <p>
-                      We hebben je aanbetaling van €${amount}
-                      ontvangen. Je reservering op ${safeDate}
-                      om ${safeTime} is hiermee definitief bevestigd.
-                    </p>
-
-                    <p>
-                      Locatie: Heerbaan 54, 6061 EE Posterholt
-                    </p>
-
-                    <p style="margin-top:24px;">
-                      Met liefdevolle groet,<br />
-                      Team Dressperience
-                    </p>
-                  </div>
-                `,
+                subject: CONFIRMATION_SUBJECT,
+                html: buildConfirmationEmailHtml(updatedReservation),
               });
+
 
               await sendEmail({
                 to: ADMIN_NOTIFICATION_ADDRESS,
