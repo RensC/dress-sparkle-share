@@ -114,6 +114,7 @@ function ContactPage() {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [formLoadedAt] = useState(() => Date.now());
 
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>,
