@@ -83,7 +83,25 @@ export const Route = createFileRoute("/api/public/send-contact")({
               { status: 400, headers: cors },
             );
           }
-          const { name, email, subject, message } = parsed.data;
+          const { name, email, subject, message, website, formLoadedAt } = parsed.data;
+
+          // 1. Honeypot gevuld => bot. Stil accepteren zonder te mailen.
+          if (website) {
+            console.warn("send-contact: honeypot triggered");
+            return Response.json({ success: true }, { headers: cors });
+          }
+
+          // 2. Formulier binnen 3 seconden verstuurd => bot.
+          if (formLoadedAt && Date.now() - formLoadedAt < 3000) {
+            console.warn("send-contact: submitted too fast");
+            return Response.json({ success: true }, { headers: cors });
+          }
+
+          // 3. Inhoudelijke spamcheck.
+          if (looksLikeSpam({ name, email, subject, message })) {
+            console.warn("send-contact: content flagged as spam");
+            return Response.json({ success: true }, { headers: cors });
+          }
 
           const { sendEmail, ADMIN_NOTIFICATION_ADDRESS, escapeHtml } = await import(
             "@/lib/email.server"
