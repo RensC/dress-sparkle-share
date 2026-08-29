@@ -7,7 +7,7 @@ const schema = z.object({
   subject: z.string().trim().min(1).max(150),
   message: z.string().trim().min(1).max(2000),
   // Anti-spam velden
-  website: z.string().max(0).optional(), // honeypot: moet leeg zijn
+  website: z.string().max(500).optional(), // honeypot: niet valideren, server-side als spam behandelen
   formLoadedAt: z.number().optional(),
 });
 
@@ -86,7 +86,7 @@ export const Route = createFileRoute("/api/public/send-contact")({
           const { name, email, subject, message, website, formLoadedAt } = parsed.data;
 
           // 1. Honeypot gevuld => bot. Stil accepteren zonder te mailen.
-          if (website) {
+          if (website && website.trim().length > 0) {
             console.warn("send-contact: honeypot triggered");
             return Response.json({ success: true }, { headers: cors });
           }
