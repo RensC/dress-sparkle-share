@@ -6,7 +6,59 @@ const schema = z.object({
   email: z.string().trim().email().max(255),
   subject: z.string().trim().min(1).max(150),
   message: z.string().trim().min(1).max(2000),
+  // Anti-spam velden
+  website: z.string().max(500).optional(), // honeypot: niet valideren, server-side als spam behandelen
+  formLoadedAt: z.number().optional(),
 });
+
+// Simpele heuristische spamcheck
+const SPAM_KEYWORDS = [
+  "seo service",
+  "seo services",
+  "backlink",
+  "crypto",
+  "bitcoin",
+  "casino",
+  "viagra",
+  "cialis",
+  "loan offer",
+  "escort",
+  "porn",
+  "guest post",
+  "rank your website",
+  "increase traffic",
+  "web design offer",
+  "marketing agency",
+  "buy followers",
+  "телеграм",
+  "投資",
+];
+
+function looksLikeSpam(input: {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}): boolean {
+  const blob = `${input.name} ${input.subject} ${input.message}`.toLowerCase();
+
+  if (SPAM_KEYWORDS.some((k) => blob.includes(k))) return true;
+
+  // Veel links in een bericht is bijna altijd spam
+  const linkCount = (blob.match(/https?:\/\/|www\.|\[url/g) ?? []).length;
+  if (linkCount >= 2) return true;
+
+  // BBCode / HTML tags
+  if (/\[\/?(url|link)\]|<a\s|<\/a>/i.test(blob)) return true;
+
+  // Cyrillisch of CJK in een Nederlandstalig formulier
+  if (/[\u0400-\u04FF\u4E00-\u9FFF]/.test(blob)) return true;
+
+  // Bericht zonder enige spatie of extreem lange woorden
+  if (input.message.length > 40 && !input.message.includes(" ")) return true;
+
+  return false;
+}
 
 export const Route = createFileRoute("/api/public/send-contact")({
   server: {
@@ -31,7 +83,25 @@ export const Route = createFileRoute("/api/public/send-contact")({
               { status: 400, headers: cors },
             );
           }
-          const { name, email, subject, message } = parsed.data;
+          const { name, email, subject, message, website, formLoadedAt } = parsed.data;
+
+          // 1. Honeypot gevuld => bot. Stil accepteren zonder te mailen.
+          if (website && website.trim().length > 0) {
+            console.warn("send-contact: honeypot triggered");
+            return Response.json({ success: true }, { headers: cors });
+          }
+
+          // 2. Formulier binnen 3 seconden verstuurd => bot.
+          if (formLoadedAt && Date.now() - formLoadedAt < 3000) {
+            console.warn("send-contact: submitted too fast");
+            return Response.json({ success: true }, { headers: cors });
+          }
+
+          // 3. Inhoudelijke spamcheck.
+          if (looksLikeSpam({ name, email, subject, message })) {
+            console.warn("send-contact: content flagged as spam");
+            return Response.json({ success: true }, { headers: cors });
+          }
 
           const { sendEmail, ADMIN_NOTIFICATION_ADDRESS, escapeHtml } = await import(
             "@/lib/email.server"
@@ -59,8 +129,9 @@ export const Route = createFileRoute("/api/public/send-contact")({
             `,
           });
 
-          // Customer confirmation
-          await sendEmail({
+          // Customer confirmation (niet kritiek: fout mag het formulier niet blokkeren)
+          try {
+            await sendEmail({
             to: email,
             subject: "We hebben je bericht ontvangen — Dressperience",
             html: `
@@ -75,7 +146,10 @@ export const Route = createFileRoute("/api/public/send-contact")({
                 <p style="margin-top:24px;">Met liefdevolle groet,<br/>Team Dressperience</p>
               </div>
             `,
-          });
+            });
+          } catch (confirmErr) {
+            console.warn("send-contact: bevestigingsmail mislukt", confirmErr);
+          }
 
           return Response.json({ success: true }, { headers: cors });
         } catch (err) {

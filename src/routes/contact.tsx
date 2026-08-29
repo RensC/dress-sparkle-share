@@ -114,6 +114,7 @@ function ContactPage() {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [formLoadedAt] = useState(() => Date.now());
 
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>,
@@ -150,7 +151,11 @@ function ContactPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(result.data),
+        body: JSON.stringify({
+          ...result.data,
+          website: String(formData.get("website") ?? ""),
+          formLoadedAt,
+        }),
       });
 
       let data: { success?: boolean; message?: string };
@@ -252,6 +257,18 @@ function ContactPage() {
               </div>
             ) : (
               <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                {/* Honeypot: onzichtbaar voor bezoekers, bots vullen dit wel in */}
+                <div aria-hidden="true" className="absolute h-0 w-0 overflow-hidden opacity-0">
+                  <label htmlFor="website">Website</label>
+                  <input
+                    id="website"
+                    name="website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label
