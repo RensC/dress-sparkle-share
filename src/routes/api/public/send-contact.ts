@@ -146,7 +146,10 @@ export const Route = createFileRoute("/api/public/send-contact")({
                 <p style="margin-top:24px;">Met liefdevolle groet,<br/>Team Dressperience</p>
               </div>
             `,
-          });
+            });
+          } catch (confirmErr) {
+            console.warn("send-contact: bevestigingsmail mislukt", confirmErr);
+          }
 
           return Response.json({ success: true }, { headers: cors });
         } catch (err) {
