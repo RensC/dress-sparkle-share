@@ -129,8 +129,9 @@ export const Route = createFileRoute("/api/public/send-contact")({
             `,
           });
 
-          // Customer confirmation
-          await sendEmail({
+          // Customer confirmation (niet kritiek: fout mag het formulier niet blokkeren)
+          try {
+            await sendEmail({
             to: email,
             subject: "We hebben je bericht ontvangen — Dressperience",
             html: `
