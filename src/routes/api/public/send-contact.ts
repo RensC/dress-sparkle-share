@@ -7,7 +7,7 @@ const schema = z.object({
   subject: z.string().trim().min(1).max(150),
   message: z.string().trim().min(1).max(2000),
   // Anti-spam velden
-  website: z.string().max(0).optional(), // honeypot: moet leeg zijn
+  website: z.string().max(500).optional(), // honeypot: niet valideren, server-side als spam behandelen
   formLoadedAt: z.number().optional(),
 });
 
