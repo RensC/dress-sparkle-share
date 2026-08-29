@@ -86,7 +86,7 @@ export const Route = createFileRoute("/api/public/send-contact")({
           const { name, email, subject, message, website, formLoadedAt } = parsed.data;
 
           // 1. Honeypot gevuld => bot. Stil accepteren zonder te mailen.
-          if (website) {
+          if (website && website.trim().length > 0) {
             console.warn("send-contact: honeypot triggered");
             return Response.json({ success: true }, { headers: cors });
           }
