@@ -223,3 +223,48 @@ export const ensureAdminBootstrap = createServerFn({ method: "POST" })
     void supabase;
     return { granted: true };
   });
+
+/* ---------------------------------------------------------------------------
+ * Manual reservation created by an admin (no deposit / no Mollie payment)
+ * ------------------------------------------------------------------------ */
+
+export const createManualReservation = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) =>
+    z
+      .object({
+        packageName: z.string().trim().min(1).max(50),
+        date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Ongeldige datum"),
+        time: z.string().trim().min(1).max(10),
+        groupSize: z.number().int().min(1).max(12),
+        name: z.string().trim().min(1).max(100),
+        email: z.string().trim().email().max(255),
+        phone: z.string().trim().min(3).max(30),
+        notes: z.string().trim().max(500).optional(),
+      })
+      .parse(input),
+  )
+  .handler(async ({ data, context }) => {
+    const { supabase, userId } = context;
+    const { data: isAdmin } = await supabase.rpc("has_role", {
+      _user_id: userId,
+      _role: "admin",
+    });
+    if (!isAdmin) throw new Error("Forbidden");
+
+    const { error } = await supabase.from("reservations").insert({
+      package_name: data.packageName,
+      reservation_date: data.date,
+      reservation_time: data.time,
+      group_size: data.groupSize,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      notes: data.notes?.trim() ? data.notes.trim() : null,
+      status: "confirmed",
+      payment_status: "waived",
+      deposit_amount: 0,
+    });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
