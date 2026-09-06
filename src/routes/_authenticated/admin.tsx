@@ -40,6 +40,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { BlockedSlotsPanel } from "@/components/admin/BlockedSlotsPanel";
+import { ManualReservationDialog } from "@/components/admin/ManualReservationDialog";
 
 type Status = "pending" | "confirmed" | "cancelled" | "completed";
 
@@ -134,14 +135,17 @@ function AdminPage() {
             <span className="font-semibold italic text-lavender-600">Reserveringen</span>
           </h1>
         </div>
-        <Button
-          variant="outline"
-          onClick={handleLogout}
-          className="rounded-full font-body text-sm"
-        >
-          <LogOut size={16} className="mr-2" />
-          Uitloggen
-        </Button>
+        <div className="flex items-center gap-3">
+          <ManualReservationDialog />
+          <Button
+            variant="outline"
+            onClick={handleLogout}
+            className="rounded-full font-body text-sm"
+          >
+            <LogOut size={16} className="mr-2" />
+            Uitloggen
+          </Button>
+        </div>
       </div>
 
       <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-5">
