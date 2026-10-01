@@ -9,6 +9,20 @@ import gallery3 from "@/assets/gallery3.jpg";
 import gallery4 from "@/assets/gallery4.jpg";
 import gallery5 from "@/assets/gallery5.jpg";
 import gallery6 from "@/assets/gallery6.jpg";
+import gallery7 from "@/assets/gallery7.jpg";
+import gallery8 from "@/assets/gallery8.jpg";
+import gallery9 from "@/assets/gallery9.jpg";
+import gallery10 from "@/assets/gallery10.jpg";
+import gallery11 from "@/assets/gallery11.jpg";
+import gallery12 from "@/assets/gallery12.jpg";
+import gallery13 from "@/assets/gallery13.jpg";
+import gallery14 from "@/assets/gallery14.jpg";
+import gallery15 from "@/assets/gallery15.jpg";
+import gallery16 from "@/assets/gallery16.jpg";
+import gallery17 from "@/assets/gallery17.jpg";
+import gallery18 from "@/assets/gallery18.jpg";
+import gallery19 from "@/assets/gallery19.jpg";
+import gallery20 from "@/assets/gallery20.jpg";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -27,12 +41,26 @@ export const Route = createFileRoute("/gallery")({
 });
 
 const images = [
-  { src: gallery1, alt: "Elegante baljurk in een zonnige paskamer", category: "Baljurken" },
-  { src: gallery2, alt: "Vriendinnen vieren met champagne in prachtige jurken", category: "Vieringen" },
-  { src: gallery3, alt: "Detail van een verfijnde kanten trouwjurk", category: "Details" },
-  { src: gallery4, alt: "Vrouw draait rond in een mermaid-jurk", category: "Mermaid" },
-  { src: gallery5, alt: "Groep vriendinnen poseert samen in trouwjurken", category: "Groep" },
-  { src: gallery6, alt: "Schitterend jurkportret in zacht studiolicht", category: "Portretten" },
+  { src: gallery1 },
+  { src: gallery2 },
+  { src: gallery3 },
+  { src: gallery4 },
+  { src: gallery5 },
+  { src: gallery6 },
+  { src: gallery7 },
+  { src: gallery8 },
+  { src: gallery9 },
+  { src: gallery10 },
+  { src: gallery11 },
+  { src: gallery12 },
+  { src: gallery13 },
+  { src: gallery14 },
+  { src: gallery15 },
+  { src: gallery16 },
+  { src: gallery17 },
+  { src: gallery18 },
+  { src: gallery19 },
+  { src: gallery20 }
 ];
 
 function GalleryPage() {
