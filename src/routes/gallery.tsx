@@ -61,6 +61,7 @@ const images = [
   { src: gallery18 },
   { src: gallery19 },
   { src: gallery20 }
+  
 ];
 
 function GalleryPage() {
