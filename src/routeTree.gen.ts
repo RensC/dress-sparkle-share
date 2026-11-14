@@ -9,37 +9,80 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as VrijgezellenfeestLimburgRouteImport } from './routes/vrijgezellenfeest-limburg'
-import { Route as VriendinnenuitjeLimburgRouteImport } from './routes/vriendinnenuitje-limburg'
-import { Route as TrouwjurkenPassenVoorDeLolRouteImport } from './routes/trouwjurken-passen-voor-de-lol'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as ReservationsRouteImport } from './routes/reservations'
-import { Route as GalleryRouteImport } from './routes/gallery'
-import { Route as FunfittingLimburgRouteImport } from './routes/funfitting-limburg'
-import { Route as FaqRouteImport } from './routes/faq'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AlgemeneVoorwaardenRouteImport } from './routes/algemene-voorwaarden'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as BlogVrijgezellenfeestActiviteitenRouteImport } from './routes/blog.vrijgezellenfeest-activiteiten'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AlgemeneVoorwaardenRouteImport } from './routes/algemene-voorwaarden'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as FunfittingLimburgRouteImport } from './routes/funfitting-limburg'
+import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as ReservationsRouteImport } from './routes/reservations'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as TrouwjurkenPassenVoorDeLolRouteImport } from './routes/trouwjurken-passen-voor-de-lol'
+import { Route as VriendinnenuitjeLimburgRouteImport } from './routes/vriendinnenuitje-limburg'
+import { Route as VrijgezellenfeestLimburgRouteImport } from './routes/vrijgezellenfeest-limburg'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
-import { Route as ApiPublicSendReservationRouteImport } from './routes/api/public/send-reservation'
-import { Route as ApiPublicSendContactRouteImport } from './routes/api/public/send-contact'
-import { Route as ApiPublicReservationStatusRouteImport } from './routes/api/public/reservation-status'
-import { Route as ApiPublicMollieWebhookRouteImport } from './routes/api/public/mollie-webhook'
+import { Route as BlogVrijgezellenfeestActiviteitenRouteImport } from './routes/blog.vrijgezellenfeest-activiteiten'
 import { Route as ApiPublicBookedSlotsRouteImport } from './routes/api/public/booked-slots'
+import { Route as ApiPublicMollieWebhookRouteImport } from './routes/api/public/mollie-webhook'
+import { Route as ApiPublicReservationStatusRouteImport } from './routes/api/public/reservation-status'
+import { Route as ApiPublicSendContactRouteImport } from './routes/api/public/send-contact'
+import { Route as ApiPublicSendReservationRouteImport } from './routes/api/public/send-reservation'
 
-const VrijgezellenfeestLimburgRoute =
-  VrijgezellenfeestLimburgRouteImport.update({
-    id: '/vrijgezellenfeest-limburg',
-    path: '/vrijgezellenfeest-limburg',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const VriendinnenuitjeLimburgRoute = VriendinnenuitjeLimburgRouteImport.update({
-  id: '/vriendinnenuitje-limburg',
-  path: '/vriendinnenuitje-limburg',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlgemeneVoorwaardenRoute = AlgemeneVoorwaardenRouteImport.update({
+  id: '/algemene-voorwaarden',
+  path: '/algemene-voorwaarden',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FunfittingLimburgRoute = FunfittingLimburgRouteImport.update({
+  id: '/funfitting-limburg',
+  path: '/funfitting-limburg',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReservationsRoute = ReservationsRouteImport.update({
+  id: '/reservations',
+  path: '/reservations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TrouwjurkenPassenVoorDeLolRoute =
@@ -48,64 +91,15 @@ const TrouwjurkenPassenVoorDeLolRoute =
     path: '/trouwjurken-passen-voor-de-lol',
     getParentRoute: () => rootRouteImport,
   } as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
+const VriendinnenuitjeLimburgRoute = VriendinnenuitjeLimburgRouteImport.update({
+  id: '/vriendinnenuitje-limburg',
+  path: '/vriendinnenuitje-limburg',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReservationsRoute = ReservationsRouteImport.update({
-  id: '/reservations',
-  path: '/reservations',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GalleryRoute = GalleryRouteImport.update({
-  id: '/gallery',
-  path: '/gallery',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FunfittingLimburgRoute = FunfittingLimburgRouteImport.update({
-  id: '/funfitting-limburg',
-  path: '/funfitting-limburg',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FaqRoute = FaqRouteImport.update({
-  id: '/faq',
-  path: '/faq',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AlgemeneVoorwaardenRoute = AlgemeneVoorwaardenRouteImport.update({
-  id: '/algemene-voorwaarden',
-  path: '/algemene-voorwaarden',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogVrijgezellenfeestActiviteitenRoute =
-  BlogVrijgezellenfeestActiviteitenRouteImport.update({
-    id: '/blog/vrijgezellenfeest-activiteiten',
-    path: '/blog/vrijgezellenfeest-activiteiten',
+const VrijgezellenfeestLimburgRoute =
+  VrijgezellenfeestLimburgRouteImport.update({
+    id: '/vrijgezellenfeest-limburg',
+    path: '/vrijgezellenfeest-limburg',
     getParentRoute: () => rootRouteImport,
   } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
@@ -113,15 +107,20 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const ApiPublicSendReservationRoute =
-  ApiPublicSendReservationRouteImport.update({
-    id: '/api/public/send-reservation',
-    path: '/api/public/send-reservation',
+const BlogVrijgezellenfeestActiviteitenRoute =
+  BlogVrijgezellenfeestActiviteitenRouteImport.update({
+    id: '/blog/vrijgezellenfeest-activiteiten',
+    path: '/blog/vrijgezellenfeest-activiteiten',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ApiPublicSendContactRoute = ApiPublicSendContactRouteImport.update({
-  id: '/api/public/send-contact',
-  path: '/api/public/send-contact',
+const ApiPublicBookedSlotsRoute = ApiPublicBookedSlotsRouteImport.update({
+  id: '/api/public/booked-slots',
+  path: '/api/public/booked-slots',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicMollieWebhookRoute = ApiPublicMollieWebhookRouteImport.update({
+  id: '/api/public/mollie-webhook',
+  path: '/api/public/mollie-webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicReservationStatusRoute =
@@ -130,16 +129,17 @@ const ApiPublicReservationStatusRoute =
     path: '/api/public/reservation-status',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ApiPublicMollieWebhookRoute = ApiPublicMollieWebhookRouteImport.update({
-  id: '/api/public/mollie-webhook',
-  path: '/api/public/mollie-webhook',
+const ApiPublicSendContactRoute = ApiPublicSendContactRouteImport.update({
+  id: '/api/public/send-contact',
+  path: '/api/public/send-contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicBookedSlotsRoute = ApiPublicBookedSlotsRouteImport.update({
-  id: '/api/public/booked-slots',
-  path: '/api/public/booked-slots',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const ApiPublicSendReservationRoute =
+  ApiPublicSendReservationRouteImport.update({
+    id: '/api/public/send-reservation',
+    path: '/api/public/send-reservation',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -304,88 +304,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/vrijgezellenfeest-limburg': {
-      id: '/vrijgezellenfeest-limburg'
-      path: '/vrijgezellenfeest-limburg'
-      fullPath: '/vrijgezellenfeest-limburg'
-      preLoaderRoute: typeof VrijgezellenfeestLimburgRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/vriendinnenuitje-limburg': {
-      id: '/vriendinnenuitje-limburg'
-      path: '/vriendinnenuitje-limburg'
-      fullPath: '/vriendinnenuitje-limburg'
-      preLoaderRoute: typeof VriendinnenuitjeLimburgRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/trouwjurken-passen-voor-de-lol': {
-      id: '/trouwjurken-passen-voor-de-lol'
-      path: '/trouwjurken-passen-voor-de-lol'
-      fullPath: '/trouwjurken-passen-voor-de-lol'
-      preLoaderRoute: typeof TrouwjurkenPassenVoorDeLolRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reservations': {
-      id: '/reservations'
-      path: '/reservations'
-      fullPath: '/reservations'
-      preLoaderRoute: typeof ReservationsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gallery': {
-      id: '/gallery'
-      path: '/gallery'
-      fullPath: '/gallery'
-      preLoaderRoute: typeof GalleryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/funfitting-limburg': {
-      id: '/funfitting-limburg'
-      path: '/funfitting-limburg'
-      fullPath: '/funfitting-limburg'
-      preLoaderRoute: typeof FunfittingLimburgRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/faq': {
-      id: '/faq'
-      path: '/faq'
-      fullPath: '/faq'
-      preLoaderRoute: typeof FaqRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/algemene-voorwaarden': {
-      id: '/algemene-voorwaarden'
-      path: '/algemene-voorwaarden'
-      fullPath: '/algemene-voorwaarden'
-      preLoaderRoute: typeof AlgemeneVoorwaardenRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -395,18 +318,88 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/blog/vrijgezellenfeest-activiteiten': {
-      id: '/blog/vrijgezellenfeest-activiteiten'
-      path: '/blog/vrijgezellenfeest-activiteiten'
-      fullPath: '/blog/vrijgezellenfeest-activiteiten'
-      preLoaderRoute: typeof BlogVrijgezellenfeestActiviteitenRouteImport
+    '/algemene-voorwaarden': {
+      id: '/algemene-voorwaarden'
+      path: '/algemene-voorwaarden'
+      fullPath: '/algemene-voorwaarden'
+      preLoaderRoute: typeof AlgemeneVoorwaardenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/funfitting-limburg': {
+      id: '/funfitting-limburg'
+      path: '/funfitting-limburg'
+      fullPath: '/funfitting-limburg'
+      preLoaderRoute: typeof FunfittingLimburgRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reservations': {
+      id: '/reservations'
+      path: '/reservations'
+      fullPath: '/reservations'
+      preLoaderRoute: typeof ReservationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trouwjurken-passen-voor-de-lol': {
+      id: '/trouwjurken-passen-voor-de-lol'
+      path: '/trouwjurken-passen-voor-de-lol'
+      fullPath: '/trouwjurken-passen-voor-de-lol'
+      preLoaderRoute: typeof TrouwjurkenPassenVoorDeLolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vriendinnenuitje-limburg': {
+      id: '/vriendinnenuitje-limburg'
+      path: '/vriendinnenuitje-limburg'
+      fullPath: '/vriendinnenuitje-limburg'
+      preLoaderRoute: typeof VriendinnenuitjeLimburgRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vrijgezellenfeest-limburg': {
+      id: '/vrijgezellenfeest-limburg'
+      path: '/vrijgezellenfeest-limburg'
+      fullPath: '/vrijgezellenfeest-limburg'
+      preLoaderRoute: typeof VrijgezellenfeestLimburgRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -416,25 +409,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/api/public/send-reservation': {
-      id: '/api/public/send-reservation'
-      path: '/api/public/send-reservation'
-      fullPath: '/api/public/send-reservation'
-      preLoaderRoute: typeof ApiPublicSendReservationRouteImport
+    '/blog/vrijgezellenfeest-activiteiten': {
+      id: '/blog/vrijgezellenfeest-activiteiten'
+      path: '/blog/vrijgezellenfeest-activiteiten'
+      fullPath: '/blog/vrijgezellenfeest-activiteiten'
+      preLoaderRoute: typeof BlogVrijgezellenfeestActiviteitenRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/send-contact': {
-      id: '/api/public/send-contact'
-      path: '/api/public/send-contact'
-      fullPath: '/api/public/send-contact'
-      preLoaderRoute: typeof ApiPublicSendContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/reservation-status': {
-      id: '/api/public/reservation-status'
-      path: '/api/public/reservation-status'
-      fullPath: '/api/public/reservation-status'
-      preLoaderRoute: typeof ApiPublicReservationStatusRouteImport
+    '/api/public/booked-slots': {
+      id: '/api/public/booked-slots'
+      path: '/api/public/booked-slots'
+      fullPath: '/api/public/booked-slots'
+      preLoaderRoute: typeof ApiPublicBookedSlotsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/mollie-webhook': {
@@ -444,11 +430,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicMollieWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/booked-slots': {
-      id: '/api/public/booked-slots'
-      path: '/api/public/booked-slots'
-      fullPath: '/api/public/booked-slots'
-      preLoaderRoute: typeof ApiPublicBookedSlotsRouteImport
+    '/api/public/reservation-status': {
+      id: '/api/public/reservation-status'
+      path: '/api/public/reservation-status'
+      fullPath: '/api/public/reservation-status'
+      preLoaderRoute: typeof ApiPublicReservationStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/send-contact': {
+      id: '/api/public/send-contact'
+      path: '/api/public/send-contact'
+      fullPath: '/api/public/send-contact'
+      preLoaderRoute: typeof ApiPublicSendContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/send-reservation': {
+      id: '/api/public/send-reservation'
+      path: '/api/public/send-reservation'
+      fullPath: '/api/public/send-reservation'
+      preLoaderRoute: typeof ApiPublicSendReservationRouteImport
       parentRoute: typeof rootRouteImport
     }
   }

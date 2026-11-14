@@ -22,13 +22,13 @@ export const Route = createFileRoute("/contact")({
       {
         name: "description",
         content:
-          "Neem contact op met Dressperience in Posterholt, Limburg. Boek je funfitting-sessie, stel een vraag of bestel een cadeaubon. We horen graag van je.",
+          "Neem contact op met Dressperience in Echt, Limburg. Boek je funfitting-sessie, stel een vraag of bestel een cadeaubon. We horen graag van je.",
       },
       { property: "og:title", content: "Contact — Dressperience" },
       {
         property: "og:description",
         content:
-          "Neem contact op met Dressperience in Posterholt, Limburg. Boek je funfitting-sessie of stel ons een vraag.",
+          "Neem contact op met Dressperience in Echt, Limburg. Boek je funfitting-sessie of stel ons een vraag.",
       },
       { property: "og:url", content: "https://dress-sparkle-share.lovable.app/contact" },
     ],
@@ -42,27 +42,27 @@ export const Route = createFileRoute("/contact")({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           name: "Dressperience",
-          description: "Dressperience organiseert funfitting-ervaringen: samen met vriendinnen prachtige trouwjurken passen voor de lol in Posterholt, Limburg.",
+          description: "Dressperience organiseert funfitting-ervaringen: samen met vriendinnen prachtige trouwjurken passen voor de lol in Echt, Limburg.",
           url: "https://dress-sparkle-share.lovable.app/",
           image: "https://dress-sparkle-share.lovable.app/favicon.png",
           telephone: "+31642515172",
           email: "info@dressperience.com",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "Heerbaan 54",
-            addressLocality: "Posterholt",
-            postalCode: "6061 EE",
+            streetAddress: "Prins Bernhardstraat 25A",
+            addressLocality: "Echt",
+            postalCode: "6101 EC",
             addressCountry: "NL",
           },
           geo: {
             "@type": "GeoCoordinates",
-            latitude: "51.1263747",
-            longitude: "6.0262834",
+            latitude: "51.1042",
+            longitude: "5.8693",
           },
           priceRange: "€€",
           areaServed: {
             "@type": "City",
-            name: "Posterholt",
+            name: "Echt",
           },
           sameAs: [
             "https://www.instagram.com/dressperience_limburg",
@@ -374,7 +374,7 @@ function ContactPage() {
               </h2>
 
               <p className="mt-2 font-body text-sm text-muted-foreground">
-                Onze vestiging bevindt zich in Posterholt en is ontworpen als
+                Onze vestiging bevindt zich in Echt en is ontworpen als
                 jouw privé-ontsnapping naar glamour.
               </p>
             </div>
@@ -391,9 +391,9 @@ function ContactPage() {
                   </h4>
 
                   <p className="mt-1 font-body text-sm text-muted-foreground">
-                    Heerbaan 54
+                    Prins Bernhardstraat 25A
                     <br />
-                    6061 EE Posterholt
+                    6101 EC Echt
                     <br />
                     Nederland
                   </p>
@@ -504,7 +504,7 @@ function ContactPage() {
         <div className="relative h-[400px] w-full overflow-hidden rounded-2xl bg-blush-200/40">
           <iframe
             title="Dressperience locatie"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2504.028912658567!2d6.026283412624214!3d51.12637472161126!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c0b3c7ad287575%3A0x432b65ef41544c94!2sHeerbaan%2054%2C%206061%20EE%20Posterholt!5e0!3m2!1snl!2snl!4v1782560826661!5m2!1snl!2snl"
+            src="https://www.google.com/maps?q=Prins+Bernhardstraat+25A,+6101+EC+Echt&output=embed"
             width="100%"
             height="100%"
             style={{ border: 0 }}

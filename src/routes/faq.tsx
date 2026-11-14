@@ -82,7 +82,7 @@ const faqs = [
   },
   {
     q: "Is er parkeergelegenheid?",
-    a: "Ja, voor de deur kunnen jullie gratis parkeren. Tevens zijn er 2 publieke laadpalen voor de deur.",
+    a: "Ja, er is voldoende gratis parkeergelegenheid in de buurt van onze locatie.",
   },
   {
     q: "Hoe is het rookbeleid?",

@@ -7,7 +7,7 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "Over ons — Dressperience" },
-      { name: "description", content: "Leer Dressperience kennen en onze passie voor het creëren van onvergetelijke funfitting-momenten voor vrouwen en hun vriendinnen in Posterholt, Limburg." },
+      { name: "description", content: "Leer Dressperience kennen en onze passie voor het creëren van onvergetelijke funfitting-momenten voor vrouwen en hun vriendinnen in Echt, Limburg." },
       { property: "og:title", content: "Over ons — Dressperience" },
       { property: "og:description", content: "Leer Dressperience kennen en onze passie voor onvergetelijke funfitting-momenten in Limburg." },
       { property: "og:url", content: "https://dress-sparkle-share.lovable.app/about" },

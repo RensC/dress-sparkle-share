@@ -82,7 +82,7 @@ export function buildConfirmationEmailHtml(
 
     <p>
       Het is officieel! Jullie gaan binnenkort genieten van een unieke ervaring
-      bij Dressperience. We kijken ernaar uit om jullie te ontvangen in Posterholt.
+      bij Dressperience. We kijken ernaar uit om jullie te ontvangen in Echt.
     </p>
 
     <p>
@@ -104,7 +104,7 @@ export function buildConfirmationEmailHtml(
       </tr>
       <tr>
         ${label("Locatie:")}
-        <td>Heerbaan 54, 6061 EE Posterholt</td>
+        <td>Prins Bernhardstraat 25A, 6101 EC Echt</td>
       </tr>
       <tr>
         ${label("Arrangement:")}
@@ -169,9 +169,9 @@ export function buildConfirmationEmailHtml(
     </p>
 
     <p style="margin:0;">
-      Onze locatie aan de Heerbaan 54 is volledig rolstoeltoegankelijk. Je kunt
-      gratis parkeren in de vakken direct voor de deur. Kom je met een
-      elektrische auto? Er is een publieke laadpaal aanwezig naast het terrein.
+      Onze locatie aan de Prins Bernhardstraat 25A in Echt is volledig
+      rolstoeltoegankelijk. Er is voldoende gratis parkeergelegenheid in de
+      buurt.
     </p>
 
     <p style="margin:16px 0 4px;">
@@ -198,8 +198,8 @@ export function buildConfirmationEmailHtml(
 
     <p style="margin:16px 0 0;">
       <strong>Deborah Winkelmolen</strong><br />
-      Dressperience Posterholt<br />
-      📍 Heerbaan 54, Posterholt<br />
+      Dressperience Echt<br />
+      📍 Prins Bernhardstraat 25A, Echt<br />
       📞 06-42515172<br />
       📧
       <a

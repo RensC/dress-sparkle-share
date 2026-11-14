@@ -34,7 +34,7 @@ function VriendinnenuitjePage() {
               Een vriendinnenuitje met een <span className="font-semibold italic text-lavender-600">toucherijke</span> twist
             </h1>
             <p className="mt-6 font-body text-lg leading-relaxed text-muted-foreground">
-              Verras je vriendinnen met een dag vol trouwjurken, glitter en gelach. Bij Dressperience in Posterholt, Limburg, beleef je een vriendinnenuitje dat niemand snel vergeet. Funfitting is dé activiteit voor een onvergetelijke vriendinnendag.
+              Verras je vriendinnen met een dag vol trouwjurken, glitter en gelach. Bij Dressperience in Echt, Limburg, beleef je een vriendinnenuitje dat niemand snel vergeet. Funfitting is dé activiteit voor een onvergetelijke vriendinnendag.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
@@ -135,7 +135,7 @@ function VriendinnenuitjePage() {
               Klaar voor een unieke <span className="font-semibold italic text-lavender-600">vriendinnendag</span>?
             </h2>
             <p className="mt-6 font-body text-lg leading-relaxed text-muted-foreground">
-              Of je nu een verjaardag, afscheid of gewoon een goed excuus zoekt om er samen op uit te gaan: een vriendinnenuitje bij Dressperience is altijd een goed idee. Reserveer nu je plek in Posterholt, Limburg.
+              Of je nu een verjaardag, afscheid of gewoon een goed excuus zoekt om er samen op uit te gaan: een vriendinnenuitje bij Dressperience is altijd een goed idee. Reserveer nu je plek in Echt, Limburg.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
@@ -177,7 +177,7 @@ const features = [
 ];
 
 const reasons = [
-  "Een privé-locatie in Posterholt, exclusief voor jullie groep",
+  "Een privé-locatie in Echt, exclusief voor jullie groep",
   "Professionele begeleiding en styling corner",
   "Ideaal voor verjaardagen, afscheid of gewoon een leuke dag",
   "Optionele extras zoals foto's, chocolade en hartige hapjes",

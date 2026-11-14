@@ -70,7 +70,7 @@ export function Footer() {
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <MapPin size={16} className="shrink-0 text-lavender-500"/>
-                <span>Heerbaan 54, 6061 EE Posterholt</span>
+                <span>Prins Bernhardstraat 25A, 6101 EC Echt</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Mail size={16} className="shrink-0 text-lavender-500"/>

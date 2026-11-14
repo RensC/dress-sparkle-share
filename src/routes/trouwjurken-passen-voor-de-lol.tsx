@@ -33,7 +33,7 @@ function TrouwjurkenPassenPage() {
               Trouwjurken passen voor de <span className="font-semibold italic text-lavender-600">lol</span>
             </h1>
             <p className="mt-6 font-body text-lg leading-relaxed text-muted-foreground">
-              Zeg maar gedag tegen saaie uitjes. Bij Dressperience in Posterholt, Limburg, passen jij en je vriendinnen de mooiste trouwjurken — puur voor de lol. Wij noemen dat funfitting. Een dag vol glamour, gelach, foto's en sprankelende drankjes.
+              Zeg maar gedag tegen saaie uitjes. Bij Dressperience in Echt, Limburg, passen jij en je vriendinnen de mooiste trouwjurken — puur voor de lol. Wij noemen dat funfitting. Een dag vol glamour, gelach, foto's en sprankelende drankjes.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
@@ -177,7 +177,7 @@ const features = [
 
 const reasons = [
   "Ruime collectie trouwjurken voor elk figuur en elke stijl",
-  "Exclusieve locatie in Posterholt, volledig privé voor jouw groep",
+  "Exclusieve locatie in Echt, volledig privé voor jouw groep",
   "Ideaal voor vrijgezellenfeestjes, vriendinnen- en vrouwen uitjes",
   "Professionele begeleiding, styling corner en foto-opties",
   "Alleen op reservering, zodat je ongestoord kunt genieten",

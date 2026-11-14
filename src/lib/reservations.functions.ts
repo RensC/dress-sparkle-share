@@ -75,7 +75,7 @@ export const createReservation = createServerFn({ method: "POST" })
             <h2 style="color:#9b72cf;margin:0 0 16px;">Bedankt voor je reservering, ${escapeHtml(data.name)}!</h2>
             <p>We hebben je aanvraag ontvangen en bevestigen deze binnen 24 uur per e-mail.</p>
             <div style="background:#f8e8ee;padding:16px;border-radius:8px;margin:16px 0;">${detailsHtml}</div>
-            <p>Locatie: Heerbaan 54, 6061 EE Posterholt</p>
+            <p>Locatie: Prins Bernhardstraat 25A, 6101 EC Echt</p>
             <p style="margin-top:24px;">Met liefdevolle groet,<br/>Team Dressperience</p>
           </div>
         `,
