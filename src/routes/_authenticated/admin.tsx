@@ -53,9 +53,11 @@ export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({ meta: [{ title: "Admin — Dressperience" }] }),
   loader: ({ context }) => context.queryClient.ensureQueryData(reservationsQueryOptions),
   component: AdminPage,
-  errorComponent: ({ error }) => (
+  errorComponent: ({ error }: ErrorComponentProps) => (
     <div className="mx-auto max-w-2xl px-4 py-16 text-center font-body">
-      <p className="text-destructive">Kon reserveringen niet laden: {error.message}</p>
+      <p className="text-destructive">
+        Kon reserveringen niet laden: {error instanceof Error ? error.message : String(error)}
+      </p>
     </div>
   ),
 });
