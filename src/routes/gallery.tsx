@@ -41,28 +41,31 @@ export const Route = createFileRoute("/gallery")({
 });
 
 const images = [
-  { src: gallery1 },
-  { src: gallery2 },
-  { src: gallery3 },
-  { src: gallery4 },
-  { src: gallery5 },
-  { src: gallery6 },
-  { src: gallery7 },
-  { src: gallery8 },
-  { src: gallery9 },
-  { src: gallery10 },
-  { src: gallery11 },
-  { src: gallery12 },
-  { src: gallery13 },
-  { src: gallery14 },
-  { src: gallery15 },
-  { src: gallery16 },
-  { src: gallery17 },
-  { src: gallery18 },
-  { src: gallery19 },
-  { src: gallery20 }
-  
-];
+  gallery1,
+  gallery2,
+  gallery3,
+  gallery4,
+  gallery5,
+  gallery6,
+  gallery7,
+  gallery8,
+  gallery9,
+  gallery10,
+  gallery11,
+  gallery12,
+  gallery13,
+  gallery14,
+  gallery15,
+  gallery16,
+  gallery17,
+  gallery18,
+  gallery19,
+  gallery20,
+].map((src, i) => ({
+  src,
+  alt: `Funfitting moment ${i + 1} bij Dressperience`,
+  category: "Funfitting",
+}));
 
 function GalleryPage() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
