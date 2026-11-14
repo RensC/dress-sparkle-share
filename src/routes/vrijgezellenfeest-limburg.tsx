@@ -34,7 +34,7 @@ function VrijgezellenfeestPage() {
               Een vrijgezellenfeest om nooit te <span className="font-semibold italic text-lavender-600">vergeten</span>
             </h1>
             <p className="mt-6 font-body text-lg leading-relaxed text-muted-foreground">
-              Stap met je vriendinnen in een romantische film. Bij Dressperience in Posterholt, Limburg, organiseren wij het perfecte vrijgezellenfeest: samen trouwjurken passen, foto's maken, lachen en proosten. De bruid-to-be verdient het om in de spotlight te staan.
+              Stap met je vriendinnen in een romantische film. Bij Dressperience in Echt, Limburg, organiseren wij het perfecte vrijgezellenfeest: samen trouwjurken passen, foto's maken, lachen en proosten. De bruid-to-be verdient het om in de spotlight te staan.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link

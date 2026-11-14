@@ -7,13 +7,13 @@ export const Route = createFileRoute("/algemene-voorwaarden")({
       {
         name: "description",
         content:
-          "Lees de algemene voorwaarden van Dressperience Posterholt. Reserveren, betaling, annulering, aansprakelijkheid en fotografie.",
+          "Lees de algemene voorwaarden van Dressperience Echt. Reserveren, betaling, annulering, aansprakelijkheid en fotografie.",
       },
       { property: "og:title", content: "Algemene Voorwaarden — Dressperience" },
       {
         property: "og:description",
         content:
-          "Lees de algemene voorwaarden van Dressperience Posterholt.",
+          "Lees de algemene voorwaarden van Dressperience Echt.",
       },
       { property: "og:url", content: "https://dress-sparkle-share.lovable.app/algemene-voorwaarden" },
     ],
@@ -42,7 +42,7 @@ function TermsPage() {
 
           <p className="mx-auto mt-4 max-w-xl font-body text-base text-muted-foreground">
             Deze voorwaarden gelden voor alle reserveringen en diensten van
-            Dressperience Posterholt. Lees ze zorgvuldig door voordat je boekt.
+            Dressperience Echt. Lees ze zorgvuldig door voordat je boekt.
           </p>
         </div>
 
@@ -58,7 +58,7 @@ function TermsPage() {
               <li>
                 <strong className="text-foreground">Dressperience:</strong> De
                 gebruiker van deze algemene voorwaarden, gevestigd te
-                Posterholt.
+                Echt.
               </li>
               <li>
                 <strong className="text-foreground">Klant:</strong> De
