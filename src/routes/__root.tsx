@@ -109,12 +109,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               name: "Dressperience",
               url: "https://dress-sparkle-share.lovable.app/",
               logo: "https://dress-sparkle-share.lovable.app/favicon.png",
-              description: "Dressperience organiseert funfitting-ervaringen in Posterholt, Limburg: samen met vriendinnen prachtige trouwjurken passen voor de lol.",
+              description: "Dressperience organiseert funfitting-ervaringen in Echt, Limburg: samen met vriendinnen prachtige trouwjurken passen voor de lol.",
               address: {
                 "@type": "PostalAddress",
-                streetAddress: "Heerbaan 54",
-                addressLocality: "Posterholt",
-                postalCode: "6061 EE",
+                streetAddress: "Prins Bernhardstraat 25A",
+                addressLocality: "Echt",
+                postalCode: "6101 EC",
                 addressCountry: "NL",
               },
               contactPoint: {
