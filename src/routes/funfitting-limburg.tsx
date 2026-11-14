@@ -8,7 +8,7 @@ export const Route = createFileRoute("/funfitting-limburg")({
   head: () => ({
     meta: [
       { title: "Funfitting Limburg — Dressperience" },
-      { name: "description", content: "Funfitting in Limburg: bij Dressperience in Posterholt passen jij en je vriendinnen samen prachtige trouwjurken voor de lol. Inclusief drankjes, foto's en een onvergetelijke ervaring." },
+      { name: "description", content: "Funfitting in Limburg: bij Dressperience in Echt passen jij en je vriendinnen samen prachtige trouwjurken voor de lol. Inclusief drankjes, foto's en een onvergetelijke ervaring." },
       { property: "og:title", content: "Funfitting Limburg — Dressperience" },
       { property: "og:description", content: "Funfitting in Limburg: samen trouwjurken passen voor de lol, met drankjes, foto's en een dag vol glamour." },
       { property: "og:url", content: "https://dress-sparkle-share.lovable.app/funfitting-limburg" },
@@ -34,7 +34,7 @@ function FunfittingLimburgPage() {
               <span className="font-semibold italic text-lavender-600">Funfitting</span> in Limburg
             </h1>
             <p className="mt-6 font-body text-lg leading-relaxed text-muted-foreground">
-              Ben je op zoek naar funfitting in Limburg? Bij Dressperience in Posterholt beleef je dé trouwjurkenlol: samen met vriendinnen prachtige jurken passen, foto's maken en genieten van een dag vol glamour. Ook wel bekend als trouwjurkenlol, fun-fitten of een say-yes-to-the-dress experience.
+              Ben je op zoek naar funfitting in Limburg? Bij Dressperience in Echt beleef je dé trouwjurkenlol: samen met vriendinnen prachtige jurken passen, foto's maken en genieten van een dag vol glamour. Ook wel bekend als trouwjurkenlol, fun-fitten of een say-yes-to-the-dress experience.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
@@ -98,15 +98,15 @@ function FunfittingLimburgPage() {
             </div>
             <div className="order-1 lg:order-2">
               <h2 className="font-display text-4xl font-light text-foreground md:text-5xl">
-                Dressperience in <span className="font-semibold italic text-lavender-600">Posterholt</span>
+                Dressperience in <span className="font-semibold italic text-lavender-600">Echt</span>
               </h2>
               <p className="mt-6 font-body text-lg leading-relaxed text-muted-foreground">
-                Onze locatie in Posterholt is centraal gelegen in Limburg en volledig rolstoeltoegankelijk. Er is gratis parkeergelegenheid voor de deur en laadpalen voor elektrische auto's. De studio is exclusief voor jullie gereserveerd, zodat jullie ongestoord kunnen passen, poseren en genieten.
+                Onze locatie in Echt is centraal gelegen in Limburg en volledig rolstoeltoegankelijk. Er is voldoende gratis parkeergelegenheid in de buurt. De studio is exclusief voor jullie gereserveerd, zodat jullie ongestoord kunnen passen, poseren en genieten.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <div className="flex items-center gap-2 font-body text-sm text-muted-foreground">
                   <MapPin size={16} className="text-lavender-600" />
-                  Heerbaan 54, 6061 EE Posterholt
+                  Prins Bernhardstraat 25A, 6101 EC Echt
                 </div>
               </div>
               <div className="mt-6">

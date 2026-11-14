@@ -91,7 +91,7 @@ function BlogPage() {
 
           <h2 className="mt-12 font-display text-3xl font-light text-foreground">Wat is funfitting?</h2>
           <p>
-            Funfitting is het passen van prachtige trouwjurken zonder dat er een bruiloft aan vast zit. Je doet het gewoon voor de lol. Bij Dressperience in Posterholt, midden in Limburg, kun je met je vriendinnen de mooiste jurken passen, foto's maken en genieten van een dag vol glamour. Het is een originele activiteit die perfect werkt voor vrijgezellenfeesten, vriendinnenuitjes en vrouwenuitjes.
+            Funfitting is het passen van prachtige trouwjurken zonder dat er een bruiloft aan vast zit. Je doet het gewoon voor de lol. Bij Dressperience in Echt, midden in Limburg, kun je met je vriendinnen de mooiste jurken passen, foto's maken en genieten van een dag vol glamour. Het is een originele activiteit die perfect werkt voor vrijgezellenfeesten, vriendinnenuitjes en vrouwenuitjes.
           </p>
 
           <h2 className="mt-12 font-display text-3xl font-light text-foreground">Waarom funfitting het perfecte vrijgezellenfeest is</h2>
@@ -119,7 +119,7 @@ function BlogPage() {
 
           <h2 className="mt-12 font-display text-3xl font-light text-foreground">Waar in Limburg?</h2>
           <p>
-            Dressperience zit in Posterholt, aan de Heerbaan 54. De locatie is makkelijk bereikbaar, er is gratis parkeergelegenheid voor de deur en de studio is volledig rolstoeltoegankelijk. Alleen op reservering, zodat je ongestoord kunt genieten.
+            Dressperience zit in Echt, aan de Prins Bernhardstraat 25A. De locatie is makkelijk bereikbaar, er is voldoende gratis parkeergelegenheid en de studio is volledig rolstoeltoegankelijk. Alleen op reservering, zodat je ongestoord kunt genieten.
           </p>
         </div>
 
