@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
-import { Heart, Camera, Wine, CalendarDays, Sparkles, Gift } from "lucide-react";
+import { Heart, Camera, Wine, CalendarDays, Sparkles, Gift, MapPin } from "lucide-react";
 
 import heroImg from "@/assets/hero.jpg";
 import home1 from "@/assets/home-1.jpg";
@@ -234,6 +234,34 @@ function HomePage() {
                   ♥
                 </span>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Dressperience op locatie */}
+      <section className="bg-blush-100/50">
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="inline-flex items-center gap-2 rounded-full bg-lavender-500/15 px-4 py-1.5 font-body text-xs font-medium uppercase tracking-widest text-lavender-600">
+              <MapPin size={14} />
+              Dressperience op locatie
+            </span>
+            <h2 className="mt-6 font-display text-4xl font-light text-foreground md:text-5xl">
+              Dressperience <span className="font-semibold italic text-lavender-600">op locatie</span>?
+            </h2>
+            <p className="mt-6 font-body text-lg leading-relaxed text-muted-foreground">
+              Wil je Dressperience op een andere locatie beleven? Ook dat is
+              mogelijk! Neem gerust contact met mij op om de mogelijkheden te
+              bespreken.
+            </p>
+            <div className="mt-8">
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center rounded-full bg-lavender-600 px-8 py-3.5 font-body text-sm font-semibold uppercase tracking-widest text-primary-foreground transition-all hover:bg-lavender-700 hover:shadow-lg hover:shadow-lavender-500/20"
+              >
+                Bekijk de mogelijkheden
+              </Link>
             </div>
           </div>
         </div>
